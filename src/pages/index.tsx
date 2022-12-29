@@ -2,14 +2,19 @@ import { type NextPage } from "next";
 // import Head from "next/head";
 // import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
-
 import { trpc } from "../utils/trpc";
+import SplitLayout from "../components/splitLayout";
+import SellingPoints from "../components/sellingPoints";
+import DemoItinerary from "../components/demoItinerary";
+
 
 const Home: NextPage = () => {
   const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
 
   return (
     <>
+      <p className="text-4xl text-center mt-14">Welcome to a stress-free vacation</p>
+      <SplitLayout leftChildren={<SellingPoints/>} rightChildren={<DemoItinerary/>}/>
     </>
   );
 };
