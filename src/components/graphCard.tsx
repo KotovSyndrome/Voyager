@@ -1,0 +1,19 @@
+import React from 'react'
+
+interface IGraphCard {
+    title: String
+}
+
+const graphCard = ({ title }: IGraphCard) => {
+  return (
+    <div>
+        <p className='text-center font-semibold text-xl'>{title}</p>
+
+        <div className='bg-gray-200 p-44 rounded-lg mt-2 text-center'>
+            Graph goes here
+        </div>
+    </div>
+  )
+}
+
+export default graphCard

@@ -1,10 +1,10 @@
 import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { FaUserCircle } from 'react-icons/fa'
 
 const navbar = () => {
   const router = useRouter()
-  console.log('router', router)
 
   return (
     <nav>
@@ -18,7 +18,7 @@ const navbar = () => {
                     <Link href={'/travelstats'} className={`${router.pathname === '/travelstats' && 'underline underline-offset-8 decoration-sky-600'} hover:text-slate-200`}>Travel Stats</Link>
                 </div>
 
-                <Link href={'/profile'}>👤</Link>
+                <Link href={'/profile'}><FaUserCircle size={30} color={'black'}/></Link>
             </div>
         </div>
     </nav>
