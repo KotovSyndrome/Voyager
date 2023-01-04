@@ -1,9 +1,16 @@
 import React from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs'
-import { ITripCard } from '../types/trips/tripCard'
 import { FaUserCircle } from 'react-icons/fa'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+
+interface ITripCard {
+    title: String,
+    startDate: Date,
+    endDate: Date,
+    collaborators: String[] | [],
+    id: Number
+}
 
 const tripCard = ({ title, startDate, endDate, collaborators, id}: ITripCard) => {
     const router = useRouter()

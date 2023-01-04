@@ -2,9 +2,14 @@ import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FaUserCircle } from 'react-icons/fa'
+import Image from 'next/image'
+import ProfilePlaceholder from '../assets/profile-placeholder.png'
+import { useSession, signIn, signOut } from 'next-auth/react'
 
-const navbar = () => {
+const Navbar = () => {
   const router = useRouter()
+  const { data: session } = useSession();
+  console.log('auth session: ', session)
 
   return (
     <nav>
@@ -18,6 +23,16 @@ const navbar = () => {
                     <Link href={'/travelstats'} className={`${router.pathname === '/travelstats' && 'underline underline-offset-8 decoration-sky-600'} hover:text-slate-200`}>Travel Stats</Link>
                 </div>
 
+                {session ? (
+                    <div>
+                        <Image onClick={() => router.push('/profile')} src={session.user?.image || ProfilePlaceholder} alt='profile avatar' width={32} height={32} className='inline-block rounded-full mr-8 cursor-pointer'/>
+                        <button onClick={() => signOut()}>Sign Out</button>
+                    </div>
+                ) : (
+                  <button onClick={() => signIn()}>Sign In</button>
+                )}
+
+                {/* <button onClick={() => signIn()}>Sign In</button> */}
                 <Link href={'/profile'}><FaUserCircle size={30} color={'black'}/></Link>
             </div>
         </div>
@@ -25,4 +40,4 @@ const navbar = () => {
   )
 }
 
-export default navbar
+export default Navbar
