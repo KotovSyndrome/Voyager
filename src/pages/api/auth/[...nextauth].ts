@@ -9,8 +9,6 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "../../../env/server.mjs";
 import { prisma } from "../../../server/db/client";
 
-const scopes = ['identify'].join(' ')
-
 export const authOptions: NextAuthOptions = {
   // Include user.id on session
   callbacks: {
@@ -25,9 +23,8 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     DiscordProvider({
-      clientId: process.env.DISCORD_CLIENT_ID,
-      clientSecret: process.env.DISCORD_CLIENT_SECRET,
-      authorization: {params: {scope: scopes}},
+      clientId: process.env.DISCORD_CLIENT_ID!,
+      clientSecret: process.env.DISCORD_CLIENT_SECRET!,
     }),
     // GoogleProvider({
     //   clientId: env.GOOGLE_CLIENT_ID,
