@@ -50,8 +50,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  profile       Profile     @relation(fields: [profileId], references: [id])
-  profileId     Int         @unique
+  profile       Profile?     @relation(fields: [profileId], references: [id])
+  profileId     Int?         @unique
   // itinerary     Itinerary[]
 }
 
