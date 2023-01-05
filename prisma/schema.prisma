@@ -1,23 +1,10 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
-  // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-  // Further reading:
-  // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-  // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
   url      = env("DATABASE_URL")
-}
-
-model Example {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 // Necessary for Next auth
@@ -64,8 +51,8 @@ model User {
   accounts      Account[]
   sessions      Session[]
   profile       Profile     @relation(fields: [profileId], references: [id])
-  profileId     Int
-  Itinerary     Itinerary[]
+  profileId     Int         @unique
+  // itinerary     Itinerary[]
 }
 
 model Profile {
@@ -74,7 +61,7 @@ model Profile {
   itineraries Itinerary[]
   comments    Comment[]
   username    String
-  User        User[]
+  user        User?
 }
 
 model Itinerary {
@@ -86,11 +73,11 @@ model Itinerary {
   photos     String[]
   comments   Comment[]
   likes      Int
-  owner      User      @relation(fields: [ownerId], references: [id])
-  ownerId    String
+  // owner      User      @relation(fields: [ownerId], references: [id])
+  // ownerId    String
   // coowner       User[]
-  visibility Boolean
-  Profile    Profile?  @relation(fields: [profileId], references: [id])
+  public     Boolean
+  profile    Profile?  @relation(fields: [profileId], references: [id])
   profileId  Int?
 }
 
@@ -98,7 +85,7 @@ model TripDay {
   id          Int        @id @default(autoincrement())
   date        DateTime
   activities  Activity[]
-  Itinerary   Itinerary? @relation(fields: [itineraryId], references: [id])
+  itinerary   Itinerary? @relation(fields: [itineraryId], references: [id])
   itineraryId Int?
 }
 
@@ -106,7 +93,7 @@ model Comment {
   id          Int        @id @default(autoincrement())
   profile     Profile    @relation(fields: [profileId], references: [id])
   text        String
-  Itinerary   Itinerary? @relation(fields: [itineraryId], references: [id])
+  itinerary   Itinerary? @relation(fields: [itineraryId], references: [id])
   itineraryId Int?
   profileId   Int
 }
@@ -122,6 +109,6 @@ model Activity {
   postalCode  String
   city        String
   country     String
-  TripDay     TripDay? @relation(fields: [tripDayId], references: [id])
+  tripDay     TripDay? @relation(fields: [tripDayId], references: [id])
   tripDayId   Int?
 }
