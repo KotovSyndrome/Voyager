@@ -101,14 +101,14 @@ model Comment {
 model Activity {
   id          Int      @id @default(autoincrement())
   name        String
-  startTime   DateTime
-  endTime     DateTime
+  startTime   DateTime?
+  endTime     DateTime?
   contactInfo String?
   note        String?
-  street      String
-  postalCode  String
-  city        String
-  country     String
+  street      String?
+  postalCode  String?
+  city        String?
+  country     String?
   tripDay     TripDay? @relation(fields: [tripDayId], references: [id])
   tripDayId   Int?
 }

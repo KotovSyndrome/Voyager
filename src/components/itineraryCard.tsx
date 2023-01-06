@@ -2,7 +2,6 @@ import React from 'react'
 import Image from 'next/image'
 import Island from '../assets/island_placeholder.jpeg'
 import { AiFillHeart } from 'react-icons/ai'
-import { IItineraryCard } from './iItineraryCard'
 
 interface IItineraryCard {
   title: String,
