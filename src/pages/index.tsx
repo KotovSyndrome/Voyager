@@ -21,6 +21,12 @@ const Home: NextPage = () => {
 
 export default Home;
 
+export async function getStaticProps() {
+  // Statically render page
+}
+
+
+
 // const AuthShowcase: React.FC = () => {
 //   const { data: sessionData } = useSession();
 

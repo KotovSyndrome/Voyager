@@ -9,7 +9,7 @@ import { useSession, signIn, signOut } from 'next-auth/react'
 const Navbar = () => {
   const router = useRouter()
   const { data: session } = useSession();
-  console.log('auth session: ', session)
+  // console.log('auth session: ', session)
 
   return (
     <nav>
