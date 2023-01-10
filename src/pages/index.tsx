@@ -21,9 +21,9 @@ const Home: NextPage = () => {
 
 export default Home;
 
-export async function getStaticProps() {
-  // Statically render page
-}
+// export async function getStaticProps() {
+//    Statically render page
+// }
 
 
 
