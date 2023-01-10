@@ -1,6 +1,6 @@
 import React from 'react'
 import TripDay from './tripDay'
-
+import ActivityForm from './activityForm'
 
 
 const itinerary = () => {
@@ -22,6 +22,7 @@ const itinerary = () => {
                 < TripDay />
                 < TripDay />
                 < TripDay />
+                < ActivityForm />
             </div>
         </div>
     </div>
