@@ -5,6 +5,7 @@ import { prisma } from '../../server/db/client'
 export default validateRoute(async function (
     req: NextApiRequest,
     res: NextApiResponse,
+    userId: string
   ): Promise<void> {
   
     switch (req.method) {

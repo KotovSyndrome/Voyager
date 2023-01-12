@@ -2,10 +2,17 @@ import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { FaPlane } from 'react-icons/fa'
 import TripCard from '../../components/tripCard'
+import axios from 'axios'
+import { itineraries } from '../../../prisma/seedData'
+import { unstable_getServerSession } from 'next-auth'
+import { authOptions } from '../api/auth/[...nextauth]'
+import { prisma } from '../../server/db/client'
 
-const trips = () => {
+const trips = (profileWithItineraries: []) => {
     const [toggle, setToggle] = useState(false)
     const router = useRouter()
+
+  console.log('profileWithItineraries: ', profileWithItineraries);
 
   return (
     <div className='relative w-4/6 m-auto'>
@@ -29,6 +36,40 @@ const trips = () => {
 
 export default trips
 
-// export const getServerSideProps = async () => {
-//      Fetch trips (Itineraries)
-// }
+export const getServerSideProps = async ({req, res}) => {
+  
+  const session = await unstable_getServerSession(req, res, authOptions);
+
+  console.log('session in getServerSideProps: ', session);
+
+  let profileWithItineraries;
+
+  try {
+    const data = await prisma.user.findUnique({
+      where: {
+        id: "clcso4o9g0000px8lf4rst0rj",
+      },
+      include: {
+        profile: {
+          include: {
+            itineraries: {
+              include: {
+                tripDays: {
+                  include: {
+                    activities: true,
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    })
+    profileWithItineraries = data;
+    console.log('profileWithItineraries', profileWithItineraries);
+  } catch (e) {
+    console.error(e);
+  }
+  return { props: JSON.parse(JSON.stringify(profileWithItineraries)) }
+  
+}
