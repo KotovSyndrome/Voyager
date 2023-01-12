@@ -20,12 +20,14 @@ export const itineraries = [
         startDate: new Date(),
         endDate: new Date('January 10, 2023 03:24:00'),
         likes: 234,
+        destinations: ["Madrid", "Barcelona", "Sevilla"]
     },
     {
         name: 'Boys trip',
         startDate: new Date(),
         endDate: new Date('January 10, 2023 03:24:00'),
         likes: 10,
+        destinations: ["Barbados", "Las Vegas", "Berlin"]
     },
 ]
 

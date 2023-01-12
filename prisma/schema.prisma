@@ -65,20 +65,18 @@ model Profile {
 }
 
 model Itinerary {
-  id         Int       @id @default(autoincrement())
-  name       String
-  startDate  DateTime
-  endDate    DateTime
-  tripDays   TripDay[]
-  photos     String[]
-  comments   Comment[]
-  likes      Int
-  // owner      User      @relation(fields: [ownerId], references: [id])
-  // ownerId    String
-  // coowner       User[]
-  public     Boolean
-  profile    Profile?  @relation(fields: [profileId], references: [id])
-  profileId  Int?
+  id           Int       @id @default(autoincrement())
+  name         String
+  startDate    DateTime
+  endDate      DateTime
+  tripDays     TripDay[]
+  coverPhoto   String?
+  comments     Comment[]
+  destinations String[]
+  likes        Int
+  public       Boolean
+  profile      Profile?  @relation(fields: [profileId], references: [id])
+  profileId    Int?
 }
 
 model TripDay {
@@ -109,6 +107,7 @@ model Activity {
   postalCode  String?
   city        String?
   country     String?
+  photo       String?
   tripDay     TripDay? @relation(fields: [tripDayId], references: [id])
   tripDayId   Int?
 }

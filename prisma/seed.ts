@@ -31,6 +31,7 @@ async function main() {
                 endDate: itin.endDate,
                 likes: itin.likes,
                 public: true,
+                destinations: itin.destinations,
                 profile: {
                     connect: { id: i + 1}
                 },
