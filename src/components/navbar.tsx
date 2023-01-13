@@ -13,7 +13,7 @@ const Navbar = () => {
 
   return (
     <nav>
-        <div className='bg-sky-300 text-slate-50 rounded-bl-xl rounded-br-xl'>
+        <div className='from-blue-200 to-blue-100 bg-gradient-to-b text-slate-50 shadow-lg'>
             <div className='flex justify-around py-4'>
                 <Link href={'/'} className='font-bold text-2xl'>Voyager🌎</Link>
 

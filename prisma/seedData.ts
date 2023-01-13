@@ -20,14 +20,16 @@ export const itineraries = [
         startDate: new Date(),
         endDate: new Date('January 10, 2023 03:24:00'),
         likes: 234,
-        destinations: ["Madrid", "Barcelona", "Sevilla"]
+        destinations: ["Madrid", "Barcelona", "Sevilla"],
+        public: false
     },
     {
         name: 'Boys trip',
         startDate: new Date(),
         endDate: new Date('January 10, 2023 03:24:00'),
         likes: 10,
-        destinations: ["Barbados", "Las Vegas", "Berlin"]
+        destinations: ["Barbados", "Las Vegas", "Berlin"],
+        public: true
     },
 ]
 

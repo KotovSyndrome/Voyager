@@ -43,15 +43,15 @@ model Session {
 }
 
 model User {
-  id            String      @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
-  email         String?     @unique
+  email         String?   @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  profile       Profile?     @relation(fields: [profileId], references: [id])
-  profileId     Int?         @unique
+  profile       Profile?  @relation(fields: [profileId], references: [id])
+  profileId     Int?      @unique
   // itinerary     Itinerary[]
 }
 
@@ -97,7 +97,7 @@ model Comment {
 }
 
 model Activity {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
   startTime   DateTime?
   endTime     DateTime?
@@ -108,6 +108,6 @@ model Activity {
   city        String?
   country     String?
   photo       String?
-  tripDay     TripDay? @relation(fields: [tripDayId], references: [id])
+  tripDay     TripDay?  @relation(fields: [tripDayId], references: [id])
   tripDayId   Int?
 }
