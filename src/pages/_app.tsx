@@ -13,10 +13,14 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <Navbar />
-      <Component {...pageProps} />
+      <div className="from-blue-100 via-teal-100 to-blue-200 bg-gradient-to-b">
+        <Navbar />
+        <Component {...pageProps} />
+      </div>
     </SessionProvider>
   );
 };
 
 export default trpc.withTRPC(MyApp);
+
+// bg-[#e3f4ff]

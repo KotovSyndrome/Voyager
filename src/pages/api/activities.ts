@@ -5,7 +5,6 @@ import { prisma } from '../../server/db/client'
 export default validateRoute(async function (
     req: NextApiRequest,
     res: NextApiResponse,
-    userId: string
   ): Promise<void> {
   
     switch (req.method) {
@@ -54,7 +53,7 @@ export default validateRoute(async function (
             res.status(200).json(data)
         } catch (error) {
             console.error(error)
-            res.status(304).json({ error: 'The resource was not modified, try again.'})
+            res.status(304).json({ error: 'The resource was not modified, try again.' })
         }
         break
       case 'DELETE':
