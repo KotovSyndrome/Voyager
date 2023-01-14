@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import ItineraryCard from '../components/itineraryCard'
 import { BiSearch } from 'react-icons/bi'
 import axios from 'axios'
-import internal from 'stream'
 
 const pop = [
   'Hawaii',
@@ -45,9 +44,10 @@ const discover = () => {
 
   const handleSearch = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
-
-    // lowercase query
-    const searchCall = await axios.post('/api/search', {destination: query})
+    
+    console.log('query: ', query.toLowerCase())
+    
+    const searchCall = await axios.post('/api/search', {destination: query.toLowerCase()})
 
     setQuery('')
 
@@ -64,7 +64,7 @@ const discover = () => {
           <h3 className='text-3xl text-center'>Explore destinations or see where other's have traveled</h3>
 
           <form onSubmit={handleSearch} className='relative flex justify-center w-full'>
-            <input value={query} onChange={(e) => setQuery(e.target.value)} type={'text'} placeholder={'search'} className='inline-block p-2 rounded-full w-1/3 mt-10 outline-none'/>
+            <input value={query} onChange={(e) => setQuery(e.target.value)} type={'text'} placeholder={'Find your dream getaway!'} className='inline-block p-2 rounded-full w-1/3 mt-10 outline-none'/>
             {/* Use state to disable button briefly after submit(1 second?) */}
             <button disabled={false} type='submit' className='absolute right-[34.2%] top-[3.1rem] cursor-pointer'><BiSearch size={20}/></button>
           </form>
