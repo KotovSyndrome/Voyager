@@ -1,5 +1,6 @@
 import React from 'react'
 import GraphCard from '../components/graphCard'
+import LayoutWrapper from '../components/layoutWrapper'
 
 const graphs = [
   'Miles traveled vs National Average',
@@ -10,13 +11,16 @@ const graphs = [
 
 const travelstats = () => {
   return (
-    <div className='flex justify-center'>
-      <div className='grid grid-cols-2 gap-10 w-10/12 mt-10 pb-10'>
-        {graphs.map(g => {
-          return <GraphCard key={g} title={g}/>
-        })}
+
+    <LayoutWrapper>
+      <div className='w-full'>
+        <div className='grid grid-cols-2 gap-10 mt-10 pb-10'>
+          {graphs.map(g => {
+            return <GraphCard key={g} title={g}/>
+          })}
+        </div>
       </div>
-    </div>
+    </LayoutWrapper>
   )
 }
 
