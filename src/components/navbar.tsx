@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { useSession, signIn, signOut } from 'next-auth/react'
 import SailBoat from '../assets/SailBoat.svg'
 import LayoutWrapper from './layoutWrapper'
+import ProfilePlaceholder from '../assets/profile-placeholder.png'
 
 const Navbar = () => {
   const router = useRouter()
@@ -48,6 +49,7 @@ const Navbar = () => {
             </div>
         </div>
     </nav>
+    </LayoutWrapper>
   )
 }
 

@@ -16,12 +16,18 @@ async function main() {
                 profile: {
                     create: {
                         bio: 'I love to travel to far away places. Check out my itineraries to learn about awesome places you can visit for cheap!',
-                        username: 'TravelLover423'
+                        username: 'TravelLover423',
+                        distanceUnits: 'MILES',
+                        dateFormat: 'MONTH',
+                        timeFormat: 'TWELVE',
+                        commentsNotification: true,
+                        remindersNotification: true,
+                        collaboratorJoinedNotification: true,
                     },
                 }
             }
         })
-    }))
+    })) 
 
     await Promise.all(itineraries.map( async (itin, i) => {
         return prisma.itinerary.create({

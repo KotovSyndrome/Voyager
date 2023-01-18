@@ -55,13 +55,35 @@ model User {
   // itinerary     Itinerary[]
 }
 
+enum DistanceUnits {
+  MILES
+  KILOMETERS
+  BANANAS
+}
+
+enum DateFormat {
+  DAY
+  MONTH
+}
+
+enum TimeFormat {
+  TWELVE
+  TWENTYFOUR
+}
+
 model Profile {
-  id          Int         @id @default(autoincrement())
-  bio         String
-  itineraries Itinerary[]
-  comments    Comment[]
-  username    String
-  user        User?
+  id                             Int         @id @default(autoincrement())
+  bio                            String
+  username                       String
+  distanceUnits                  DistanceUnits
+  dateFormat                     DateFormat
+  timeFormat                     TimeFormat
+  commentsNotification           Boolean
+  remindersNotification          Boolean
+  collaboratorJoinedNotification Boolean
+  itineraries                    Itinerary[]
+  comments                       Comment[]
+  user                           User?
 }
 
 model Itinerary {
