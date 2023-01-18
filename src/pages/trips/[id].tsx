@@ -2,6 +2,7 @@ import React from 'react'
 import SplitLayout from '../../components/splitLayout'
 import Itinerary from '../../components/itinerary'
 import Map from '../../components/map'
+import { Query } from '@tanstack/react-query'
 
 
 const tripPage = () => {
@@ -13,6 +14,6 @@ const tripPage = () => {
 
 export default tripPage
 
-// export async function getServerSideProps() {
-//    await axios.get('/api/itinerary/get')
+// export async function getServerSideProps({query, req}) {
+  
 // }

@@ -1,12 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import TripDay from './tripDay'
 import ActivityForm from './activityForm'
 
 
 const itinerary = () => {
-
-
-
 
   return (
     <div className='w-full h-full border-r-black border-r-2 flex justify-center'>

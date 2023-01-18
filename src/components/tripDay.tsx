@@ -7,6 +7,17 @@ import { TbNotes } from 'react-icons/tb'
 
 const tripDay = () => {
 
+    const [ readOnly, setReadOnly ] = useState(true);
+
+    const focusInHandler = (e: React.FocusEvent<HTMLDivElement>) => {
+        console.log('focused')
+        setReadOnly(false); // read-only off
+    }
+
+    const focusOutHandler = (e: React.FocusEvent<HTMLDivElement>) => {
+        console.log('not focused')
+        setReadOnly(true); // read-only on
+    }
 
     const deleteActivity = async () => {
         const call = await axios.delete('/api/activities', { 
@@ -42,11 +53,11 @@ const tripDay = () => {
         </div>
 
         <div className='flex justify-between'>
-            <div className='flex space-x-3'>
-                <input className='bg-white bg-opacity-20 rounded-md p-1 outline-none' value={'The Louvre Museum'} readOnly/>
-                <input value={'10:00 AM'} readOnly className='bg-white bg-opacity-20 rounded-md p-1 w-20 outline-none'/>
+            <div onFocus={(e) => focusInHandler(e)} onBlur={(e) => focusOutHandler(e)} className='flex space-x-3'>
+                <input className='bg-white bg-opacity-20 rounded-md p-1 outline-none' value={'The Louvre Museum'} readOnly={readOnly}/>
+                <input value={'10:00 AM'}  className='bg-white bg-opacity-20 rounded-md p-1 w-20 outline-none' readOnly={readOnly}/>
                 <p>to</p>
-                <input value={'02:00 PM'} readOnly className='bg-white bg-opacity-20 rounded-md p-1 w-20 outline-none'/>
+                <input value={'02:00 PM'} className='bg-white bg-opacity-20 rounded-md p-1 w-20 outline-none' readOnly={readOnly}/>
                 <button className='bg-indigo-300 p-1 rounded-md hover:bg-indigo-500'><TbNotes size={20}/></button>
             </div>
 
