@@ -3,11 +3,11 @@ import React from 'react'
 const splitLayout = ({ leftChildren, rightChildren }: any) => {
   return (
     <div className='flex w-screen h-screen'>
-        <div className='w-1/2'>
+        <div className='w-2/5 '>
             {leftChildren}
         </div>
 
-        <div className='w-1/2'>
+        <div className='w-3/5'>
             {rightChildren}
         </div>
     </div>

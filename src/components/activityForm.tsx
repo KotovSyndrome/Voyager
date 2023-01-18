@@ -26,16 +26,16 @@ const activityForm = () => {
         setActivityName('')
     }
   return (
-    <div className='bg-gray-400 w-11/12 rounded-md p-3 text-slate-50 mt-3'>
+    <div className='text-black mt-3'>
         <p>New Activity</p>
 
         <div className='flex justify-between'>
-            <input type={'text'} value={activityName} onChange={(e) => setActivityName(e.target.value)} placeholder='Ex. The Louvre' className='rounded-md p-2 w-1/2 outline-none text-black'/>
-            <button onClick={createAcitivity} className='bg-teal-300 py-1 px-2 rounded-lg text-white hover:bg-teal-500'>Add activity</button>
+            <input type={'text'} value={activityName} onChange={(e) => setActivityName(e.target.value)} placeholder='Ex. Eiffel Tower' className='rounded-md p-1 w-1/2 outline-none text-black'/>
+            <button onClick={createAcitivity} className='bg-teal-300 py-1 px-2 rounded-lg text-black hover:bg-teal-500'>Add activity</button>
         </div>
 
-        <p className='mt-2'>Notes:</p>
-        <textarea className='text-black outline-none rounded-md w-1/2'/>
+        {/* <p className='mt-2'>Notes:</p>
+        <textarea className='text-black outline-none rounded-md w-1/2'/> */}
     </div>
   )
 }

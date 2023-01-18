@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import ItineraryCard from '../components/itineraryCard'
 import { BiSearch } from 'react-icons/bi'
 import axios from 'axios'
+import LayoutWrapper from '../components/layoutWrapper'
 
 const pop = [
   'Hawaii',
@@ -58,13 +59,13 @@ const discover = () => {
 
 
   return (
-    <>
-      <div className='w-4/6 m-auto mt-20'>
+    <LayoutWrapper>
+      <div className='mt-20'>
         <div className='flex flex-col items-center'>
-          <h3 className='text-3xl text-center'>Explore destinations or see where other's have traveled</h3>
+          <h3 className='text-3xl text-center'>Explore destinations and see where other's have traveled</h3>
 
           <form onSubmit={handleSearch} className='relative flex justify-center w-full'>
-            <input value={query} onChange={(e) => setQuery(e.target.value)} type={'text'} placeholder={'Find your dream getaway!'} className='inline-block p-2 rounded-full w-1/3 mt-10 outline-none'/>
+            <input value={query} onChange={(e) => setQuery(e.target.value)} type={'text'} placeholder={'Find your dream getaway!'} className='text-black inline-block p-2 rounded-full w-1/3 mt-10 outline-none'/>
             {/* Use state to disable button briefly after submit(1 second?) */}
             <button disabled={false} type='submit' className='absolute right-[34.2%] top-[3.1rem] cursor-pointer'><BiSearch size={20}/></button>
           </form>
@@ -107,7 +108,7 @@ const discover = () => {
           </div>
         </div>
       </div>
-    </>
+    </LayoutWrapper>
   )
 }
 
