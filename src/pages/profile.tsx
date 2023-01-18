@@ -13,7 +13,7 @@ const profile = () => {
   } 
 
   return (
-    <div className='h-screen'>
+    <div className='h-screen text-black'>
         <div className='m-auto lg:w-3/6 md:w-4/6 mt-16'>
           <div className='bg-blue-100 rounded-lg py-4 px-8'>
 
@@ -45,10 +45,10 @@ const profile = () => {
 
                   <div className='flex items-center space-x-2'>
                     <label>Date format: </label>
-                    <input type='radio' id='month' readOnly={editing} value={'Month / Day'} className='rounded-md text-sky-400 border-gray-300'/>
-                    <label htmlFor='month'>Month/Day <span className='text-gray-400 text-sm'>(5/23)</span></label>
-                    <input type='radio' id='day' readOnly={editing} value={'Day / Month'} className='rounded-md text-sky-400 border-gray-300'/>
-                    <label htmlFor='day'>Day/Month <span className='text-gray-400 text-sm'>(23/5)</span></label>
+                    <input type='radio' id='monthFirst' readOnly={editing} value={'monthFirst'} className='rounded-md text-sky-400 border-gray-300'/>
+                    <label htmlFor='monthFirst'>Month/Day <span className='text-gray-400 text-sm'>(5/23)</span></label>
+                    <input type='radio' id='dayFirst' readOnly={editing} value={'dayFirst'} className='rounded-md text-sky-400 border-gray-300'/>
+                    <label htmlFor='dayFirst'>Day/Month <span className='text-gray-400 text-sm'>(23/5)</span></label>
                   </div>
 
                   <div className='flex items-center space-x-2'>
