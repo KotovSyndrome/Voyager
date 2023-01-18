@@ -6,6 +6,13 @@ import Navbar from "../components/navbar";
 import { trpc } from "../utils/trpc";
 
 import "../styles/globals.css";
+import { Merriweather_Sans } from '@next/font/google'
+
+const cabin = Merriweather_Sans({
+  weight: ['400','500','600', '700'],
+  style: ['normal','italic'],
+  subsets: ['latin'],
+})
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -13,9 +20,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <div className="from-blue-100 via-teal-100 to-blue-200 bg-gradient-to-b">
-        <Navbar />
-        <Component {...pageProps} />
+      <div className="from-blue-500 via-teal-400 to-blue-500 bg-gradient-to-b text-white">
+        <div className={cabin.className}>
+          <Navbar />
+          <Component {...pageProps} />
+        </div>
       </div>
     </SessionProvider>
   );

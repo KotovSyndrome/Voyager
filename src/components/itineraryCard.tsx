@@ -26,7 +26,7 @@ interface IItineraryCardProps {
 
 const itineraryCard = ({coverPhoto, destinations, endDate, id, likes, name, profile, startDate}: IItineraryCardProps ) => {
   return (
-    <div className='bg-white p-4 bg-opacity-70 rounded-lg drop-shadow-lg cursor-pointer'>
+    <div className='bg-white p-4 bg-opacity-80 rounded-lg drop-shadow-lg cursor-pointer text-black'>
         <Image src={Island} alt='Itinerary cover' width={300} height={300} className='rounded-md'/>
 
         <div className='flex justify-between'>
