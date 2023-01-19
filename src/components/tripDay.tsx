@@ -19,7 +19,7 @@ const tripDay = () => {
 
     const updateActivity = async () => {
         const req = await axios.put('/api/activities', {
-            activityName: 'This is a mothafuckin update bitch',
+            activityName: 'Activity name update',
             activityStartTime: new Date(),
             activityEndTime: new Date(),
             activityContactInfo: '',
