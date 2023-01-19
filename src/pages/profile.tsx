@@ -3,6 +3,9 @@ import { FaUserCircle } from 'react-icons/fa'
 import { useSession } from 'next-auth/react'
 import ProfilePlaceholder from '../assets/profile-placeholder.png'
 import Image from 'next/image'
+import { getServerAuthSession } from '../server/common/get-server-auth-session'
+import { NextApiRequest, NextApiResponse } from 'next'
+import { authOptions } from './api/auth/[...nextauth]'
 
 const profile = () => {
   const { data: session } = useSession()
@@ -94,6 +97,15 @@ const profile = () => {
 
 export default profile
 
-// export const getServerSideProps = async () => {
-//   // get user data (bio, total likes from all itineraries)
+interface IServerProps {
+  req: NextApiRequest
+  res: NextApiResponse
+}
+
+// export const getStaticProps = async ({req, res}: IServerProps) => {
+//   const session = await getServerAuthSession({ req, res });
+
+//   return {
+//     props: {}
+//   }
 // }
