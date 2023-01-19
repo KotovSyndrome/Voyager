@@ -8,16 +8,46 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 import { env } from "../../../env/server.mjs";
 import { prisma } from "../../../server/db/client";
+import { create } from "domain";
 
 export const authOptions: NextAuthOptions = {
   // Include user.id on session
   callbacks: {
-    session({ session, user }) {
+    async session({ session, user }) {
       if (session.user) {
         session.user.id = user.id;
+
+        const userWithProfile = await prisma.user.findUnique({
+          where: { id: session.user.id},
+          include: { profile: true }
+        })
+
+        //@ts-ignore
+        session.profile = userWithProfile?.profile
       }
       return session;
     },
+  },
+  events: {
+    async createUser(message) {
+      const { id, name }  = message.user
+
+      await prisma.profile.create({
+        data: {
+          bio: '',
+          username: name || `user${id}`,
+          distanceUnits: 'MILES',
+          dateFormat: 'MONTH',
+          timeFormat: 'TWELVE',
+          commentsNotification: true,
+          remindersNotification: true,
+          collaboratorJoinedNotification: true,
+          user: {
+            connect: { id: id },
+          },
+        }
+      })
+    }
   },
   // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
