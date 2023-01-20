@@ -12,7 +12,6 @@ const Navbar = () => {
   const router = useRouter()
   const { data: session } = useSession();
   const [hideState, setHideState] = useState(true)
-  // console.log('auth session: ', session)
 
   return (
     <LayoutWrapper>

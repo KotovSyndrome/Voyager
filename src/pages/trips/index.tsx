@@ -7,6 +7,7 @@ import { itineraries } from '../../../prisma/seedData'
 import { unstable_getServerSession } from 'next-auth'
 import { authOptions } from '../api/auth/[...nextauth]'
 import { prisma } from '../../server/db/client'
+import { NextApiRequest, NextApiResponse } from 'next'
 
 const trips = (profileWithItineraries: []) => {
     const [toggle, setToggle] = useState(false)
@@ -36,7 +37,12 @@ const trips = (profileWithItineraries: []) => {
 
 export default trips
 
-export const getServerSideProps = async ({req, res}) => {
+interface IServerProps {
+  req: NextApiRequest
+  res: NextApiResponse
+}
+
+export const getServerSideProps = async ({req, res}: IServerProps) => {
   
   const session = await unstable_getServerSession(req, res, authOptions);
 
@@ -70,6 +76,7 @@ export const getServerSideProps = async ({req, res}) => {
   } catch (e) {
     console.error(e);
   }
+
   return { props: JSON.parse(JSON.stringify(profileWithItineraries)) }
   
 }
