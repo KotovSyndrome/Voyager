@@ -6,9 +6,35 @@ import Image from 'next/image'
 import { getServerAuthSession } from '../server/common/get-server-auth-session'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { authOptions } from './api/auth/[...nextauth]'
+import { profileEnd } from 'console'
 
-const profile = () => {
-  const { data: session } = useSession()
+
+interface IProfile {
+  bio: string
+  username: string
+  distanceUnits: string
+  dateFormat: string
+  timeFormat: string
+  commentsNotification: boolean
+  remindersNotification: boolean
+  collaboratorJoinedNotification: boolean
+}
+interface IUser {
+  email: string
+  id: string
+  image: string
+  name: string
+}
+
+interface IProfileData {
+  expires: Date
+  user: IUser
+  profile: IProfile
+}
+
+
+
+const profile = (profileData: IProfileData) => {
   const [editing, setEditing] = useState(true)
 
   const handleProfileEdit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
@@ -21,11 +47,12 @@ const profile = () => {
           <div className='bg-blue-100 rounded-lg py-4 px-8'>
 
             <div className=' py-3 px-6 rounded-lg flex space-x-10 items-center'>
-              <div className='w-3/4'>
-                <p className='mb-3 text-center text-xl'>{session?.user?.name}</p>
-                <Image src={session?.user?.image || ProfilePlaceholder} alt='Profile avatart' width={100} height={100} className='rounded-full'/>
+              <div>
+                <p className='mb-3 text-center text-xl'>{profileData.profile.username || profileData.user.name}</p>
+                <Image src={profileData.user.image || ProfilePlaceholder} alt='Profile avatart' width={100} height={100} className='rounded-full'/>
               </div>
-              <p className='bg-slate-50 p-2 rounded-lg'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+              {/* @ts-ignore */}
+              <p className='bg-slate-50 p-2 rounded-lg w-full '>{profileData.profile.bio || 'Tell the world what kind of traveler you are!'}</p>
             </div>
 
             <form onSubmit={handleProfileEdit} className='mt-5 bg-slate-50 px-4 pt-4 rounded-lg'>
@@ -34,12 +61,12 @@ const profile = () => {
 
                   <div>
                     <label htmlFor='email'>Email:</label>
-                    <input disabled={true} name='email'value={session?.user?.email!}  className='border-[1px] border-gray-200 p-1 ml-2 rounded-md'/>
+                    <input disabled={true} name='email'value={profileData.user.email}  className='border-[1px] border-gray-200 py-1 px-3 ml-2 rounded-md'/>
                   </div>
 
                   <div>
                     <label htmlFor='units'>Distance Units: </label>
-                    <select disabled={true} name='units' className='rounded-md p-1 ml-1 border-gray-200'>
+                    <select disabled={true} defaultValue={profileData.profile.distanceUnits} name='units' className='rounded-md p-1 ml-1 border-gray-200'>
                       <option>Miles</option>
                       <option>Kilometers</option>
                       <option>bananas</option>
@@ -48,34 +75,34 @@ const profile = () => {
 
                   <div className='flex items-center space-x-2'>
                     <label>Date format: </label>
-                    <input type='radio' id='monthFirst' readOnly={editing} value={'monthFirst'} className='rounded-md text-sky-400 border-gray-300'/>
+                    <input value={'MONTH'} type='radio' id='monthFirst' readOnly={editing} defaultChecked={profileData.profile.dateFormat === 'MONTH' && true} name='dateFormatPreference' className='rounded-md text-sky-400 border-gray-300'/>
                     <label htmlFor='monthFirst'>Month/Day <span className='text-gray-400 text-sm'>(5/23)</span></label>
-                    <input type='radio' id='dayFirst' readOnly={editing} value={'dayFirst'} className='rounded-md text-sky-400 border-gray-300'/>
+                    <input value={'DAY'} type='radio' id='dayFirst' readOnly={editing} defaultChecked={profileData.profile.dateFormat === 'DAY' && true} name='dateFormatPreference' className='rounded-md text-sky-400 border-gray-300'/>
                     <label htmlFor='dayFirst'>Day/Month <span className='text-gray-400 text-sm'>(23/5)</span></label>
                   </div>
 
                   <div className='flex items-center space-x-2'>
                     <label>Time format:</label>
-                    <input type='radio' id='12' readOnly={editing} value={'12'} className='rounded-md text-sky-400 border-gray-300'/>
+                    <input type='radio' id='12' readOnly={editing} value={'12'} defaultChecked={profileData.profile.timeFormat === 'TWELVE' && true} name='timeFormatPreference' className='rounded-md text-sky-400 border-gray-300'/>
                     <label htmlFor='12'>12h <span className='text-gray-400 text-sm'>(1:30pm)</span></label>
-                    <input type='radio' id='24' readOnly={editing} value={'24'} className='rounded-md text-sky-400 border-gray-300'/>
+                    <input type='radio' id='24' readOnly={editing} value={'24'} defaultChecked={profileData.profile.timeFormat === 'TWENTYFOUR' && true} name='timeFormatPreference' className='rounded-md text-sky-400 border-gray-300'/>
                     <label htmlFor='24'>24h <span className='text-gray-400 text-sm'>(13:30)</span></label>
                   </div>
 
                   <h3 className='text-center text-2xl font-semibold'>Email Notifications</h3>
 
                   <div className='flex items-center space-x-2'>
-                    <input type='checkbox'  value={'true'} className='border-gray-300 rounded-md text-sky-400'></input>
+                    <input type='checkbox'  value={'true'} defaultChecked={profileData.profile.commentsNotification && true} className='border-gray-300 rounded-md text-sky-400'></input>
                     <label >Someone commented on your itinerary</label>
                   </div>
 
                   <div className='flex items-center space-x-2'>
-                    <input type='checkbox'  value={'true'} className='border-gray-300 rounded-md text-sky-400'></input>
+                    <input type='checkbox'  value={'true'} defaultChecked={profileData.profile.remindersNotification && true} className='border-gray-300 rounded-md text-sky-400'></input>
                     <label>Reminders about your upcoming trip</label>
                   </div>
 
                   <div className='flex items-center space-x-2'>
-                    <input type='checkbox'  value={'true'} className='border-gray-300 rounded-md text-sky-400'></input>
+                    <input type='checkbox'  value={'true'} defaultChecked={profileData.profile.collaboratorJoinedNotification && true} className='border-gray-300 rounded-md text-sky-400'></input>
                     <label>Your friend joined your trip as a collaborator</label>
                   </div>
 
@@ -102,10 +129,10 @@ interface IServerProps {
   res: NextApiResponse
 }
 
-// export const getStaticProps = async ({req, res}: IServerProps) => {
-//   const session = await getServerAuthSession({ req, res });
+export const getServerSideProps = async ({req, res}: IServerProps) => {
+  const profileData = await getServerAuthSession({ req, res });
 
-//   return {
-//     props: {}
-//   }
-// }
+  return {
+    props: profileData
+  }
+}
