@@ -50,7 +50,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  profile       Profile?  @relation(fields: [profileId], references: [id])
+  profile       Profile?  @relation(fields: [profileId], references: [id], onDelete: Cascade)
   profileId     Int?      @unique
   // itinerary     Itinerary[]
 }
@@ -97,7 +97,7 @@ model Itinerary {
   destinations String[]
   likes        Int
   public       Boolean
-  profile      Profile?  @relation(fields: [profileId], references: [id])
+  profile      Profile?  @relation(fields: [profileId], references: [id], onDelete: Cascade)
   profileId    Int?
 }
 
@@ -105,7 +105,7 @@ model TripDay {
   id          Int        @id @default(autoincrement())
   date        DateTime
   activities  Activity[]
-  itinerary   Itinerary? @relation(fields: [itineraryId], references: [id])
+  itinerary   Itinerary? @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
   itineraryId Int?
 }
 
@@ -113,7 +113,7 @@ model Comment {
   id          Int        @id @default(autoincrement())
   profile     Profile    @relation(fields: [profileId], references: [id])
   text        String
-  itinerary   Itinerary? @relation(fields: [itineraryId], references: [id])
+  itinerary   Itinerary? @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
   itineraryId Int?
   profileId   Int
 }
@@ -130,6 +130,6 @@ model Activity {
   city        String?
   country     String?
   photo       String?
-  tripDay     TripDay?  @relation(fields: [tripDayId], references: [id])
+  tripDay     TripDay?  @relation(fields: [tripDayId], references: [id], onDelete: Cascade)
   tripDayId   Int?
 }
