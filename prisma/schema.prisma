@@ -50,7 +50,7 @@ model User {
   profileId     Int?      @unique
   accounts      Account[]
   sessions      Session[]
-  profile       Profile?  @relation(fields: [profileId], references: [id])
+  profile       Profile?  @relation(fields: [profileId], references: [id], onDelete: Cascade)
   profileId     Int?      @unique
   // itinerary     Itinerary[]
 }
