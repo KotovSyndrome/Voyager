@@ -20,10 +20,9 @@ export default validateRoute(async function (
                     timeFormat: req.body.timeFormat,
                     commentsNotification: req.body.commentsNotification,
                     remindersNotification: req.body.remindersNotification,
-                    collaboratorJoinedNotification: req.body.collaboratorJoinedNotification,
+                    collaboratorJoinedNotification: req.body.collaboratorNotification,
                 },
             })
-
             res.status(200).json(data)
         } catch(e) {
             console.log(e)
