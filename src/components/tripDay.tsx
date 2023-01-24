@@ -5,8 +5,15 @@ import { BsTrashFill } from 'react-icons/bs'
 import { AiFillEdit } from 'react-icons/ai'
 import { TbNotes } from 'react-icons/tb'
 import ActivityForm from './activityForm';
+import format from 'date-fns/format';
 
-const tripDay = () => {
+interface ITripDayProps {
+    date: Date
+}
+
+const tripDay = ({date}: ITripDayProps) => {
+
+    console.log('date in TripDay', date);
 
     const [ readOnly, setReadOnly ] = useState(true);
 
@@ -46,7 +53,7 @@ const tripDay = () => {
   return (
     <div className='w-full p-3 text-black'>
         <div className='flex justify-between'>
-            <p className='mb-3 text-xl font-semibold'>Saturday, 6/20</p>
+            <p className='mb-3 text-xl font-semibold'>{format(date, 'MMM Do')}</p>
         </div>
 
         <div className='flex justify-between space-x-5'>

@@ -3,7 +3,7 @@ import { AiOutlineInfoCircle } from 'react-icons/ai'
 import Calendar from 'react-calendar'
 import axios from 'axios';
 import 'react-calendar/dist/Calendar.css';
-import { Interval, eachDayOfInterval } from 'date-fns'
+import { eachDayOfInterval } from 'date-fns'
 import { useRouter } from 'next/router';
 
 const Plan = () => {
@@ -37,9 +37,9 @@ const Plan = () => {
     //     console.log(call);
     // }
 
-    function isDate(date: Date | number): date is Date {
-        return (date as Date) !== undefined;
-      }
+    // function isDate(date: Date | number): date is Date {
+    //     return (date as Date) !== undefined;
+    //   }
 
     const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setItineraryName(event.target.value);
@@ -69,8 +69,7 @@ const Plan = () => {
         router.push({
             pathname: '/trips/[id]',
             query: { 
-                id: call.data.id, 
-                data: call.data
+                id: call.data.id
             },
           })
     }
@@ -82,19 +81,22 @@ const Plan = () => {
             
             <div className='mt-5'>
                 <label>What would you like to call your trip?</label>
-                <input onChange={handleNameChange} type='text' className='w-full p-1 rounded-md outline-none'/>
+                <input onChange={handleNameChange} type='text' className='w-full p-1 rounded-md outline-none text-black'/>
             </div>
 
             <div className='mt-5'>
                 <label>Where are you going? Please enter multiple destinations as comma-separated values. </label>
-                <input onChange={handleDestinationChange} type='text' className='w-full p-1 rounded-md outline-none'/>
+                <input onChange={handleDestinationChange} type='text' className='w-full p-1 rounded-md outline-none text-black'/>
             </div>
 
             {/* Input for dates (calendar) */}
             <p className='mt-5'>Dates</p>
-            <div className='bg-white p-3 w-full rounded-md flex'>
-                <p>{value[0]!.toLocaleDateString()} -</p>
-                <p>- {value[1]!.toLocaleDateString()}</p>
+            <div className='bg-white p-3 w-full rounded-md flex text-black'>
+                <p>{value[0]!.toLocaleDateString()} </p>
+                &nbsp;
+                <p>-</p>
+                &nbsp;
+                <p>{value[1]!.toLocaleDateString()}</p>
             </div>
             <div className='mt-5 w-full'>
                 <Calendar 
@@ -104,13 +106,13 @@ const Plan = () => {
                     selectRange={true} 
                     calendarType='US' 
                     minDate={new Date()} 
-                    className='m-auto'
+                    className='m-auto text-black'
                 />
             </div>
 
             <div className='mt-5'>
                 <label>Invite anyone going with you (optional)</label>
-                <input type='text' className='w-full p-1 rounded-md outline-none'/>
+                <input type='text' className='w-full p-1 rounded-md outline-none text-black'/>
                 <p className='text-sm italic mt-1 text-slate-300'>Write emails seperated by a comma and a space</p>
             </div>
             

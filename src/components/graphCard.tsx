@@ -1,7 +1,7 @@
 import React from 'react'
 
 interface IGraphCard {
-    title: String
+    title: string
 }
 
 const graphCard = ({ title }: IGraphCard) => {

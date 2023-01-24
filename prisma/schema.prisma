@@ -7,19 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Necessary for Next auth
 model Account {
   id                String  @id @default(cuid())
   userId            String
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -48,20 +47,25 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  profileId     Int?      @unique
   accounts      Account[]
   sessions      Session[]
-  profile       Profile?  @relation(fields: [profileId], references: [id])
-  profileId     Int?      @unique
-  // itinerary     Itinerary[]
+  profile       Profile?  @relation(fields: [profileId], references: [id], onDelete: Cascade)
 }
 
 model Profile {
-  id          Int         @id @default(autoincrement())
-  bio         String
-  itineraries Itinerary[]
-  comments    Comment[]
-  username    String
-  user        User?
+  id                             Int           @id @default(autoincrement())
+  bio                            String
+  username                       String
+  collaboratorJoinedNotification Boolean
+  commentsNotification           Boolean
+  dateFormat                     DateFormat
+  distanceUnits                  DistanceUnits
+  remindersNotification          Boolean
+  timeFormat                     TimeFormat
+  comments                       Comment[]
+  itineraries                    Itinerary[]
+  user                           User?
 }
 
 model Itinerary {
@@ -69,31 +73,31 @@ model Itinerary {
   name         String
   startDate    DateTime
   endDate      DateTime
-  tripDays     TripDay[]
-  coverPhoto   String?
-  comments     Comment[]
-  destinations String[]
+  profileId    Int?
   likes        Int
   public       Boolean
-  profile      Profile?  @relation(fields: [profileId], references: [id])
-  profileId    Int?
+  destinations String[]
+  coverPhoto   String?
+  comments     Comment[]
+  profile      Profile?  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  tripDays     TripDay[]
 }
 
 model TripDay {
   id          Int        @id @default(autoincrement())
   date        DateTime
-  activities  Activity[]
-  itinerary   Itinerary? @relation(fields: [itineraryId], references: [id])
   itineraryId Int?
+  activities  Activity[]
+  itinerary   Itinerary? @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
 }
 
 model Comment {
   id          Int        @id @default(autoincrement())
-  profile     Profile    @relation(fields: [profileId], references: [id])
   text        String
-  itinerary   Itinerary? @relation(fields: [itineraryId], references: [id])
   itineraryId Int?
   profileId   Int
+  itinerary   Itinerary? @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
+  profile     Profile    @relation(fields: [profileId], references: [id])
 }
 
 model Activity {
@@ -107,7 +111,23 @@ model Activity {
   postalCode  String?
   city        String?
   country     String?
-  photo       String?
-  tripDay     TripDay?  @relation(fields: [tripDayId], references: [id])
   tripDayId   Int?
+  photo       String?
+  tripDay     TripDay?  @relation(fields: [tripDayId], references: [id], onDelete: Cascade)
+}
+
+enum DateFormat {
+  DAY
+  MONTH
+}
+
+enum DistanceUnits {
+  MILES
+  KILOMETERS
+  BANANAS
+}
+
+enum TimeFormat {
+  TWELVE
+  TWENTYFOUR
 }
