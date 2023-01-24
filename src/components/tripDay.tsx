@@ -53,7 +53,7 @@ const tripDay = ({date}: ITripDayProps) => {
   return (
     <div className='w-full p-3 text-black'>
         <div className='flex justify-between'>
-            <p className='mb-3 text-xl font-semibold'>{format(date, 'MMM Do')}</p>
+            <p className='mb-3 text-xl font-semibold'>{format(date, 'MMM do')}</p>
         </div>
 
         <div className='flex justify-between space-x-5'>

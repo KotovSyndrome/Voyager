@@ -13,34 +13,6 @@ const Plan = () => {
     const [isPublic, setIsPublic] = useState(true);
     const router = useRouter();
 
-    // const createItinerary = async () => {
-    //     const call = await axios.post('/api/itinerary', {
-    //         itineraryName: "Costa Rica Trip",
-    //         startDate: new Date(),
-    //         endDate: new Date(),
-    //         days: [new Date(), new Date(), new Date()],
-    //         destinations: ["Greece", "Mexico", "Longyearbien"], 
-    //         isPublic: true,
-    //         profileId: 1,  
-    //     })
-
-    //     console.log({call})
-    // }
-
-    // const deleteItinerary = async () => {
-    //     const call = await axios.delete('/api/itinerary/4')
-    // }
-
-    // const getItineraryByID = async () => {
-    //     const call = await axios.get('/api/itinerary/5')
-
-    //     console.log(call);
-    // }
-
-    // function isDate(date: Date | number): date is Date {
-    //     return (date as Date) !== undefined;
-    //   }
-
     const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setItineraryName(event.target.value);
     }

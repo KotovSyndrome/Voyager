@@ -5,9 +5,28 @@ import Map from '../../components/map'
 import { prisma } from '../../server/db/client'
 import { type GetServerSideProps } from 'next'
 
-const tripPage = (itineraryData) => {
+interface IItineraryData {
+  coverPhoto?: string
+  destinations: string[]
+  endDate: Date
+  id: number
+  likes: number
+  name: string
+  public: boolean
+  profileId: number
+  startDate: Date
+  tripDays: ITripDay
+}
 
-    console.log({itineraryData})
+interface ITripDay {
+  id: number,
+  date: Date
+  itineraryId: number
+}
+
+const tripPage = (itineraryData: IItineraryData) => {
+
+    console.log('itineraryData:',  itineraryData)
 
   return (
     <SplitLayout leftChildren={<Itinerary itin={itineraryData} />} rightChildren={<Map />}/>
@@ -17,9 +36,6 @@ const tripPage = (itineraryData) => {
 export default tripPage
 
 export const getServerSideProps: GetServerSideProps = async ({query, req, res}) => {
-  
-  // const session = await getServerAuthSession({req, res});
-  // console.log('session in getServerSideProps: ', session);
 
   let itineraryData;
 
