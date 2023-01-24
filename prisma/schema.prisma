@@ -51,8 +51,6 @@ model User {
   accounts      Account[]
   sessions      Session[]
   profile       Profile?  @relation(fields: [profileId], references: [id], onDelete: Cascade)
-  profileId     Int?      @unique
-  // itinerary     Itinerary[]
 }
 
 enum DistanceUnits {
@@ -72,17 +70,17 @@ enum TimeFormat {
 }
 
 model Profile {
-  id                             Int         @id @default(autoincrement())
+  id                             Int           @id @default(autoincrement())
   bio                            String
   username                       String
-  distanceUnits                  DistanceUnits
-  dateFormat                     DateFormat
-  timeFormat                     TimeFormat
-  commentsNotification           Boolean
-  remindersNotification          Boolean
   collaboratorJoinedNotification Boolean
-  itineraries                    Itinerary[]
+  commentsNotification           Boolean
+  dateFormat                     DateFormat
+  distanceUnits                  DistanceUnits
+  remindersNotification          Boolean
+  timeFormat                     TimeFormat
   comments                       Comment[]
+  itineraries                    Itinerary[]
   user                           User?
 }
 

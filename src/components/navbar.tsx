@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FaUserCircle } from 'react-icons/fa'
@@ -6,6 +7,7 @@ import Image from 'next/image'
 import { useSession, signIn, signOut } from 'next-auth/react'
 import SailBoat from '../assets/SailBoat.svg'
 import LayoutWrapper from './layoutWrapper'
+import ProfilePlaceholder from '../assets/profile-placeholder.png'
 import ProfilePlaceholder from '../assets/profile-placeholder.png'
 
 const Navbar = () => {
@@ -62,6 +64,10 @@ const Navbar = () => {
                   <FaUserCircle size={30} color={'black'} onClick={() => signIn()} className='cursor-pointer'/>
                 )}
 
+                {/* <Link href={'/profile'}><FaUserCircle size={30} color={'black'}/></Link> */}
+            </div>
+        </div>
+    </nav>
                 {/* <Link href={'/profile'}><FaUserCircle size={30} color={'black'}/></Link> */}
             </div>
         </div>
