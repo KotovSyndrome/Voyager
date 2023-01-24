@@ -30,11 +30,11 @@ const itinerary = (itin: IItineraryProps) => {
       <div className='w-11/12'>
           <div className='bg-demoBG bg-cover bg-center p-3 rounded-lg drop-shadow-md'>
               <p className='text-2xl text-slate-50'>Paris Tip</p>
-              <p>{format(new Date(itin.itin.startDate), 'MMM d, yyyy')}</p>
+              <p>{format(new Date(itin.startDate), 'MMM d, yyyy')}</p>
               &nbsp;
               <p>  </p>
               &nbsp;
-              <p>{format(new Date(itin.itin.endDate), 'MMM d, yyyy')}</p>
+              <p>{format(new Date(itin.endDate), 'MMM d, yyyy')}</p>
               <p className='text-right mt-7'>Philip, Payam, and 3 others</p>
           </div>
 
