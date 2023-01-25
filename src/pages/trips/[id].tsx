@@ -26,8 +26,6 @@ interface ITripDay {
 
 const tripPage = (itineraryData: IItineraryData) => {
 
-    console.log('itineraryData:',  itineraryData)
-
   return (
     <SplitLayout leftChildren={<Itinerary itin={itineraryData} />} rightChildren={<Map />}/>
   )
@@ -35,7 +33,7 @@ const tripPage = (itineraryData: IItineraryData) => {
 
 export default tripPage
 
-export const getServerSideProps: GetServerSideProps = async ({query, req, res}) => {
+export const getServerSideProps: GetServerSideProps = async ({query}) => {
 
   let itineraryData;
 
@@ -45,7 +43,11 @@ export const getServerSideProps: GetServerSideProps = async ({query, req, res}) 
         id: Number(query.id),
       },
       include: {
-        tripDays: true
+        tripDays: {
+          include: {
+            activities: true,
+          }
+        }
       }
     });
     itineraryData = data;

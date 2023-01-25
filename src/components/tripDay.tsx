@@ -13,31 +13,18 @@ interface ITripDayProps {
 
 const tripDay = ({date}: ITripDayProps) => {
 
-    console.log('date in TripDay', date);
-
     const [ readOnly, setReadOnly ] = useState(true);
-
-    const focusInHandler = (e: React.FocusEvent<HTMLDivElement>) => {
-        console.log('focused')
-        setReadOnly(false); // read-only off
-    }
-
-    const focusOutHandler = (e: React.FocusEvent<HTMLDivElement>) => {
-        console.log('not focused')
-        setReadOnly(true); // read-only on
-    }
 
     const deleteActivity = async () => {
         const call = await axios.delete('/api/activities', { 
            data: { activityId: 30 } 
         })
 
-        console.log(call)
     }
 
     const updateActivity = async () => {
         const req = await axios.put('/api/activities', {
-            activityName: 'This is a mothafuckin update bitch',
+            activityName: 'Weekend Update with Colin Jost and Michael Che',
             activityStartTime: new Date(),
             activityEndTime: new Date(),
             activityContactInfo: '',
@@ -57,7 +44,7 @@ const tripDay = ({date}: ITripDayProps) => {
         </div>
 
         <div className='flex justify-between space-x-5'>
-            <div onFocus={(e) => focusInHandler(e)} onBlur={(e) => focusOutHandler(e)} className='flex space-x-2'>
+            <div onFocus={(e) => setReadOnly(false)} onBlur={(e) => setReadOnly(true)} className='flex space-x-2'>
                 <input className='bg-white bg-opacity-40 rounded-md p-1 outline-none' value={'The Louvre Museum'} readOnly={readOnly}/>
                 <input value={'10:00 AM'}  className='bg-white bg-opacity-40 rounded-md p-1 w-20 outline-none' readOnly={readOnly}/>
                 <p>to</p>
