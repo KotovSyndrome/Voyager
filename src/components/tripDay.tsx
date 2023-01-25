@@ -24,7 +24,7 @@ const tripDay = ({date}: ITripDayProps) => {
 
     const updateActivity = async () => {
         const req = await axios.put('/api/activities', {
-            activityName: 'Activity name update',
+            activityName: 'Weekend Update with Colin Jost and Michael Che',
             activityStartTime: new Date(),
             activityEndTime: new Date(),
             activityContactInfo: '',
