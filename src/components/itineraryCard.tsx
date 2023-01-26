@@ -4,10 +4,10 @@ import Island from '../assets/island_placeholder.jpeg'
 import { AiFillHeart } from 'react-icons/ai'
 
 interface IItineraryCard {
-  title: String,
-  location: String,
-  creator: String,
-  likes: Number
+  title: string,
+  location: string,
+  creator: string,
+  likes: number
 }
 
 interface IProfile {
@@ -15,7 +15,7 @@ interface IProfile {
 }
 interface IItineraryCardProps {
   coverPhoto: string
-  destinations: string
+  destinations: string[]
   endDate: Date
   id: number
   likes: number

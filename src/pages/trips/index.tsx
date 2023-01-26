@@ -53,16 +53,16 @@ export const getServerSideProps = async ({req, res}: IServerProps) => {
   try {
     const data = await prisma.user.findUnique({
       where: {
-        id: "clcso4o9g0000px8lf4rst0rj",
+        id: "cld2qs8gv0000up5hm2u5uqh9",
       },
       include: {
         profile: {
           include: {
             itineraries: {
               include: {
-                tripDays: {
+                TripDay: {
                   include: {
-                    activities: true,
+                    activities: true
                   }
                 }
               }

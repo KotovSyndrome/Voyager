@@ -28,7 +28,10 @@ export default validateRoute(async function (
                 profile: {
                   connect: { id: req.body.profileId },
                 }
-              },
+              }
+              // include: {
+              //   tripDays: true
+              // }
             })
             
             res.status(201).json(data);
