@@ -13,6 +13,14 @@ const Navbar = () => {
   const { data: session } = useSession();
   const [hideState, setHideState] = useState(true)
 
+  const handleSignout = () => {
+    signOut()
+    if (router.pathname !== '/') {
+      router.push('/')
+    }
+  }
+
+
   return (
     <LayoutWrapper>
       <nav>
@@ -34,17 +42,15 @@ const Navbar = () => {
                           <div className={`bg-neutral-100 text-black rounded-md p-3 ${hideState && 'hidden'}`}>
                               <div className='flex flex-col'>
                                 <div onClick={() => router.push('/profile')} className='cursor-pointer hover:bg-slate-800 hover:bg-opacity-10'>Profile</div>
-                                <div onClick={() => signOut()} className='cursor-pointer hover:bg-slate-800 hover:bg-opacity-10'>Sign Out</div>
+                                <div onClick={handleSignout} className='cursor-pointer hover:bg-slate-800 hover:bg-opacity-10'>Sign Out</div>
                               </div>
                           </div>
                         </div>
                     </div>
                 ) : (
-                  // <button onClick={() => signIn()}>Sign In</button>
                   <FaUserCircle size={30} color={'black'} onClick={() => signIn()} className='cursor-pointer'/>
                 )}
 
-                {/* <Link href={'/profile'}><FaUserCircle size={30} color={'black'}/></Link> */}
             </div>
         </div>
     </nav>
