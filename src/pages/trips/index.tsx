@@ -60,9 +60,9 @@ export const getServerSideProps = async ({req, res}: IServerProps) => {
           include: {
             itineraries: {
               include: {
-                tripDays: {
+                TripDay: {
                   include: {
-                    activities: true,
+                    activities: true
                   }
                 }
               }

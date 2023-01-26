@@ -53,22 +53,6 @@ model User {
   profile       Profile?  @relation(fields: [profileId], references: [id], onDelete: Cascade)
 }
 
-enum DistanceUnits {
-  MILES
-  KILOMETERS
-  BANANAS
-}
-
-enum DateFormat {
-  DAY
-  MONTH
-}
-
-enum TimeFormat {
-  TWELVE
-  TWENTYFOUR
-}
-
 model Profile {
   id                             Int           @id @default(autoincrement())
   bio                            String

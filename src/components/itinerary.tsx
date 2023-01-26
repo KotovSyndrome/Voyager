@@ -13,7 +13,7 @@ interface IItineraryProps {
     profileId: number
     public: boolean
     startDate: Date
-    tripDays: ITripDay
+    TripDay: ITripDay[]
   }
 }
 
@@ -40,7 +40,7 @@ const itinerary = (itin: IItineraryProps) => {
 
           <div className='bg-blue-100 w-full mt-5 p-3 flex justify-center rounded-md drop-shadow-md'>
               <div className='grid grid-cols-1 divide-y divide-white text-black w-11/12'>
-                {itin.itin.tripDays.map((day: ITripDay, index: number) => {
+                {itin.itin.TripDay.map((day, index) => {
                   return <TripDay key={index} date={new Date(day.date)}/>
                 })}
               </div>
