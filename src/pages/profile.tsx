@@ -5,6 +5,8 @@ import Image from 'next/image'
 import { getServerAuthSession } from '../server/common/get-server-auth-session'
 import { NextApiRequest, NextApiResponse } from 'next'
 import axios from 'axios'
+import { useRouter } from 'next/router'
+import { GetServerSideProps } from 'next'
 interface IProfile {
   id: number
   bio: string
@@ -41,6 +43,8 @@ const profile = (profileData: IProfileData) => {
     remindersNotification: profileData.profile.remindersNotification,
     collaboratorNotification: profileData.profile.collaboratorJoinedNotification
   })
+  const { data: session } = useSession()
+  const router = useRouter()
 
   const handleInput = (e: any) => {
     if (e.target.name.includes('Notification')) {
@@ -50,7 +54,6 @@ const profile = (profileData: IProfileData) => {
     }
   }
 
-  // console.log(formValues)
 
   const handleProfileEdit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -67,10 +70,13 @@ const profile = (profileData: IProfileData) => {
       collaboratorNotification: formValues.collaboratorNotification
     })
 
-    console.log('data: ', call.data)
 
     setEditing(editing => !editing)
-  } 
+  }
+
+  if (!session) {
+    router.push('/')
+  }
 
   return (
     <div className='h-screen text-black'>
@@ -161,13 +167,18 @@ const profile = (profileData: IProfileData) => {
 
 export default profile
 
-interface IServerProps {
-  req: NextApiRequest
-  res: NextApiResponse
-}
 
-export const getServerSideProps = async ({req, res}: IServerProps) => {
+export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
   const profileData = await getServerAuthSession({ req, res });
+
+  if (!profileData) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
 
   return {
     props: profileData
