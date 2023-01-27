@@ -47,7 +47,6 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  profileId     Int?      @unique
   accounts      Account[]
   sessions      Session[]
   profile       Profile?  @relation(fields: [profileId], references: [id], onDelete: Cascade)
@@ -131,20 +130,4 @@ model Activity {
   tripDayId   Int?
   photo       String?
   tripDay     TripDay?  @relation(fields: [tripDayId], references: [id], onDelete: Cascade)
-}
-
-enum DateFormat {
-  DAY
-  MONTH
-}
-
-enum DistanceUnits {
-  MILES
-  KILOMETERS
-  BANANAS
-}
-
-enum TimeFormat {
-  TWELVE
-  TWENTYFOUR
 }
