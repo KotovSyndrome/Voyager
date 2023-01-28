@@ -2,7 +2,28 @@ import React, { useState } from 'react'
 import TripDay from './tripDay'
 import format from 'date-fns/format';
 
-interface IItineraryProps {
+interface IActivity {
+  city: string
+  contactInfo: string
+  country: string
+  endTime: Date
+  id: number
+  name: string
+  note: string
+  photo: string | null
+  postalCode: string
+  startTime: Date
+  street: string
+  tripDayId: number
+}
+interface ITripDay {
+  activities: IActivity[] | []
+  date: Date
+  id: number
+  itineraryId: number
+}
+
+interface IItineraryData {
   itin: {
     coverPhoto?: string
     destinations: string[]
@@ -10,38 +31,29 @@ interface IItineraryProps {
     id: number
     likes: number
     name: string
-    profileId: number
     public: boolean
+    profileId: number
     startDate: Date
-    TripDay: ITripDay[]
+    tripDays: ITripDay[]
   }
 }
 
-interface ITripDay {
-  id: number
-  date: Date
-  itineraryId: number
-}
-
-const itinerary = (itin: IItineraryProps) => {
+const itinerary = ({itin}: IItineraryData) => {
 
   return (
     <div className='flex justify-center'>
       <div className='w-11/12'>
           <div className='bg-demoBG bg-cover bg-center p-3 rounded-lg drop-shadow-md'>
-              <p className='text-2xl text-slate-50'>Paris Tip</p>
-              <p>{format(new Date(itin.itin.startDate), 'MMM d, yyyy')}</p>
-              &nbsp;
-              <p>  </p>
-              &nbsp;
-              <p>{format(new Date(itin.itin.endDate), 'MMM d, yyyy')}</p>
-              <p className='text-right mt-7'>Philip, Payam, and 3 others</p>
+              <p className='text-2xl text-slate-50'>{itin.name}</p>
+              <p>{format(new Date(itin.startDate), 'MMM d, yyyy')} - {format(new Date(itin.endDate), 'MMM d, yyyy')}</p>
+              {/* @ts-ignore */}
+              <p className='text-right mt-7'>Username & Collaborators</p>
           </div>
 
           <div className='bg-blue-100 w-full mt-5 p-3 flex justify-center rounded-md drop-shadow-md'>
               <div className='grid grid-cols-1 divide-y divide-white text-black w-11/12'>
-                {itin.itin.TripDay.map((day, index) => {
-                  return <TripDay key={index} date={new Date(day.date)}/>
+                {itin.tripDays.map((day) => {
+                  return <TripDay key={day.id} date={new Date(day.date)} activities={day.activities}/>
                 })}
               </div>
           </div>

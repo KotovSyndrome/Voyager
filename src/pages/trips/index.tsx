@@ -7,26 +7,6 @@ import { authOptions } from '../api/auth/[...nextauth]'
 import { prisma } from '../../server/db/client'
 import { GetServerSideProps } from 'next'
 
-interface IActivity {
-  city: string
-  contactInfo: string
-  country: string
-  endTime: Date
-  id: number
-  name: string
-  note: string
-  photo: string | null
-  postalCode: string
-  startTime: Date
-  street: string
-  tripDayId: number
-}
-interface ITripDay {
-  activities: IActivity[]
-  date: Date
-  id: number
-  itineraryId: number
-}
 interface IItineraryData {
   coverPhoto: string | null
   destinations: string[]
@@ -36,7 +16,7 @@ interface IItineraryData {
   profileId: number
   public: boolean
   startDate: Date
-  tripDays: ITripDay[]
+  name: string
 }
 interface IServerProps {
   itineraryData: IItineraryData[]
@@ -54,10 +34,10 @@ const trips = (serverProps: IServerProps | INoData) => {
     //    check if any itineraries are in localStorage (guest user)
     // }, [])
 
-  console.log('serverProps: ', serverProps);
+
 
   return (
-    <div className='h-screen'>
+    <div className='h-full'>
       <div className='relative w-4/6 m-auto '>
           <h2 className='text-center text-4xl mt-16'>Your Trips</h2>
 
@@ -69,16 +49,12 @@ const trips = (serverProps: IServerProps | INoData) => {
           </div>
 
           { "itineraryData" in serverProps ? (
-              <TripCard title={'Euro super trip'} startDate={new Date()} endDate={new Date()} collaborators={['Jason', 'Chris', 'Henry']} id={2}/>
+              serverProps.itineraryData.map(itin => {
+                return <TripCard key={itin.id} title={itin.name} startDate={new Date(itin.startDate)} endDate={new Date(itin.endDate)} collaborators={['Jason', 'Chris', 'Henry']} id={itin.id} bgImage={''}/>
+              })
           ) : (
-            <h2 className=''>You don't have any upcoming trips. Now's the perfect time to plan for getaway!</h2>
+            <h2 className='text-center text-xl mt-32'>You don't have any upcoming trips. Now's the perfect time to plan for a getaway!</h2>
           )}
-
-          {/* <TripCard title={'Euro super trip'} startDate={new Date()} endDate={new Date()} collaborators={['Jason', 'Chris', 'Henry']} id={1} />
-
-          <TripCard title={'Euro super trip'} startDate={new Date()} endDate={new Date()} collaborators={['Jason', 'Chris', 'Henry']} id={2}/>
-
-          <TripCard title={'Euro super trip'} startDate={new Date()} endDate={new Date()} collaborators={['Jason', 'Chris', 'Henry']} id={3}/> */}
       </div>
     </div>
   )
@@ -114,8 +90,6 @@ export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
   
   const session: ISession | null = await unstable_getServerSession(req, res, authOptions);
 
-  console.log('session in getServerSideProps: ', session);
-
   if (!session) {
     return {
       props: { noItins: true }
@@ -127,15 +101,8 @@ export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
   try {
     const dbResponse = await prisma.itinerary.findMany({
       where: {
-        profileId: 2,
+        profileId: session.profile.id,
       },
-      include: {
-        tripDays: {
-          include: {
-            activities: true
-          }
-        }
-      }
     })
     data = dbResponse;
 
