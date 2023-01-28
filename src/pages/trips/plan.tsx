@@ -57,6 +57,7 @@ const Plan = () => {
             days: dateArray,
             destinations: destArray, 
             isPublic: formValues.isPublic,
+            // @ts-ignore
             profileId: session.profile.id,  
         })
 
