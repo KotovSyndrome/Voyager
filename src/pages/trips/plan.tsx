@@ -5,17 +5,41 @@ import axios from 'axios';
 import 'react-calendar/dist/Calendar.css';
 import { eachDayOfInterval } from 'date-fns'
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
+
+interface IProfile {
+    id: number
+    bio: string
+    username: string
+    distanceUnits: string
+    dateFormat: string
+    timeFormat: string
+    commentsNotification: boolean
+    remindersNotification: boolean
+    collaboratorJoinedNotification: boolean
+  }
+  interface IUser {
+    email: string
+    id: string
+    image: string
+    name: string
+  }
+  
+  interface ISession {
+    expires: Date
+    user: IUser
+    profile: IProfile
+  }
 
 const Plan = () => {
     const [value, onChange] = useState([new Date(), new Date()]);
-
     const [formValues, setFormValues] = useState({
         itineraryName: '',
         destinations: '',
         isPublic: true
     })
-
     const router = useRouter();
+    const { data: session } = useSession()
 
     const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFormValues({...formValues, [event.target.name]: event.target.value});
@@ -33,9 +57,10 @@ const Plan = () => {
             days: dateArray,
             destinations: destArray, 
             isPublic: formValues.isPublic,
-            profileId: 1,  
+            // @ts-ignore
+            profileId: session.profile.id,  
         })
-
+        //${call.data.id}
         router.push({
             pathname: '/trips/[id]',
             query: { 
@@ -88,7 +113,7 @@ const Plan = () => {
             
             <div className='mt-5'>
                 <label htmlFor='isPublic'>Would you like your itinerary to be discoverable by other voyagers?</label>
-                <select className='block p-1 rounded-md w-full'>
+                <select className='block p-1 rounded-md w-full text-black'>
                     <option onChange={() => setFormValues({...formValues, isPublic: true})}>📢 Public</option>
                     <option onChange={() => setFormValues({...formValues, isPublic: false})}>🔒 Private</option>
                 </select>

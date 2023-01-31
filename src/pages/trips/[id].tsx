@@ -5,6 +5,27 @@ import Map from '../../components/map'
 import { prisma } from '../../server/db/client'
 import { type GetServerSideProps } from 'next'
 
+interface IActivity {
+  city: string
+  contactInfo: string
+  country: string
+  endTime: Date
+  id: number
+  name: string
+  note: string
+  photo: string | null
+  postalCode: string
+  startTime: Date
+  street: string
+  tripDayId: number
+}
+interface ITripDay {
+  activities: IActivity[] | []
+  date: Date
+  id: number
+  itineraryId: number
+}
+
 interface IItineraryData {
   coverPhoto?: string
   destinations: string[]
@@ -15,14 +36,9 @@ interface IItineraryData {
   public: boolean
   profileId: number
   startDate: Date
-  tripDays: ITripDay
+  tripDays: ITripDay[]
 }
 
-interface ITripDay {
-  id: number,
-  date: Date
-  itineraryId: number
-}
 
 const tripPage = (itineraryData: IItineraryData) => {
 
@@ -43,7 +59,7 @@ export const getServerSideProps: GetServerSideProps = async ({query}) => {
         id: Number(query.id),
       },
       include: {
-        TripDay: {
+        tripDays: {
           include: {
             activities: true,
           }
@@ -51,6 +67,8 @@ export const getServerSideProps: GetServerSideProps = async ({query}) => {
       }
     });
     itineraryData = data;
+
+
   } catch (e) {
     console.error(e);
   }
@@ -58,4 +76,5 @@ export const getServerSideProps: GetServerSideProps = async ({query}) => {
     props: JSON.parse(JSON.stringify(itineraryData)) 
   }
   
+  // if no itineraries found, redirect to plan?
 }
