@@ -10,38 +10,38 @@ import Itinerary from "../components/itinerary";
 import LayoutWrapper from "../components/layoutWrapper";
 
 const Home: NextPage = () => {
-  const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
+  // const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
 
   return (
     <LayoutWrapper>
-    <div className="w-full h-full">
-      <p className="text-4xl text-center mt-14 font-bold">Welcome to a stress-free vacation</p>
-      {/* <SplitLayout leftChildren={<SellingPoints/>} rightChildren={<Itinerary/>}/> */}
+      <div className="w-full h-full">
+        <p className="text-4xl text-center mt-14 font-bold">Welcome to a stress-free vacation</p>
+        {/* <SplitLayout leftChildren={<SellingPoints/>} rightChildren={<Itinerary/>}/> */}
 
-      <div className="flex justify-between mt-10">
-        <SellingPoints/>
+        <div className="flex justify-between mt-10">
+          <SellingPoints/>
 
-        <div className="w-1/2 flex justify-end">
-          <DemoItinerary />
+          <div className="w-1/2 flex justify-end">
+            <DemoItinerary />
+          </div>
+        </div>
+
+        <div className="flex justify-between mt-10">
+          <SellingPoints/>
+
+          <div className="w-1/2 flex justify-end">
+            <DemoItinerary />
+          </div>
+        </div>
+
+        <div className="flex justify-between mt-10">
+          <SellingPoints/>
+
+          <div className="w-1/2 flex justify-end">
+            <DemoItinerary />
+          </div>
         </div>
       </div>
-
-      <div className="flex justify-between mt-10">
-        <SellingPoints/>
-
-        <div className="w-1/2 flex justify-end">
-          <DemoItinerary />
-        </div>
-      </div>
-
-      <div className="flex justify-between mt-10">
-        <SellingPoints/>
-
-        <div className="w-1/2 flex justify-end">
-          <DemoItinerary />
-        </div>
-      </div>
-    </div>
     </LayoutWrapper>
   );
 };
