@@ -60,11 +60,11 @@ const Plan = () => {
             // @ts-ignore
             profileId: session.profile.id,  
         })
-
+        //${call.data.id}
         router.push({
-            pathname: `/trips/${call.data.id}`,
+            pathname: '/trips/[id]',
             query: { 
-                itineraryId: call.data.id
+                id: call.data.id
             },
           })
     }

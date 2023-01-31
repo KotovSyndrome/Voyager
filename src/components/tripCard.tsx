@@ -37,7 +37,7 @@ const tripCard = ({ title, startDate, endDate, collaborators, id}: ITripCard) =>
         <p className='text-2xl font-semibold'>{months[`${startDate.getMonth()}`]}</p>
 
         <div  className='bg-gray-300 mt-2 lg:w-3/12 p-3 rounded-lg cursor-pointer sm:w-5/12'>
-            <Link href={{pathname:`/trips/${id}`, query: { itineraryId: id.toString() }}}>
+            <Link href={{pathname:'/trips/[id]', query: { id: id.toString() }}}>
                 <div className='flex justify-between'>
                     <p className='text-xl'>{title} </p>
                     <div>

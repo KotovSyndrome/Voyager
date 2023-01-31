@@ -56,7 +56,7 @@ export const getServerSideProps: GetServerSideProps = async ({query}) => {
   try {           
     const data = await prisma.itinerary.findUnique({
       where: {
-        id: Number(query.itineraryId),
+        id: Number(query.id),
       },
       include: {
         tripDays: {
