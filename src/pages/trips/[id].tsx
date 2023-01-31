@@ -69,8 +69,6 @@ export const getServerSideProps: GetServerSideProps = async ({query}) => {
     itineraryData = data;
 
 
-    console.log('itineraryData in trips/[id] :', itineraryData)
-
   } catch (e) {
     console.error(e);
   }
