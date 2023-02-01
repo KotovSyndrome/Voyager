@@ -1,13 +1,12 @@
 import { type NextPage } from "next";
-// import Head from "next/head";
-// import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { trpc } from "../utils/trpc";
 import SplitLayout from "../components/splitLayout";
 import SellingPoints from "../components/sellingPoints";
-import DemoItinerary from "../components/demoItinerary";
 import Itinerary from "../components/itinerary";
 import LayoutWrapper from "../components/layoutWrapper";
+import Image from "next/image";
+import ExampleItinerary from '../assets/demo_itinerary.png'
 
 const Home: NextPage = () => {
   // const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
@@ -16,29 +15,28 @@ const Home: NextPage = () => {
     <LayoutWrapper>
       <div className="w-full h-full">
         <p className="text-4xl text-center mt-14 font-bold">Welcome to a stress-free vacation</p>
-        {/* <SplitLayout leftChildren={<SellingPoints/>} rightChildren={<Itinerary/>}/> */}
 
-        <div className="flex justify-between mt-10">
+        <div className="grid grid-cols-1 mt-16 lg:grid-cols-2 gap-8">
           <SellingPoints/>
 
-          <div className="w-1/2 flex justify-end">
-            <DemoItinerary />
+          <div className="flex justify-center lg:justify-end">
+            <Image src={ExampleItinerary} alt='example itinerary' height={700} width={600}/>
           </div>
         </div>
 
-        <div className="flex justify-between mt-10">
+        <div className="grid grid-cols-1 mt-16 lg:grid-cols-2 gap-8">
           <SellingPoints/>
 
-          <div className="w-1/2 flex justify-end">
-            <DemoItinerary />
+          <div className="flex justify-center lg:justify-end">
+            <Image src={ExampleItinerary} alt='example itinerary' height={700} width={600}/>
           </div>
         </div>
 
-        <div className="flex justify-between mt-10">
+        <div className="grid grid-cols-1 mt-16 lg:grid-cols-2 gap-8">
           <SellingPoints/>
 
-          <div className="w-1/2 flex justify-end">
-            <DemoItinerary />
+          <div className="flex justify-center lg:justify-end">
+            <Image src={ExampleItinerary} alt='example itinerary' height={700} width={600}/>
           </div>
         </div>
       </div>

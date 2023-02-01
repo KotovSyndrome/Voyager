@@ -10,14 +10,12 @@ const points = [
 ]
 
 const sellingPoints = () => {
-  return (
-    <div className='mt-40'>      
-      <ul className='list-disc text-xl space-y-4'>
-        {points.map(p => {
-          return <li key={p} className='text-2xl font-semibold'>{p}</li>
-        })}
-      </ul>
-    </div>
+  return ( 
+    <ul className='list-disc text-xl space-y-4 m-auto'>
+      {points.map(p => {
+        return <li key={p} className='text-xl md:text-2xl font-semibold'>{p}</li>
+      })}
+    </ul>
   )
 }
 
