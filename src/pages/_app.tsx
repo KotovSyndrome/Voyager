@@ -20,8 +20,8 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <div className="from-blue-500 via-teal-400 to-blue-500 bg-gradient-to-b text-white">
-        <div className={cabin.className}>
+      <div className={cabin.className}>
+        <div className="from-blue-500 via-teal-400 to-blue-500 bg-gradient-to-b text-white w-full">
           <Navbar />
           <Component {...pageProps} />
         </div>

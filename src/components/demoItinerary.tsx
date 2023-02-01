@@ -13,8 +13,7 @@ const demoItinerary = () => {
       </div>
 
       {/* w-full mt-5 px-3 py-6 flex flex-col items-center space-y-3 */}
-      <div className='bg-blue-100 flex justify-center drop-shadow-md rounded-md mt-5 py-5'>
-          {/* Days */}
+      {/* <div className='bg-blue-100 flex justify-center drop-shadow-md rounded-md mt-5 py-5'>
           <div className='grid grid-cols-1 divide-y divide-white text-black'>
           <div className=' p-3'>
             <div className='flex justify-between'>
@@ -39,7 +38,7 @@ const demoItinerary = () => {
               </div>
           </div>
 
-{/* ------------------------------------------------------------------ */}
+
 
           <div className='p-3 text-black'>
             <div className='flex justify-between'>
@@ -64,7 +63,7 @@ const demoItinerary = () => {
               </div>
           </div>
 
-  {/* ---------------------------------------------------------------- */}
+
           <div className=' p-3 text-black '>
             <div className='flex justify-between'>
                 <p className='mb-3 text-xl font-semibold'>Saturday, 6/20</p>
@@ -88,7 +87,6 @@ const demoItinerary = () => {
               </div>
           </div>
 
-  {/* ---------------------------------------------------------------- */}
 
         <div className='p-3 text-black'>
             <div className='flex justify-between'>
@@ -113,7 +111,7 @@ const demoItinerary = () => {
               </div>
           </div>
         </div>
-        </div>
+        </div> */}
     </div>
   )
 }
