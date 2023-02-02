@@ -1,9 +1,6 @@
 import { type NextPage } from "next";
-import { signIn, signOut, useSession } from "next-auth/react";
 import { trpc } from "../utils/trpc";
-import SplitLayout from "../components/splitLayout";
 import SellingPoints from "../components/sellingPoints";
-import Itinerary from "../components/itinerary";
 import LayoutWrapper from "../components/layoutWrapper";
 import Image from "next/image";
 import ExampleItinerary from '../assets/demo_itinerary.png'
