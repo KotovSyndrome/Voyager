@@ -79,6 +79,7 @@ const trips = (serverProps: IServerProps | INoData) => {
     }
   }
 
+  console.log(itineraryMonths)
 
 
   return (
@@ -148,6 +149,9 @@ export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
       where: {
         profileId: session.profile.id,
       },
+      orderBy:{
+        startDate: 'asc'
+      }
     })
     data = dbResponse;
 
