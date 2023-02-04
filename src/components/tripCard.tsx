@@ -14,29 +14,11 @@ interface ITripCard {
     bgImage: string
 }
 
-const months = {
-    0: 'January',
-    1: 'February',
-    2: 'March',
-    3: 'April',
-    4: 'May',
-    5: 'June',
-    6: 'July',
-    7: 'August',
-    8: 'September',
-    9: 'October',
-    10: 'November',
-    11: 'December',
-}
-
 const tripCard = ({ title, startDate, endDate, collaborators, id}: ITripCard) => {
 
   return (
-    <div className='mt-8'>
-        {/* @ts-ignore */}
-        <p className='text-2xl font-semibold'>{months[`${startDate.getMonth()}`]}</p>
-
-        <div  className='bg-gray-300 mt-2 lg:w-3/12 p-3 rounded-lg cursor-pointer sm:w-5/12'>
+    <div>
+        <div  className='bg-gray-300 mt-2 p-3 rounded-lg cursor-pointer max-w-m md:max-w-sm'>
             <Link href={{pathname:'/trips/[id]', query: { id: id.toString() }}}>
                 <div className='flex justify-between'>
                     <p className='text-xl'>{title} </p>
@@ -57,7 +39,6 @@ const tripCard = ({ title, startDate, endDate, collaborators, id}: ITripCard) =>
                     <FaUserCircle size={30}/>
                 </div>
             </Link>
-
         </div>
     </div>
   )
