@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import SplitLayout from '../../components/splitLayout'
 import Itinerary from '../../components/itinerary'
 import Map from '../../components/map'
 import { prisma } from '../../server/db/client'
 import { type GetServerSideProps } from 'next'
+import { GrView } from 'react-icons/gr'
 
 interface IActivity {
   city: string
@@ -41,9 +42,19 @@ interface IItineraryData {
 
 
 const tripPage = (itineraryData: IItineraryData) => {
+  const [viewState, setViewState] = useState(false)
 
   return (
-    <SplitLayout leftChildren={<Itinerary itin={itineraryData} />} rightChildren={<Map />}/>
+    <div className='grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3'>
+      <div className={`${viewState && 'hidden'} lg:block 2xl:col-start-1 2xl:col-end-1`}>
+        <Itinerary itin={itineraryData} />
+      </div>
+      <div className={`${!viewState && 'hidden'} lg:block 2xl:col-start-2 2xl:col-end-4`}>
+        <Map />
+      </div>
+
+      <button onClick={() => setViewState((prev) => !prev)} className='lg:hidden fixed bottom-4 right-4 px-2 py-2 text-sm transition-colors duration-300 rounded-full shadow-xl text-violet-100 bg-violet-500 hover:bg-violet-600 shadow-violet-500'>{<GrView size={30} />}</button>
+    </div>
   )
 }
 
