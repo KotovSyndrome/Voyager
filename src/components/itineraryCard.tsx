@@ -15,7 +15,7 @@ interface IProfile {
 }
 interface IItineraryCardProps {
   coverPhoto: string
-  destinations: string[]
+  destinations: string
   endDate: Date
   id: number
   likes: number
