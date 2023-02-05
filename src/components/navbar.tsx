@@ -97,10 +97,10 @@ const Navbar = () => {
             </div>
 
             {session ? (
-                <div className='relative w-1/12 hidden md:block' onMouseEnter={() => setToolTipHideState(!toolTipHideState)} onMouseLeave={() => setToolTipHideState(!toolTipHideState)}>
-                    <Image  src={session.user?.image || ProfilePlaceholder} alt='profile avatar' width={32} height={32} className='inline-block rounded-full mr-8 cursor-pointer'/>
-                    <div className='my-1'></div>
-                    <div className='absolute z-10 right-1 w-full'>
+                <div className='relative w-1.5/12 hidden md:flex justify-end' onMouseEnter={() => setToolTipHideState(!toolTipHideState)} onMouseLeave={() => setToolTipHideState(!toolTipHideState)}>
+                    <Image  src={session.user?.image || ProfilePlaceholder} alt='profile avatar' width={32} height={32} className=' rounded-full cursor-pointer'/>
+
+                    <div className='absolute z-10 right-0 top-8 w-[7rem]'>
                       <div className={`bg-neutral-100 text-black rounded-md p-3 ${toolTipHideState && 'hidden'}`}>
                           <div className='flex flex-col'>
                             <div onClick={() => router.push('/profile')} className='cursor-pointer hover:bg-slate-800 hover:bg-opacity-10'>Profile</div>
