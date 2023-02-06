@@ -42,7 +42,7 @@ const itinerary = ({itin}: IItineraryData) => {
 
   return (
     <div className='flex justify-center'>
-      <div className='w-11/12'>
+      <div className='w-11/12 md:w-10/12 lg:w-11/2'>
           <div className='bg-demoBG bg-cover bg-center p-3 rounded-lg drop-shadow-md'>
               <p className='text-2xl text-slate-50'>{itin.name}</p>
               <p>{format(new Date(itin.startDate), 'MMM d, yyyy')} - {format(new Date(itin.endDate), 'MMM d, yyyy')}</p>
