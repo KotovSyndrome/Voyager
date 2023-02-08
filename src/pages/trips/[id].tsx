@@ -70,7 +70,7 @@ export const getServerSideProps: GetServerSideProps = async ({query}) => {
         id: Number(query.id),
       },
       include: {
-        tripDays: {
+        TripDay: {
           include: {
             activities: true,
           }

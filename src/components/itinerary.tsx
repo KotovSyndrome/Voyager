@@ -52,7 +52,7 @@ const itinerary = ({itin}: IItineraryData) => {
 
           <div className='bg-blue-100 w-full mt-5 p-3 flex justify-center rounded-md drop-shadow-md'>
               <div className='grid grid-cols-1 divide-y divide-white text-black w-11/12'>
-                {itin.tripDays.map((day) => {
+                {itin.TripDay.map((day) => {
                   return <TripDay key={day.id} date={new Date(day.date)} activities={day.activities}/>
                 })}
               </div>
