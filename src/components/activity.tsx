@@ -3,6 +3,7 @@ import axios from 'axios';
 import { BsTrashFill } from 'react-icons/bs'
 import { AiFillEdit } from 'react-icons/ai'
 import { TbNotes } from 'react-icons/tb'
+import { format } from 'date-fns'
 
 interface IActivityProps {
     setReadOnly: Dispatch<SetStateAction<boolean>>
@@ -37,7 +38,7 @@ const activity = ({readOnly, setReadOnly, deleteActivity, city, contactInfo, cou
         street: street
     })
 
-    const updateActivity = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const updateActivity = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setActivityState({...activityState, [e.target.name]: e.target.value})
     }
 
@@ -58,21 +59,52 @@ const activity = ({readOnly, setReadOnly, deleteActivity, city, contactInfo, cou
 
 
   return (
-    <div className='flex justify-between space-x-5'>
-        <div onFocus={() => setReadOnly(false)} onBlur={() => setReadOnly(true)} className='flex space-x-2'>
-            <input onChange={updateActivity} className='bg-white bg-opacity-40 rounded-md p-1 outline-none' name='name' value={activityState.name} readOnly={readOnly}/>
-            <input value={activityState.startTime.getTime()}  className='bg-white bg-opacity-40 rounded-md p-1 w-20 outline-none' readOnly={readOnly}/>
-            <p>to</p>
-            <input value={activityState.endTime.getTime()} className='bg-white bg-opacity-40 rounded-md p-1 w-20 outline-none' readOnly={readOnly}/>
-            <button className='bg-indigo-300 p-1 rounded-md hover:bg-indigo-500'><TbNotes size={20}/></button>
+
+    // 'flex justify-between space-x-5'
+
+        // <div onFocus={() => setReadOnly(false)} onBlur={() => setReadOnly(true)} className='flex space-x-2'>
+        //     <div className='grid grid-cols-2 grid-rows-3'>
+        //         <input onChange={updateActivity} name='name' value={activityState.name} readOnly={readOnly} className='bg-white bg-opacity-40 rounded-md p-1 outline-none col-start-1 col-end-1 w-fit h-fit'/>
+
+        //         <textarea value={activityState.note || 'Add notes, links, etc.'} onChange={updateActivity} className='col-start-1 col-end-3 row-start-2 row-end-3'/>
+
+        //         <div className='flex col-start-1 col-end-2'>
+        //             <input value={format(activityState.startTime, 'p')}  className='bg-white bg-opacity-40 rounded-md p-1 w-20 outline-none' readOnly={readOnly}/>
+        //             <p>-</p>
+        //             <input value={format(activityState.startTime, 'p')} className='bg-white bg-opacity-40 rounded-md p-1 w-20 outline-none' readOnly={readOnly}/>
+        //         </div>
+        //     </div>
+        // </div>
+
+        <div onFocus={() => setReadOnly(false)} onBlur={() => setReadOnly(true)} >
+            <div className='flex flex-col'>
+                <input onChange={updateActivity} name='name' value={activityState.name} readOnly={readOnly} className='bg-white bg-opacity-40 rounded-md p-1 outline-none w-fit h-fit'/>
+
+                <div className='bg-white bg-opacity-40 rounded-md p-2 mt-2'>
+                    <textarea value={activityState.note} placeholder='Add notes, links, etc.' onChange={updateActivity} className='bg-transparent p-1 outline-none border-0 resize-none mt-2 placeholder-slate-400 w-full' />
+
+                    <div className='flex bg-sky-200 text-sky-600 rounded-full items-center text-xs'>
+                        <div className=''>
+                            <input value={format(activityState.startTime, 'p')}  className='bg-transparent p-1 outline-none w-min' readOnly={readOnly}/>
+                        </div>
+                        <p>-</p>
+                        <div className=''>
+                            <input value={format(activityState.endTime, 'p')} className='bg-transparent p-1 outline-none w-min' readOnly={readOnly}/>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div className='space-x-1'>
-            <button onClick={sendUpdateReq} className='bg-orange-300 p-1 rounded-md hover:bg-orange-500'><AiFillEdit size={20}/></button>
-            <button onClick={() => deleteActivity(id)} className='bg-red-300 p-1 rounded-md hover:bg-red-500'><BsTrashFill size={20}/></button>
-        </div>
-    </div>
+
   )
 }
 
 export default activity
+
+        {/* <div className='space-x-1'>
+            <button onClick={sendUpdateReq} className='bg-orange-300 p-1 rounded-md hover:bg-orange-500'><AiFillEdit size={20}/></button>
+            <button onClick={() => deleteActivity(id)} className='bg-red-300 p-1 rounded-md hover:bg-red-500'><BsTrashFill size={20}/></button>
+        </div> */}
+
+        {/* <button className='bg-indigo-300 p-1 rounded-md hover:bg-indigo-500'><TbNotes size={20}/></button> */}
