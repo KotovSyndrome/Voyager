@@ -1,14 +1,13 @@
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { FaPlane } from 'react-icons/fa'
-import TripCard from '../../components/tripCard'
 import { unstable_getServerSession } from 'next-auth'
 import { authOptions } from '../api/auth/[...nextauth]'
 import { prisma } from '../../server/db/client'
 import { GetServerSideProps } from 'next'
 import LayoutWrapper from '../../components/layoutWrapper'
 import MonthContainer from '../../components/monthContainer'
-import { yearsToMonths } from 'date-fns'
+
 interface IItineraryData {
   coverPhoto: string | null
   destinations: string[]
@@ -78,8 +77,6 @@ const trips = (serverProps: IServerProps | INoData) => {
       }
     }
   }
-
-  console.log(itineraryMonths)
 
 
   return (

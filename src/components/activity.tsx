@@ -81,16 +81,18 @@ const activity = ({readOnly, setReadOnly, deleteActivity, city, contactInfo, cou
                 <input onChange={updateActivity} name='name' value={activityState.name} readOnly={readOnly} className='bg-white bg-opacity-40 rounded-md p-1 outline-none w-fit h-fit'/>
 
                 <div className='bg-white bg-opacity-40 rounded-md p-2 mt-2'>
-                    <textarea value={activityState.note} placeholder='Add notes, links, etc.' onChange={updateActivity} className='bg-transparent p-1 outline-none border-0 resize-none mt-2 placeholder-slate-400 w-full' />
+                    <textarea value={activityState.note} placeholder='Add notes, links, etc.' onChange={updateActivity} className='bg-transparent p-1 focus:ring-0 focus:ring-offset-0 border-0 resize-none mt-2 placeholder-slate-400 w-full' />
+                    
+                    <div className='flex justify-between'>
+                        <div className='flex bg-sky-200 text-sky-600 rounded-full items-center p-1 w-fit text-xs cursor-pointer'>
+                            <p>{format(activityState.startTime, 'p')}</p>
 
-                    <div className='flex bg-sky-200 text-sky-600 rounded-full items-center text-xs'>
-                        <div className=''>
-                            <input value={format(activityState.startTime, 'p')}  className='bg-transparent p-1 outline-none w-min' readOnly={readOnly}/>
+                            <p className='mx-1'>-</p>
+
+                            <p>{format(activityState.endTime, 'p')}</p>
                         </div>
-                        <p>-</p>
-                        <div className=''>
-                            <input value={format(activityState.endTime, 'p')} className='bg-transparent p-1 outline-none w-min' readOnly={readOnly}/>
-                        </div>
+
+                        <BsTrashFill className='bg-red-400 p-1 cursor-pointer rounded-md text-white hover:bg-red-500' size={25} onClick={() => deleteActivity(id)}/>
                     </div>
                 </div>
             </div>

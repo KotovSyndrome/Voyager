@@ -34,11 +34,11 @@ const Navbar = () => {
 
   return (
     <LayoutWrapper>
-        <nav className='flex justify-between py-4'>
+        <nav className='flex justify-between py-4 bg-inherit z-[2222222]'>
             <Link href={'/'} className='font-bold text-2xl'>Voyager</Link>
             {mobileMenuState ? (
                 <div className='md:hidden'>
-                  <CgClose onClick={() => setMobileMenuState(!mobileMenuState)} size={30} className='fixed right-10 text-red-500 z-50'/>
+                  <CgClose onClick={() => setMobileMenuState(!mobileMenuState)} size={30} className='fixed right-10 text-red-500 z-[1002]'/>
                 </div>
               ) : (
                 <CgMenu onClick={() => setMobileMenuState(!mobileMenuState)} size={30} className='md:hidden'/>
@@ -59,7 +59,7 @@ const Navbar = () => {
             </ul>
 
             {/* Mobile menu */}
-            <div className={`fixed right-0 top-0 h-screen w-3/5 bg-blue-300 z-40 ${!mobileMenuState && 'hidden'} md:hidden`}>
+            <div className={`fixed right-0 top-0 h-screen w-3/5 bg-blue-300 z-[1001] ${!mobileMenuState && 'hidden'} md:hidden`}>
               <div className='flex flex-col justify-around items-center h-full'>
                 <div className='flex flex-col items-center'>
                     <ul className='space-y-10 text-3xl'>

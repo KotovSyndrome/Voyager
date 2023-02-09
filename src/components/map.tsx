@@ -10,13 +10,9 @@ const center: [number, number] = [48.2082, 16.3738]
 
 const map = () => {
   return (
-    <div className='w-full h-screen border-r-black border-l-2'>
-       <div className='flex justify-center items-center'>
-            <LMap center={center} zoom={13}>
-              <></>
-            </LMap>
-       </div>
-    </div>
+    <LMap center={center} zoom={13}>
+      <></>
+    </LMap>
   )
 }
 
