@@ -72,7 +72,11 @@ export const getServerSideProps: GetServerSideProps = async ({query}) => {
       include: {
         tripDays: {
           include: {
-            activities: true,
+            activities: {
+              orderBy: {
+                startTime: 'asc'
+              }
+            }
           }
         }
       }

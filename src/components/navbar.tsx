@@ -34,7 +34,7 @@ const Navbar = () => {
 
   return (
     <LayoutWrapper>
-        <nav className='flex justify-between py-4 bg-inherit z-[2222222]'>
+        <nav className='flex justify-between py-4'>
             <Link href={'/'} className='font-bold text-2xl'>Voyager</Link>
             {mobileMenuState ? (
                 <div className='md:hidden'>
