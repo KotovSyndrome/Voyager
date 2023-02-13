@@ -9,31 +9,32 @@ interface IActivity {
     city: string
     contactInfo: string
     country: string
-    endTime: Date
+    endTime: string
     id: number
     name: string
     note: string
     photo: string | null
     postalCode: string
-    startTime: Date
+    startTime: string
     street: string
     tripDayId: number
   }
 interface ITripDayProps {
     date: Date
-    activities: IActivity[] | []
+    activities: IActivity[] | [],
+    tripDayId: number
 }
 
-const tripDay = ({date, activities}: ITripDayProps) => {
+const tripDay = ({date, activities, tripDayId}: ITripDayProps) => {
     const [ readOnly, setReadOnly ] = useState(true);
     const [activitiesState, setActivitiesState] = useState(activities) 
 
     const deleteActivity = async (activityId: number) => {
-        setActivitiesState((prev) => prev.filter(act => act.id === activityId))
-
         const call = await axios.delete('/api/activities', { 
            data: { activityId: activityId } 
         })
+
+        setActivitiesState((prev) => prev.filter(act => act.id !== activityId))
     }
 
 
@@ -43,29 +44,32 @@ const tripDay = ({date, activities}: ITripDayProps) => {
             <p className='mb-3 text-xl font-semibold'>{format(date, 'MMM do')}</p>
         </div>
 
+        <div className='space-y-3'>
         {activitiesState.length > 0 && (
             activitiesState.map(act => {
-                return <Activity 
+                return <Activity
+                            key={act.id} 
                             readOnly={readOnly} 
                             setReadOnly={setReadOnly} 
                             deleteActivity={deleteActivity}
                             city={act.city}
                             contactInfo={act.contactInfo}
                             country={act.country}
-                            endTime={act.endTime}
+                            endTime={new Date(act.endTime)}
                             id={act.id}
                             name={act.name}
                             note={act.note}
                             photo={act.photo}
                             postalCode={act.postalCode}
-                            startTime={act.startTime}
+                            startTime={new Date(act.startTime)}
                             street={act.street}
                             tripDayId={act.tripDayId}
                         />
             })
         )}
+        </div>
     
-        <ActivityForm />
+        <ActivityForm  setActivitiesState={setActivitiesState} tripDayId={tripDayId}/>
     </div>
   )
 }
