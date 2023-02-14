@@ -10,21 +10,19 @@ interface IItineraryCard {
   likes: number
 }
 
-interface IProfile {
-  username: string
-}
 interface IItineraryCardProps {
   coverPhoto: string
   destinations: string
-  endDate: Date
+  endDate: string
   id: number
   likes: number
   name: string
-  profile: IProfile
-  startDate: Date
+  profileName: string
+  startDate: string
 }
 
-const itineraryCard = ({coverPhoto, destinations, endDate, id, likes, name, profile, startDate}: IItineraryCardProps ) => {
+const itineraryCard = ({coverPhoto, destinations, endDate, id, likes, name, profileName, startDate}: IItineraryCardProps ) => {
+
   return (
     <div className='bg-white p-4 bg-opacity-80 rounded-lg drop-shadow-lg cursor-pointer text-black'>
         <Image src={Island} alt='Itinerary cover' width={300} height={300} className='rounded-md'/>
@@ -38,7 +36,7 @@ const itineraryCard = ({coverPhoto, destinations, endDate, id, likes, name, prof
         <p className='text-slate-500'>{destinations}</p>
 
 
-        <p className='mt-5'>By: {profile.username}</p>
+        <p className='mt-5'>By: {profileName}</p>
     </div>
   )
 }

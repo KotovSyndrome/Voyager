@@ -92,7 +92,7 @@ model Itinerary {
   profileId    Int?
   likes        Int
   public       Boolean
-  destinations String[]
+  destinations String
   coverPhoto   String?
   comments     Comment[]
   profile      Profile?  @relation(fields: [profileId], references: [id], onDelete: Cascade)

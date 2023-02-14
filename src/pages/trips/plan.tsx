@@ -58,14 +58,13 @@ const Plan = () => {
         if (!formValues.itineraryName.length || !formValues.destinations.length) return
         
         const dateArray = eachDayOfInterval({start: value[0]!, end: value[1]!});
-        const destArray = formValues.destinations.split(',');
 
         const call = await axios.post('/api/itinerary', {
             itineraryName: formValues.itineraryName,
             startDate: value[0],
             endDate: value[1],
             days: dateArray,
-            destinations: destArray, 
+            destinations: formValues.destinations, 
             isPublic: formValues.isPublic,
             // @ts-ignore
             profileId: session.profile.id,  

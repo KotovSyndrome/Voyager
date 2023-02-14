@@ -26,7 +26,7 @@ interface ITripDay {
 interface IItineraryData {
   itin: {
     coverPhoto?: string
-    destinations: string[]
+    destinations: string
     endDate: Date
     id: number
     likes: number
@@ -45,6 +45,7 @@ const itinerary = ({itin}: IItineraryData) => {
 
           <div className='bg-demoBG bg-cover bg-center p-3'>
               <p className='text-2xl text-slate-50'>{itin.name}</p>
+              <p>{itin.destinations}</p>
               <p>{format(new Date(itin.startDate), 'MMM d, yyyy')} - {format(new Date(itin.endDate), 'MMM d, yyyy')}</p>
               {/* @ts-ignore */}
               <p className='text-right mt-7'>Username & Collaborators</p>
