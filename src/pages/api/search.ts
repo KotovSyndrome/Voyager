@@ -7,7 +7,8 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
         const data = await prisma.itinerary.findMany({
             where: { 
                 destinations: {
-                    has: req.body.destination,
+                    contains: req.body.destination,
+                    mode: 'insensitive',
                 },
                 public: true
             },

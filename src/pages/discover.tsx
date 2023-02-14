@@ -3,6 +3,8 @@ import ItineraryCard from '../components/itineraryCard'
 import { BiSearch } from 'react-icons/bi'
 import axios from 'axios'
 import LayoutWrapper from '../components/layoutWrapper'
+import { type GetServerSideProps } from 'next'
+import { prisma } from '../server/db/client'
 
 const pop = [
   'Hawaii',
@@ -22,36 +24,41 @@ const islands = [
   'Okay island'
 ]
 
-interface IProfile {
-  username: string
-}
-
 interface IItinerary {
   coverPhoto: string
-  destinations: string[]
-  endDate: Date
+  destinations: string
+  endDate: string
   id: number
   likes: number
   name: string
-  profile: IProfile
+  profile: { username: string }
   profileId: number
   public: boolean
-  startDate: Date
+  startDate: string
 }
 
-const discover = () => {
+interface IServerData {
+  initialItineraries: IItinerary[]
+}
+
+
+const discover = ({ initialItineraries }: IServerData) => {
   const [query, setQuery] = useState('')
+  const [initialData, setInitialData] = useState<IItinerary[]>()
   const [searchResults, setSearchResults] = useState<IItinerary[]>([])
 
   const handleSearch = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     
-    const searchCall = await axios.post('/api/search', {destination: query.toLowerCase()})
+    const searchCall = await axios.post('/api/search', {destination: query})
+
+    console.log('Search results: ', searchCall.data)
 
     setQuery('')
 
     setSearchResults(searchCall.data)
   }
+
 
 
   return (
@@ -60,10 +67,12 @@ const discover = () => {
         <div className='flex flex-col items-center'>
           <h3 className='text-3xl text-center'>Explore destinations and see where other's have traveled</h3>
 
-          <form onSubmit={handleSearch} className='relative flex justify-center w-full'>
-            <input value={query} onChange={(e) => setQuery(e.target.value)} type={'text'} placeholder={'Find your dream getaway!'} className='text-black inline-block p-2 rounded-full w-full md:w-3/4 lg:w-1/2 mt-10 outline-none'/>
-            {/* Use state to disable button briefly after submit(1 second?) */}
-            <button disabled={false} type='submit' className='absolute right-[34.2%] top-[3.1rem] cursor-pointer'><BiSearch size={20}/></button>
+          <form onSubmit={handleSearch} className='w-full flex justify-center'>
+            <div className='relative  w-full md:w-3/4 lg:w-1/2'>
+              <input value={query} onChange={(e) => setQuery(e.target.value)} type={'text'} placeholder={'Find your dream getaway!'} className='text-black inline-block px-3 py-2 rounded-full w-full mt-10 outline-none border-0 focus:ring-0 focus:ring-offset-0'/>
+              {/* Use state to disable button briefly after submit(1 second?) */}
+              <button disabled={false} type='submit' className='absolute right-2.5 bottom-2.5 cursor-pointer text-black'><BiSearch size={20}/></button>
+            </div>
           </form>
 
           <div className='w-full mt-5'>
@@ -79,25 +88,25 @@ const discover = () => {
                 return <ItineraryCard 
                           key={s.id}
                           name={s.name}
-                          destinations={s.destinations.join(', ')}
-                          profile={s.profile}
+                          destinations={s.destinations}
+                          profileName={s.profile.username}
                           likes={s.likes}
                           startDate={s.startDate}
                           endDate={s.endDate}
                           coverPhoto={s.coverPhoto}
                           id={s.id}
                         />
-            })) : (islands.map(island => {
+            })) : (initialItineraries.map(itin  => {
               return <ItineraryCard 
-                        key={island} 
-                        name={'Romantic Getway'} 
-                        destinations={'Neverland, Foreverland'} 
-                        profile={ {username: 'user123'} } 
-                        likes={2178} 
-                        startDate={new Date()}
-                        endDate={new Date()}
+                        key={itin.id} 
+                        name={itin.name} 
+                        destinations={itin.destinations} 
+                        profileName={itin.profile.username} 
+                        likes={itin.likes} 
+                        startDate={itin.startDate}
+                        endDate={itin.endDate}
                         coverPhoto={''}
-                        id={1}
+                        id={itin.id}
                       />
                 })
               )
@@ -110,3 +119,22 @@ const discover = () => {
 }
 
 export default discover
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const initialItineraries = await prisma.itinerary.findMany({
+    take: 20,
+    include: {
+      profile: {
+        select: {
+          username: true,
+        }
+      }
+    }
+  })
+
+  console.log('--------Itinitail Itineraries: ', initialItineraries)
+
+  return { 
+    props: { initialItineraries: JSON.parse(JSON.stringify(initialItineraries)) } 
+  }
+} 

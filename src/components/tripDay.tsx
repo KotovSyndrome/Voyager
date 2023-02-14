@@ -37,6 +37,8 @@ const tripDay = ({date, activities, tripDayId}: ITripDayProps) => {
         setActivitiesState((prev) => prev.filter(act => act.id !== activityId))
     }
 
+    console.log('startTime type: ', typeof activities[0]?.startTime)
+
 
   return (
     <div className='w-full p-3 text-black'>

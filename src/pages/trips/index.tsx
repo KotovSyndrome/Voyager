@@ -88,7 +88,7 @@ const trips = (serverProps: IServerProps | INoData) => {
                 <p className='text-3xl mt-8'>
                     <span onClick={() => setToggle(!toggle)} className={`${!toggle && 'underline underline-offset-8 decoration-black'} cursor-pointer`}>Upcoming</span>  |  <span onClick={() => setToggle(!toggle)} className={`${toggle && 'underline underline-offset-8 decoration-black'} cursor-pointer`}>Past</span>
                 </p>
-                <button onClick={() => router.push('/trips/plan')} className='bg-sky-300 text-slate-50 px-8 py-2 rounded-md mt-7 hover:bg-sky-500'>Plan trip <span className='inline-block text-md'><FaPlane/></span></button>
+                <button onClick={() => router.push('/trips/plan')} className='bg-indigo-300 text-slate-50 px-8 py-2 rounded-md mt-7 hover:bg-indigo-500'>Plan trip <span className='inline-block text-md'><FaPlane/></span></button>
             </div>
 
             {"itineraryData" in serverProps ? (
