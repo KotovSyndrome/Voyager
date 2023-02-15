@@ -74,8 +74,6 @@ const discover = ({ initialItineraries }: IServerData) => {
     
   }, [debouncedSearchQuery])
 
-  console.log({loading})
-
 
 
 
