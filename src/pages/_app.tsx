@@ -21,7 +21,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <div className={cabin.className}>
-        <div className="from-blue-500 via-teal-400 to-blue-500 bg-gradient-to-b text-white w-full">
+        <div className="from-blue-500 via-teal-400 to-blue-500 bg-gradient-to-b text-white w-full h-full">
           <Navbar />
           <Component {...pageProps} />
         </div>
