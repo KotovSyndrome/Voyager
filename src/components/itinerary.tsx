@@ -41,7 +41,7 @@ interface IItineraryData {
 const itinerary = ({itin}: IItineraryData) => {
 
   return (
-    <div className='bg-blue-100 shadow-xl shadow-black'>
+    <div className='bg-blue-100 shadow-xl shadow-black min-h-screen'>
 
           <div className='bg-demoBG bg-cover bg-center p-3'>
               <p className='text-2xl text-slate-50'>{itin.name}</p>
