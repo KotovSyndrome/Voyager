@@ -13,9 +13,10 @@ interface ITripCard {
     collaborators: String[] | [],
     id: Number
     bgImage: string
+    profilePic: string
 }
 
-const tripCard = ({ title, startDate, endDate, collaborators, id, destinations}: ITripCard) => {
+const tripCard = ({ title, startDate, endDate, collaborators, id, destinations, profilePic}: ITripCard) => {
 
   return (
     <div>
@@ -23,9 +24,9 @@ const tripCard = ({ title, startDate, endDate, collaborators, id, destinations}:
             <Link href={{pathname:'/trips/[id]', query: { id: id.toString() }}}>
                 <div className='flex justify-between'>
                     <p className='text-xl'>{title} </p>
-                    <div>
+                    {/* <div>
                         <BsThreeDotsVertical size={20} className='mt-1 cursor-pointer'/>
-                    </div>
+                    </div> */}
                 </div>
                 
                 <p className='italic text-slate-500'>{destinations}</p>
@@ -33,12 +34,12 @@ const tripCard = ({ title, startDate, endDate, collaborators, id, destinations}:
                 
                 {/* Profile images of collaborators */}
                 <div className='flex mt-8'>
-                    <Image src={ProfilePlaceholder} alt='collaborator' height={30} width={30} className='rounded-full'/>
+                    <Image src={profilePic || ProfilePlaceholder} alt='collaborator' height={30} width={30} className='rounded-full'/>
+                    {/* <FaUserCircle size={30}/>
                     <FaUserCircle size={30}/>
                     <FaUserCircle size={30}/>
                     <FaUserCircle size={30}/>
-                    <FaUserCircle size={30}/>
-                    <FaUserCircle size={30}/>
+                    <FaUserCircle size={30}/> */}
                 </div>
             </Link>
         </div>

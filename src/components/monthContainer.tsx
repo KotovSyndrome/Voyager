@@ -32,7 +32,7 @@ const monthContainer = (itineraries: any) => {
 
                 // Mapping itineraries to their corresponding month and year
                 if (month === itineraries.startMonth && year === itineraries.startYear) {
-                    return <TripCard key={itin.id} title={itin.name} startDate={itinStartDate} endDate={new Date(itin.endDate)} collaborators={['Jason', 'Chris', 'Henry']} id={itin.id} bgImage={''} destinations={itin.destinations}/>
+                    return <TripCard key={itin.id} title={itin.name} startDate={itinStartDate} endDate={new Date(itin.endDate)} collaborators={['Jason', 'Chris', 'Henry']} id={itin.id} bgImage={''} destinations={itin.destinations} profilePic={itineraries.profilePic}/>
                 }
             })}
         </div>

@@ -53,9 +53,9 @@ const Navbar = () => {
                 <li>
                   <Link href={'/discover'} className={`${router.pathname === '/discover' && 'underline underline-offset-8 decoration-white'} hover:text-slate-300`}>Discover</Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link href={'/travelstats'} className={`${router.pathname === '/travelstats' && 'underline underline-offset-8 decoration-white'} hover:text-slate-300`}>Travel Stats</Link>
-                </li>
+                </li> */}
             </ul>
 
             {/* Mobile menu */}
@@ -72,9 +72,9 @@ const Navbar = () => {
                       <li>
                         <Link href={'/discover'} onClick={() => setMobileMenuState(!mobileMenuState)} className={`${router.pathname === '/discover' && 'underline underline-offset-8 decoration-white'} hover:text-slate-300`}>Discover</Link>
                       </li>
-                      <li>
+                      {/* <li>
                         <Link href={'/travelstats'} onClick={() => setMobileMenuState(!mobileMenuState)} className={`${router.pathname === '/travelstats' && 'underline underline-offset-8 decoration-white'} hover:text-slate-300`}>Travel Stats</Link>
-                      </li>
+                      </li> */}
                     </ul>
                 </div>
                 {session ? (

@@ -29,7 +29,7 @@ const itineraryCard = ({coverPhoto, destinations, endDate, id, likes, name, prof
 
         <div className='flex justify-between'>
             <p className='text-lg'>{name}</p>
-            <div><AiFillHeart size={22} color={'red'} className='inline-block'/>{`${likes}`}</div>
+            {/* <div><AiFillHeart size={22} color={'red'} className='inline-block'/>{`${likes}`}</div> */}
         </div>
 
 

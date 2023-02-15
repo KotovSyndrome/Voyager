@@ -76,7 +76,7 @@ const profile = (profileData: IProfileData) => {
 
   return (
     <LayoutWrapper>
-      <div className=' text-black'>
+      <div className='pb-10 text-black'>
           <div className='m-auto lg:w-5/6 xl:w-4/6 mt-16'>
             <div className='bg-blue-100 rounded-lg py-4 px-4'>
 
@@ -170,9 +170,9 @@ const profile = (profileData: IProfileData) => {
               </section>
             </div>
 
-            <div className='flex justify-center mt-10 pb-10'>
+            {/* <div className='flex justify-center mt-10 pb-10'>
               <button className='bg-red-500 py-1 px-2 rounded-md text-white text-sm hover:bg-red-700'>Delete Account</button>
-            </div>
+            </div> */}
 
           </div>
       </div>

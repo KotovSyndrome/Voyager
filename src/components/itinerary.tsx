@@ -47,8 +47,7 @@ const itinerary = ({itin}: IItineraryData) => {
               <p className='text-2xl text-slate-50'>{itin.name}</p>
               <p>{itin.destinations}</p>
               <p>{format(new Date(itin.startDate), 'MMM d, yyyy')} - {format(new Date(itin.endDate), 'MMM d, yyyy')}</p>
-              {/* @ts-ignore */}
-              <p className='text-right mt-7'>Username & Collaborators</p>
+              {/* <p className='text-right mt-7'>Username & Collaborators</p> */}
           </div>
 
         <div className='w-11/12 md:w-10/12 lg:w-11/2 mx-auto'>

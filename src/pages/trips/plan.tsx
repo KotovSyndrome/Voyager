@@ -116,11 +116,11 @@ const Plan = () => {
                 />
             </div>
 
-            <div className='mt-5'>
+            {/* <div className='mt-5'>
                 <label htmlFor='emailList'>Invite anyone going with you (optional)</label>
                 <input name='emailList' type='text' className='w-full p-1 rounded-md outline-none text-black mt-1'/>
                 <p className='text-sm italic mt-1 text-slate-300'>Seperate emails with a comma and space</p>
-            </div>
+            </div> */}
             
             <div className='mt-5'>
                 <label htmlFor='isPublic'>Would you like your itinerary to be discoverable by other voyagers?</label>
