@@ -81,7 +81,7 @@ const trips = (serverProps: IServerProps | INoData) => {
 
   return (
     <LayoutWrapper>
-      <div className='relative h-full'>
+      <div className='relative'>
             <h2 className='text-center text-4xl mt-16'>Your Trips</h2>
 
             <div className='flex flex-col items-center'>

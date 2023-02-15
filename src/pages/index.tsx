@@ -10,7 +10,7 @@ const Home: NextPage = () => {
 
   return (
     <LayoutWrapper>
-      <div className="w-full h-full">
+      <div className="w-full pb-10">
         <p className="text-4xl text-center mt-14 font-bold">Welcome to a stress-free vacation</p>
 
         <div className="grid grid-cols-1 mt-16 lg:grid-cols-2 gap-8">
