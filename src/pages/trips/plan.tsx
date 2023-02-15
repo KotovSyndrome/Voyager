@@ -81,7 +81,7 @@ const Plan = () => {
 
   return (
     <LayoutWrapper>
-        <div className='w-full md:w-3/4 xl:w-2/5 mt-12 mx-auto'>
+        <div className='w-full md:w-3/4 xl:w-2/5 mt-12 mx-auto pb-10'>
             <h3 className='text-3xl font-semibold text-center'>Plan a new trip!</h3>
             <form onSubmit={handleSubmit} id="tripPlanningForm">
             <div className='mt-5'>

@@ -21,7 +21,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <div className={cabin.className}>
-        <div className="from-blue-500 via-teal-400 to-blue-500 bg-gradient-to-b text-white w-full">
+        <div className="bg-gradient-to-br from-green-300 via-blue-500 to-purple-600 text-white w-full min-h-screen">
           <Navbar />
           <Component {...pageProps} />
         </div>
@@ -33,3 +33,5 @@ const MyApp: AppType<{ session: Session | null }> = ({
 export default trpc.withTRPC(MyApp);
 
 // bg-[#e3f4ff]
+
+// current: from-blue-500 via-teal-400 to-blue-500 bg-gradient-to-b
