@@ -61,16 +61,34 @@ const Home: NextPage = () => {
         </div>
 
         <div className="w-full mt-16">
-          <h1 className="text-4xl text-center"> And so much more...</h1>
+          <h1 className="text-4xl text-center"> And so many more upcoming features like...</h1>
         </div>
 
-        {/* <div className="grid grid-cols-1 mt-16 lg:grid-cols-2 gap-8">
-          <SellingPoints/>
+        <div className="border-2 border-white bg-white bg-opacity-10 mt-10 rounded-xl p-2 text-2xl">
+          <div className="flex justify-between space-x-2">
+            <div className="w-1/3 h-32 p-2 rounded-xl bg-green-300 bg-opacity-80">
+              <p>AI activity suggestions</p>
+              <p className="text-base">Already have some places in mind but don't know where else? Let us suggest the most attracitve activities at any destination.</p>
+            </div>
 
-          <div className="flex justify-center lg:justify-end">
-            <Image src={ExampleItinerary} alt='example itinerary' height={700} width={600}/>
+            <div className="w-2/3 h-32 p-2 rounded-xl bg-sky-300 bg-opacity-80">
+              <p>AI genenerated trip templates</p>
+              <p className="text-base">Doing research on points of interest is hard. Kick back and let us do the planning for you.</p>
+            </div>
           </div>
-        </div> */}
+
+          <div className="flex justify-between mt-2 space-x-2">
+            <div className="w-2/3 h-32 p-2 rounded-xl bg-amber-300 bg-opacity-80">
+              <p>Notifications</p>
+              <p className="text-base">Get notified whenever something happens, whether thats a friend accepting your invite request or someone commenting on your trip.</p>
+            </div>
+
+            <div className="w-1/3 h-32 p-2 rounded-xl bg-rose-300 bg-opacity-80">
+              <p>Routes to and between activities</p>
+              <p className="text-base">Never wonder how long getting to places will take. We'll let you know so you can plan accordingly.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </LayoutWrapper>
   );

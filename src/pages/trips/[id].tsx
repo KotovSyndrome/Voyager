@@ -41,7 +41,7 @@ interface IItineraryData {
 }
 
 
-const tripPage = (itineraryData: IItineraryData) => {
+const TripPage = (itineraryData: IItineraryData) => {
   const [viewState, setViewState] = useState(false)
 
   return (
@@ -58,7 +58,10 @@ const tripPage = (itineraryData: IItineraryData) => {
   )
 }
 
-export default tripPage
+TripPage.tripPage = true
+
+export default TripPage
+
 
 export const getServerSideProps: GetServerSideProps = async ({query}) => {
 
