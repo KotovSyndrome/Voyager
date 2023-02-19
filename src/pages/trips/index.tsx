@@ -153,8 +153,6 @@ export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
     })
     data = dbResponse;
 
-    console.log({data});
-
     if (data.length) {
       return { props: { itineraryData: JSON.parse(JSON.stringify(data)), profilePic: session.user.image } }
     }

@@ -1,7 +1,7 @@
 import { prisma } from "../../../server/db/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { validateRoute } from "../../../lib/auth";
-import { BsThreeDots } from "react-icons/bs";
+import axios from 'axios'
 
 export default validateRoute(async function (
   req: NextApiRequest,
@@ -11,6 +11,18 @@ export default validateRoute(async function (
     switch (req.method) {
         case 'POST':
           // Note: Use Zod or similar library to validate req body
+          let query
+
+          const comma = req.body.destinations.indexOf(',')
+
+          if (comma !== -1) {
+            query = req.body.destinations.substring(0, comma)
+          } else {
+            query = req.body.destinations
+          }
+
+          const unsplashPic = await axios.get(`https://api.unsplash.com/photos/random?query=${query}&orientation=landscape&client_id=${process.env.UNSPLASH_ACCESS_KEY}&count=1`)
+
           try {
             const data = await prisma.itinerary.create({
               data: {
@@ -19,6 +31,7 @@ export default validateRoute(async function (
                 endDate: req.body.endDate,
                 destinations: req.body.destinations,
                 likes: 0,
+                coverPhoto: unsplashPic.data[0].urls.full,
                 tripDays: {
                   create: req.body.days.map((d: Date) => ({
                     date: d
@@ -29,9 +42,6 @@ export default validateRoute(async function (
                   connect: { id: req.body.profileId },
                 }
               }
-              // include: {
-              //   tripDays: true
-              // }
             })
             
             res.status(201).json(data);

@@ -6,6 +6,8 @@ import { prisma } from '../../server/db/client'
 import { type GetServerSideProps } from 'next'
 import { FaMapMarkedAlt } from 'react-icons/fa'
 import { SlNote } from 'react-icons/sl'
+import { unstable_getServerSession } from 'next-auth'
+import { authOptions } from '../api/auth/[...nextauth]'
 interface IActivity {
   city: string
   contactInfo: string
@@ -62,8 +64,40 @@ TripPage.tripPage = true
 
 export default TripPage
 
+interface IProfile {
+  id: number
+  bio: string
+  username: string
+  distanceUnits: string
+  dateFormat: string
+  timeFormat: string
+  commentsNotification: boolean
+  remindersNotification: boolean
+  collaboratorJoinedNotification: boolean
+}
+interface IUser {
+  email: string
+  id: string
+  image: string
+  name: string
+}
 
-export const getServerSideProps: GetServerSideProps = async ({query}) => {
+interface ISession {
+  expires: Date
+  user: IUser
+  profile: IProfile
+}
+
+export const getServerSideProps: GetServerSideProps = async ({query, req, res}) => {
+
+  // const session: ISession | null = await unstable_getServerSession(req, res, authOptions);
+
+    // Guest users
+  // if (!session) {
+  //   return {
+  //     props: { guest: true}
+  //   }
+  // }
 
   let itineraryData;
 
@@ -91,7 +125,7 @@ export const getServerSideProps: GetServerSideProps = async ({query}) => {
     console.error(e);
   }
   return { 
-    props: JSON.parse(JSON.stringify(itineraryData)) 
+    props: JSON.parse(JSON.stringify(itineraryData))
   }
   
   // if no itineraries found, redirect to plan?

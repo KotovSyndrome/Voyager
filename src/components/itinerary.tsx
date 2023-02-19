@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import TripDay from './tripDay'
 import format from 'date-fns/format';
+import Image from 'next/image'
 
 interface IActivity {
   city: string
@@ -42,13 +43,14 @@ const itinerary = ({itin}: IItineraryData) => {
 
   return (
     <div className='bg-blue-100 shadow-xl shadow-black min-h-screen'>
+        <Image src={itin.coverPhoto!} alt='Itinerary cover' width={300} height={200} priority={true} className='w-full h-80' />
 
-          <div className='bg-demoBG bg-cover bg-center p-3'>
-              <p className='text-2xl text-slate-50'>{itin.name}</p>
-              <p>{itin.destinations}</p>
-              <p>{format(new Date(itin.startDate), 'MMM d, yyyy')} - {format(new Date(itin.endDate), 'MMM d, yyyy')}</p>
-              {/* <p className='text-right mt-7'>Username & Collaborators</p> */}
-          </div>
+        <div className='absolute top-20 left-4'>
+          <p className='text-2xl text-slate-50'>{itin.name}</p>
+          <p>{itin.destinations}</p>
+          <p>{format(new Date(itin.startDate), 'MMM d, yyyy')} - {format(new Date(itin.endDate), 'MMM d, yyyy')}</p>
+          {/* <p className='text-right mt-7'>Username & Collaborators</p> */}
+        </div>
 
         <div className='w-11/12 md:w-10/12 lg:w-11/2 mx-auto'>
             <div className='bg-inherit w-full mt-5 flex'>
