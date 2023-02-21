@@ -21,6 +21,7 @@ interface IItineraryData {
 }
 interface IServerProps {
   itineraryData: IItineraryData[]
+  profilePic: string
 }
 
 interface INoData {
@@ -93,7 +94,7 @@ const trips = (serverProps: IServerProps | INoData) => {
 
             {"itineraryData" in serverProps ? (
                 itineraryMonths.map((mon: any, i: number) => {
-                    return <MonthContainer key={i} startMonth={mon[0]} startYear={mon[1]} itineraries={serverProps.itineraryData} />
+                    return <MonthContainer key={i} startMonth={mon[0]} startYear={mon[1]} itineraries={serverProps.itineraryData} profilePic={serverProps.profilePic}/>
                 })
             ) : (
               <h2 className='text-center text-xl mt-32 w-full col-start-1 md:col-end-2 lg:col-end-3 xl:col-end-4'>You don't have any upcoming trips. Now's the perfect time to plan for a getaway!</h2>
@@ -152,10 +153,8 @@ export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
     })
     data = dbResponse;
 
-    console.log({data});
-
     if (data.length) {
-      return { props: { itineraryData: JSON.parse(JSON.stringify(data)) } }
+      return { props: { itineraryData: JSON.parse(JSON.stringify(data)), profilePic: session.user.image } }
     }
   } catch (e) {
     console.error(e);

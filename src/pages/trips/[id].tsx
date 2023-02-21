@@ -6,6 +6,8 @@ import { prisma } from '../../server/db/client'
 import { type GetServerSideProps } from 'next'
 import { FaMapMarkedAlt } from 'react-icons/fa'
 import { SlNote } from 'react-icons/sl'
+import { unstable_getServerSession } from 'next-auth'
+import { authOptions } from '../api/auth/[...nextauth]'
 interface IActivity {
   city: string
   contactInfo: string
@@ -41,7 +43,7 @@ interface IItineraryData {
 }
 
 
-const tripPage = (itineraryData: IItineraryData) => {
+const TripPage = (itineraryData: IItineraryData) => {
   const [viewState, setViewState] = useState(false)
 
   return (
@@ -58,9 +60,44 @@ const tripPage = (itineraryData: IItineraryData) => {
   )
 }
 
-export default tripPage
+TripPage.tripPage = true
 
-export const getServerSideProps: GetServerSideProps = async ({query}) => {
+export default TripPage
+
+interface IProfile {
+  id: number
+  bio: string
+  username: string
+  distanceUnits: string
+  dateFormat: string
+  timeFormat: string
+  commentsNotification: boolean
+  remindersNotification: boolean
+  collaboratorJoinedNotification: boolean
+}
+interface IUser {
+  email: string
+  id: string
+  image: string
+  name: string
+}
+
+interface ISession {
+  expires: Date
+  user: IUser
+  profile: IProfile
+}
+
+export const getServerSideProps: GetServerSideProps = async ({query, req, res}) => {
+
+  // const session: ISession | null = await unstable_getServerSession(req, res, authOptions);
+
+    // Guest users
+  // if (!session) {
+  //   return {
+  //     props: { guest: true}
+  //   }
+  // }
 
   let itineraryData;
 
@@ -88,7 +125,7 @@ export const getServerSideProps: GetServerSideProps = async ({query}) => {
     console.error(e);
   }
   return { 
-    props: JSON.parse(JSON.stringify(itineraryData)) 
+    props: JSON.parse(JSON.stringify(itineraryData))
   }
   
   // if no itineraries found, redirect to plan?

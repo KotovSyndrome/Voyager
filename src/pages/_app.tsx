@@ -2,6 +2,7 @@ import { type AppType } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import Navbar from "../components/navbar";
+import Footer from "../components/footer";
 
 import { trpc } from "../utils/trpc";
 
@@ -22,8 +23,22 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <SessionProvider session={session}>
       <div className={cabin.className}>
         <div className="bg-gradient-to-br from-green-300 via-blue-500 to-purple-600 text-white w-full min-h-screen">
-          <Navbar />
-          <Component {...pageProps} />
+
+        {
+        //@ts-ignore
+        Component.tripPage ? (
+          <>
+            <Navbar />
+            <Component {...pageProps} />
+          </>
+        ) : (
+          <>
+            <Navbar />
+            <Component {...pageProps} />
+            <Footer />
+          </>
+        )}
+
         </div>
       </div>
     </SessionProvider>

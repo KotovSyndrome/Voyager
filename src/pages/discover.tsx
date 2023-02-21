@@ -91,13 +91,14 @@ const discover = ({ initialItineraries }: IServerData) => {
             </div>
           </form>
 
-          <div className='w-full mt-5'>
+          {/* <div className='w-full mt-5'>
             <p className='text-center text-lg'>Popular destinations</p>
 
             <div className='flex justify-start custom1:justify-center space-x-6 text-slate-50 mt-3 overflow-x-auto md:overflow-visible'>
               {pop.map(p => <div key={p} className='bg-indigo-300 py-1 px-4 rounded-lg cursor-pointer hover:scale-125 duration-300 '>{p}</div>)}
             </div>
-          </div>
+          </div> */}
+
 
           <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5 mt-10 pb-10'>
 
