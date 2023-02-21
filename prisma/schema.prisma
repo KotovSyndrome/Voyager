@@ -84,6 +84,12 @@ model Profile {
   user                           User?
 }
 
+enum TripStatus {
+  ACTIVE
+  UPCOMING
+  COMPLETE
+}
+
 model Itinerary {
   id           Int       @id @default(autoincrement())
   name         String
@@ -94,6 +100,7 @@ model Itinerary {
   public       Boolean
   destinations String
   coverPhoto   String?
+  status       TripStatus
   comments     Comment[]
   profile      Profile?  @relation(fields: [profileId], references: [id], onDelete: Cascade)
   tripDays     TripDay[]

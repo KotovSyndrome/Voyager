@@ -28,29 +28,13 @@ interface INoData {
   noItins: boolean
 }
 
-const months = {
-  0: 'January',
-  1: 'February',
-  2: 'March',
-  3: 'April',
-  4: 'May',
-  5: 'June',
-  6: 'July',
-  7: 'August',
-  8: 'September',
-  9: 'October',
-  10: 'November',
-  11: 'December',
-}
-
 const trips = (serverProps: IServerProps | INoData) => {
-    const [toggle, setToggle] = useState(false)
+    const [tripStatusFilter, setTripStatusFilter] = useState('ACTIVE')
     const router = useRouter()
 
     // useEffect(() => {
     //    check if any itineraries are in localStorage (guest user)
     // }, [])
-
 
  
   // This isolates all of the months and thier corresponding years that trips occur in. 
@@ -86,18 +70,23 @@ const trips = (serverProps: IServerProps | INoData) => {
             <h2 className='text-center text-4xl mt-16'>Your Trips</h2>
 
             <div className='flex flex-col items-center'>
-                <p className='text-3xl mt-8'>
-                    <span onClick={() => setToggle(!toggle)} className={`${!toggle && 'underline underline-offset-8 decoration-black'} cursor-pointer`}>Upcoming</span>  |  <span onClick={() => setToggle(!toggle)} className={`${toggle && 'underline underline-offset-8 decoration-black'} cursor-pointer`}>Past</span>
-                </p>
+                <div className='flex space-x-4 text-2xl md:text-3xl mt-8'>
+                  <p onClick={() => setTripStatusFilter(prev => 'ACTIVE')} className={`${tripStatusFilter === 'ACTIVE' && 'underline underline-offset-8 decoration-white'} cursor-pointer`}>Current</p>
+                  <p>|</p>
+                  <p onClick={() => setTripStatusFilter(prev => 'UPCOMING')} className={`${tripStatusFilter === 'UPCOMING' && 'underline underline-offset-8 decoration-white'} cursor-pointer`}>Upcoming</p>
+                  <p>|</p>
+                  <p onClick={() => setTripStatusFilter(prev => 'COMPLETE')} className={`${tripStatusFilter === 'COMPLETE' && 'underline underline-offset-8 decoration-white'} cursor-pointer`}>Past</p>
+                </div>
+
                 <button onClick={() => router.push('/trips/plan')} className='bg-indigo-300 text-slate-50 px-8 py-2 rounded-md mt-7 hover:bg-indigo-500'>Plan trip <span className='inline-block text-md'><FaPlane/></span></button>
             </div>
 
             {"itineraryData" in serverProps ? (
                 itineraryMonths.map((mon: any, i: number) => {
-                    return <MonthContainer key={i} startMonth={mon[0]} startYear={mon[1]} itineraries={serverProps.itineraryData} profilePic={serverProps.profilePic}/>
+                    return <MonthContainer key={i} startMonth={mon[0]} startYear={mon[1]} itineraries={serverProps.itineraryData} profilePic={serverProps.profilePic} tripStatusFilter={tripStatusFilter}/>
                 })
             ) : (
-              <h2 className='text-center text-xl mt-32 w-full col-start-1 md:col-end-2 lg:col-end-3 xl:col-end-4'>You don't have any upcoming trips. Now's the perfect time to plan for a getaway!</h2>
+              <h2 className='text-center text-xl mt-32 w-full'>You don't have any upcoming trips. Now's the perfect time to plan for a getaway!</h2>
             )}
       </div>
     </LayoutWrapper>
