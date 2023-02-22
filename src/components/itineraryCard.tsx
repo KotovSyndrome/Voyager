@@ -26,7 +26,7 @@ const itineraryCard = ({coverPhoto, destinations, endDate, id, likes, name, prof
 
   return (
     <div className='bg-white p-4 bg-opacity-80 rounded-lg drop-shadow-lg cursor-pointer text-black'>
-        <Image src={coverPhoto} alt='Itinerary cover' width={300} height={300} className='rounded-md'/>
+        <Image src={coverPhoto} alt='Itinerary cover' width={300} height={300} className='rounded-md w-64 h-48'/>
 
         <div className='flex justify-between'>
             <p className='text-lg'>{name}</p>
