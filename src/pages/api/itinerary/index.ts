@@ -32,7 +32,6 @@ export default validateRoute(async function (
                 destinations: req.body.destinations,
                 likes: 0,
                 coverPhoto: unsplashPic.data[0].urls.full,
-                status: req.body.status,
                 tripDays: {
                   create: req.body.days.map((d: Date) => ({
                     date: d

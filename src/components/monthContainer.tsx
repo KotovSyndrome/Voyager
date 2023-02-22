@@ -21,15 +21,38 @@ const monthContainer = (itineraries: any) => {
     const [filteredItineraries, setFilteredItineraries] = useState(itineraries.itineraries)
 
     useEffect(() => {
+        // Comparing dates like this so that it strictly compares the day, month, and year vs down to the millisecond
+        // Catches the edge case of a itinerary being created on the same day (should be active, not upcoming)
         const currentDate = new Date()
+        const compareDate = new Date(`${currentDate.getMonth() + 1} ${currentDate.getDate()} ${currentDate.getFullYear()}`)
+
         let filtered: []
 
         if (itineraries.tripStatusFilter === 'ACTIVE') {
-            filtered = itineraries.itineraries.filter((itin: any) => new Date(itin.startDate) < currentDate && currentDate < new Date(itin.endDate))
+            filtered = itineraries.itineraries.filter((itin: any) => {
+
+                const startDate = new Date(itin.startDate)
+                const startDateCompare = new Date(`${startDate.getMonth() + 1} ${startDate.getDate()} ${startDate.getFullYear()}`)
+
+                const endDate = new Date(itin.endDate)
+                const endDateCompare = new Date(`${endDate.getMonth() + 1} ${endDate.getDate()} ${endDate.getFullYear()}`)
+                
+                return startDateCompare <= compareDate && compareDate <= endDateCompare
+            })
         } else if (itineraries.tripStatusFilter === 'UPCOMING') {
-            filtered = itineraries.itineraries.filter((itin: any) => new Date(itin.startDate) > currentDate)
+            filtered = itineraries.itineraries.filter((itin: any) => {
+                const startDate = new Date(itin.startDate)
+                const startDateCompare = new Date(`${startDate.getMonth() + 1} ${startDate.getDate()} ${startDate.getFullYear()}`)
+
+                return startDateCompare > compareDate
+            }) 
         } else {
-            filtered = itineraries.itineraries.filter((itin: any) => currentDate > new Date(itin.endDate))
+            filtered = itineraries.itineraries.filter((itin: any) => {
+                const endDate = new Date(itin.endDate)
+                const endDateCompare = new Date(`${endDate.getMonth() + 1} ${endDate.getDate()} ${endDate.getFullYear()}`)
+
+                return compareDate > endDateCompare
+            })
         }
 
         setFilteredItineraries((prev: any) => filtered)

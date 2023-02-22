@@ -127,7 +127,7 @@ const discover = ({ initialItineraries }: IServerData) => {
                           likes={itin.likes} 
                           startDate={itin.startDate}
                           endDate={itin.endDate}
-                          coverPhoto={''}
+                          coverPhoto={itin.coverPhoto}
                           id={itin.id}
                         />
                   })
@@ -146,7 +146,17 @@ const discover = ({ initialItineraries }: IServerData) => {
 export default discover
 
 export const getServerSideProps: GetServerSideProps = async () => {
+  const compareDate = new Date()
+
   const initialItineraries = await prisma.itinerary.findMany({
+    where: {
+      public: true,
+      endDate: {
+        // Creating the date like this so that trips created on the same day are not shown since they have not been completed yet.
+        // Otherwise it will compare down to the second or millisecond or whatever.
+        lt: new Date(`${compareDate.getMonth() + 1} ${compareDate.getDate()} ${compareDate.getFullYear()}`)
+      }
+    },
     take: 20,
     include: {
       profile: {

@@ -59,20 +59,15 @@ const Plan = () => {
         
         const dateArray = eachDayOfInterval({start: value[0]!, end: value[1]!});
 
-        const testDate = new Date('February 10, 2023')
-
         const call = await axios.post('/api/itinerary', {
             itineraryName: formValues.itineraryName,
-            startDate: testDate,
+            startDate: value[0],
             endDate: value[1],
             days: dateArray,
             destinations: formValues.destinations, 
             isPublic: formValues.isPublic,
             // @ts-ignore
             profileId: session.profile.id,
-            // Does the trip start today
-            // status: value[0]?.getDate() === new Date().getDate() ? 'ACTIVE' : 'UPCOMING'
-            status: 'COMPLETE'
         })
 
         router.push({
