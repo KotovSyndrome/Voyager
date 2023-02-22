@@ -67,7 +67,7 @@ const Plan = () => {
             destinations: formValues.destinations, 
             isPublic: formValues.isPublic,
             // @ts-ignore
-            profileId: session.profile.id,  
+            profileId: session.profile.id,
         })
 
         router.push({
