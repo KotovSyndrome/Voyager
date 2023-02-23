@@ -55,13 +55,13 @@ const tripDay = ({date, activities, tripDayId}: ITripDayProps) => {
                             city={act.city}
                             contactInfo={act.contactInfo}
                             country={act.country}
-                            endTime={new Date(act.endTime)}
+                            endTime={act.endTime}
                             id={act.id}
                             name={act.name}
                             note={act.note}
                             photo={act.photo}
                             postalCode={act.postalCode}
-                            startTime={new Date(act.startTime)}
+                            startTime={act.startTime}
                             street={act.street}
                             tripDayId={act.tripDayId}
                         />
