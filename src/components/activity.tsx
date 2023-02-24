@@ -29,35 +29,46 @@ const activity = ({readOnly, setReadOnly, deleteActivity, city, contactInfo, cou
         city: city,
         contactInfo: contactInfo,
         country: country,
-        endTime: `${format(new Date(endTime), 'hh')}:${format(new Date(endTime), 'mm')}`,
+        endTime: `${endTime ? format(new Date(endTime), 'HH') : '--:-- --'}:${endTime ? format(new Date(endTime), 'mm') : '--:-- --'}`,
         name: name,
         note: note,
         photo: photo,
         postcalCode: postalCode,
-        startTime: `${format(new Date(startTime), 'hh')}:${format(new Date(startTime), 'mm')}`,
+        startTime: `${startTime ? format(new Date(startTime), 'HH'): '--:-- --'}:${startTime ? format(new Date(startTime), 'mm') : '--:-- --'}`,
         street: street
     })
     const [timeDropDown, setTimeDropDown] = useState(false)
 
 
     const updateActivity = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        console.log('time value:', e.target.value)
-        console.log('time value type:', typeof e.target.value)
-
         setActivityState({...activityState, [e.target.name]: e.target.value})
         
     }
 
     const sendUpdateReq = async () => {
-        const tempStartDate = new Date()
-        tempStartDate.setHours(Number(activityState.startTime.substring(0,2)))
-        tempStartDate.setMinutes(Number(activityState.startTime.substring(3,5)))
+        let tempStartDate
 
-        const tempEndDate = new Date()
-        tempEndDate.setHours(Number(activityState.endTime.substring(0,2)))
-        tempEndDate.setMinutes(Number(activityState.endTime.substring(3,5)))
+        if (activityState.startTime.includes('-')) {
+            tempStartDate = null
+        } else {
+            tempStartDate = new Date()
+            tempStartDate.setHours(Number(activityState.startTime.substring(0,2)))
+            tempStartDate.setMinutes(Number(activityState.startTime.substring(3,5)))
+        }
 
-        console.log('start time:', tempStartDate)
+        let tempEndDate
+
+        if (activityState.startTime.includes('-')) {
+            tempStartDate = null
+        } else {
+            tempEndDate = new Date()
+            tempEndDate.setHours(Number(activityState.endTime.substring(0,2)))
+            tempEndDate.setMinutes(Number(activityState.endTime.substring(3,5)))
+        }
+
+
+        console.log('startTime API Call :', tempStartDate)
+        console.log('endTime API Call :', tempEndDate)
 
         await axios.put('/api/activities', {
             activityName: activityState.name,
@@ -81,24 +92,35 @@ const activity = ({readOnly, setReadOnly, deleteActivity, city, contactInfo, cou
 
 
 
-const getActualTime = (timeState: string) => {
-    const hours = Number(timeState.substring(0,2))
-    let time = timeState
+    const getActualTime = (timeState: string) => {
+        if (timeState.includes('-')) {
+            return null
+        }
 
-    if (hours >= 13) {
-        time = `${Math.abs(hours - 12)}:${timeState.substring(3,5)} PM`
-    } else if (hours === 12) {
-        time = `12:${timeState.substring(3,5)} PM`
-    } else if (hours === 0) {
-        time = `12:${timeState.substring(3,5)} AM`
-    } else {
-        time = time + ' AM'
+        const hours = Number(timeState.substring(0,2))
+        let time = timeState
+
+        console.log('timeState:', timeState)
+
+        if (hours >= 13) {
+            time = `${Math.abs(hours - 12)}:${timeState.substring(3,5)} PM`
+        } else if (hours === 12) {
+            time = `12:${timeState.substring(3,5)} PM`
+        } else if (hours === 0) {
+            time = `12:${timeState.substring(3,5)} AM`
+        } else {
+            time = time + ' AM'
+        }
+
+        return time
     }
 
-    return time
-}
+    const clearTime = () => {
+        setActivityState({...activityState, 'startTime': '--:-- --', 'endTime': '--:-- --'})
+        setTimeDropDown(prev => !prev)
+    }
 
-
+    console.log('endTime: ', activityState.endTime)
 
   return (
 
@@ -111,19 +133,21 @@ const getActualTime = (timeState: string) => {
                     
                     <div className='flex justify-between'>
                         <div  className=' bg-sky-200 text-sky-600 rounded-full p-1 w-fit text-xs cursor-pointer relative'>
-                            {activityState.startTime ? (
-                                <div onClick={() => setTimeDropDown(prev => !prev)} className='flex items-center'>
-                                    <p>{getActualTime(activityState.startTime)}</p>
-
-                                    <p className='mx-1'>-</p>
-
-                                    <p>{getActualTime(activityState.endTime)}</p>
-                                </div>
-                            ) : (
+                            {activityState.startTime.includes('-') ? (
                                 <div onClick={() => setTimeDropDown(prev => !prev)}>
                                     <p className='px-2'>Add time</p>
                                 </div>
+                            ) : (
+                                <div onClick={() => setTimeDropDown(prev => !prev)} className='flex items-center'>
+                                    <p>{getActualTime(activityState.startTime)}</p>
+
+                                    {activityState.endTime.includes('-') ? null : <p className='mx-1'>-</p>}
+
+                                    <p>{getActualTime(activityState.endTime)}</p>
+                                </div>
                             )}
+
+
 
                             {timeDropDown && (
                                 <div onBlur={() => setTimeDropDown(prev => !prev)} className='absolute top-10 bg-slate-400 p-3 rounded-lg'>
@@ -134,8 +158,8 @@ const getActualTime = (timeState: string) => {
                                     </div>
 
                                     <div className='flex justify-around mt-4 text-lg'>
-                                        <button className='rounded-lg px-6 py-1 bg-orange-300 text-white'>Clear</button>
-                                        <button className='rounded-lg px-6 py-1 bg-green-300 text-white'>Save</button>
+                                        <button onClick={clearTime} className='rounded-lg px-6 py-1 bg-orange-300 text-white'>Clear</button>
+                                        <button onClick={() => setTimeDropDown(prev => !prev)} className='rounded-lg px-6 py-1 bg-green-300 text-white'>Save</button>
                                     </div>
                                 </div>
                             )}
