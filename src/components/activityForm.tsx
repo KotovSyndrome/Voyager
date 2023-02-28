@@ -30,8 +30,6 @@ const activityForm = ({setActivitiesState, tripDayId}: IActivityFormProps) => {
 
         const call = await axios.post('/api/activities', {
             activityName: activityName,
-            activityStartTime: new Date(),
-            activityEndTime: new Date(),
             activityContactInfo: '',
             activityNote: '',
             activityStreet: '',

@@ -13,8 +13,6 @@ export default validateRoute(async function (
             const data = await prisma.activity.create({
                 data: {
                     name: req.body.activityName,
-                    startTime: req.body.activityStartTime,
-                    endTime: req.body.activityEndTime,
                     contactInfo: req.body.activityContactInfo,
                     note: req.body.activityNote,
                     street: req.body.activityStreet,
