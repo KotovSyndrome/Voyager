@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import { BsTrashFill } from 'react-icons/bs'
 import { AiFillEdit } from 'react-icons/ai'
@@ -38,6 +38,21 @@ const activity = ({readOnly, setReadOnly, deleteActivity, city, contactInfo, cou
         street: street
     })
     const [timeDropDown, setTimeDropDown] = useState(false)
+    const [displayStartTime, setDisplayStartTime] = useState(activityState.startTime)
+    const [displayEndTime, setDisplayEndTime] = useState(activityState.endTime)
+    const clearedTimeRef = useRef(false)
+
+    useEffect(() => {
+        const apiCall = async () => {
+            if (clearedTimeRef.current) {
+                setDisplayStartTime(`${activityState.startTime}`)
+                setDisplayEndTime(`${activityState.endTime}`)
+                await sendUpdateReq()
+                clearedTimeRef.current = false
+            }
+        }
+        apiCall()
+    }, [activityState])
 
 
     const updateActivity = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -59,16 +74,12 @@ const activity = ({readOnly, setReadOnly, deleteActivity, city, contactInfo, cou
         let tempEndDate
 
         if (activityState.startTime.includes('-')) {
-            tempStartDate = null
+            tempEndDate = null
         } else {
             tempEndDate = new Date()
             tempEndDate.setHours(Number(activityState.endTime.substring(0,2)))
             tempEndDate.setMinutes(Number(activityState.endTime.substring(3,5)))
         }
-
-
-        console.log('startTime API Call :', tempStartDate)
-        console.log('endTime API Call :', tempEndDate)
 
         await axios.put('/api/activities', {
             activityName: activityState.name,
@@ -100,7 +111,6 @@ const activity = ({readOnly, setReadOnly, deleteActivity, city, contactInfo, cou
         const hours = Number(timeState.substring(0,2))
         let time = timeState
 
-        console.log('timeState:', timeState)
 
         if (hours >= 13) {
             time = `${Math.abs(hours - 12)}:${timeState.substring(3,5)} PM`
@@ -116,41 +126,49 @@ const activity = ({readOnly, setReadOnly, deleteActivity, city, contactInfo, cou
     }
 
     const clearTime = () => {
-        setActivityState({...activityState, 'startTime': '--:-- --', 'endTime': '--:-- --'})
         setTimeDropDown(prev => !prev)
+        setActivityState({...activityState, 'startTime': '--:-- --', 'endTime': '--:-- --'})
+        clearedTimeRef.current = true
     }
 
-    console.log('endTime: ', activityState.endTime)
+    const saveTime = async () => {
+        setTimeDropDown(prev => !prev)
+        setDisplayStartTime(activityState.startTime)
+        setDisplayEndTime(activityState.endTime)
+        await sendUpdateReq()
+    }
+
+
 
   return (
 
-        <div onFocus={() => setReadOnly(false)} onBlur={handleBlur} >
+        <div  >
             <div className='flex flex-col'>
-                <input onChange={updateActivity} name='name' value={activityState.name} readOnly={readOnly} className='bg-white bg-opacity-40 rounded-md p-1 outline-none w-fit h-fit'/>
+                <input onChange={updateActivity} name='name' value={activityState.name} readOnly={readOnly} onFocus={() => setReadOnly(false)} onBlur={handleBlur} className='bg-white bg-opacity-40 rounded-md p-1 outline-none w-fit h-fit'/>
 
                 <div className='bg-white bg-opacity-40 rounded-md p-2 mt-2'>
-                    <textarea value={activityState.note} name='note' placeholder='Add notes, links, etc.' onChange={updateActivity} className='bg-transparent p-1 focus:ring-0 focus:ring-offset-0 border-0 resize-none mt-2 placeholder-slate-400 w-full' />
+                    <textarea value={activityState.note} name='note' onFocus={() => setReadOnly(false)} onBlur={handleBlur} placeholder='Add notes, links, etc.' onChange={updateActivity} className='bg-transparent p-1 focus:ring-0 focus:ring-offset-0 border-0 resize-none mt-2 placeholder-slate-400 w-full' />
                     
                     <div className='flex justify-between'>
                         <div  className=' bg-sky-200 text-sky-600 rounded-full p-1 w-fit text-xs cursor-pointer relative'>
-                            {activityState.startTime.includes('-') ? (
+                            {displayStartTime.includes('-') ? (
                                 <div onClick={() => setTimeDropDown(prev => !prev)}>
                                     <p className='px-2'>Add time</p>
                                 </div>
                             ) : (
                                 <div onClick={() => setTimeDropDown(prev => !prev)} className='flex items-center'>
-                                    <p>{getActualTime(activityState.startTime)}</p>
+                                    <p>{getActualTime(displayStartTime)}</p>
 
                                     {activityState.endTime.includes('-') ? null : <p className='mx-1'>-</p>}
 
-                                    <p>{getActualTime(activityState.endTime)}</p>
+                                    <p>{getActualTime(displayEndTime)}</p>
                                 </div>
                             )}
-
+ 
 
 
                             {timeDropDown && (
-                                <div onBlur={() => setTimeDropDown(prev => !prev)} className='absolute top-10 bg-slate-400 p-3 rounded-lg'>
+                                <div className='absolute top-10 bg-slate-400 p-3 rounded-lg z-10'>
                                     <div className='flex'>
                                         <input value={activityState.startTime} onChange={updateActivity} type='time' name='startTime' className='rounded-md border-0'/>
                                         <p>-</p>
@@ -158,8 +176,8 @@ const activity = ({readOnly, setReadOnly, deleteActivity, city, contactInfo, cou
                                     </div>
 
                                     <div className='flex justify-around mt-4 text-lg'>
-                                        <button onClick={clearTime} className='rounded-lg px-6 py-1 bg-orange-300 text-white'>Clear</button>
-                                        <button onClick={() => setTimeDropDown(prev => !prev)} className='rounded-lg px-6 py-1 bg-green-300 text-white'>Save</button>
+                                        <button onClick={clearTime} className='rounded-lg px-6 py-1 bg-orange-300 text-white hover:bg-orange-500'>Clear</button>
+                                        <button onClick={saveTime} className='rounded-lg px-6 py-1 bg-green-300 text-white hover:bg-green-500'>Save</button>
                                     </div>
                                 </div>
                             )}
@@ -171,7 +189,6 @@ const activity = ({readOnly, setReadOnly, deleteActivity, city, contactInfo, cou
                 </div>
             </div>
         </div>
-
 
   )
 }

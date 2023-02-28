@@ -42,7 +42,7 @@ const Home: NextPage = () => {
 
         {displayStuff.map((card, i) => {
           return (
-            <div className="grid grid-cols-1 grid-rows-2 mt-32 xl:mt-44 xl:grid-cols-3 xl:grid-rows-none gap-y-8 xl:gap-8">
+            <div key={card.header} className="grid grid-cols-1 grid-rows-2 mt-32 xl:mt-44 xl:grid-cols-3 xl:grid-rows-none gap-y-8 xl:gap-8">
               <div className={`flex justify-center items-center ${i % 2 !== 0 && 'xl:order-last'}`}>
                 <div className='border-2 bg-white bg-opacity-10 rounded-xl p-4 w-2/3 h-fit col-span-1'>
                   {card.header === 'Plan trips with friends and family' && <p className="border-2 border-teal-200 bg-teal-400 rounded-lg w-fit px-1 mb-1">Coming soon</p>}
