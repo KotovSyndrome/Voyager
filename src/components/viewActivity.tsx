@@ -48,8 +48,8 @@ const ViewActivity = ({city, contactInfo, country, endTime, id, name, photo, pos
 
   return (
         <div>
-            <div className='flex flex-col'>
-                <p className='bg-white bg-opacity-40 rounded-md p-1 outline-none w-fit h-fit'>{name}</p>
+            <div className='flex flex-col bg-blue-200 rounded-lg p-3'>
+                <p className='bg-white bg-opacity-80 rounded-md p-1 outline-none w-fit h-fit'>{name}</p>
 
                 <div  className=' bg-sky-200 text-sky-600 rounded-full p-1 w-fit text-xs mt-2'>
                     {!formattedStartTime.includes('-') && (
