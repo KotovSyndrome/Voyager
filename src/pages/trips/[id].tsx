@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import SplitLayout from '../../components/splitLayout'
-import Itinerary from '../../components/itinerary'
+import Itinerary from '../../components/myItinerary'
 import Map from '../../components/map'
 import { prisma } from '../../server/db/client'
 import { type GetServerSideProps } from 'next'
