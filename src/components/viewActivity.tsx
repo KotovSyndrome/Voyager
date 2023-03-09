@@ -20,8 +20,6 @@ const ViewActivity = ({city, contactInfo, country, endTime, id, name, photo, pos
     const formattedStartTime = `${startTime ? format(new Date(startTime), 'HH'): '--:-- --'}:${startTime ? format(new Date(startTime), 'mm') : '--:-- --'}`
     const formattedEndTime = `${endTime ? format(new Date(endTime), 'HH') : '--:-- --'}:${endTime ? format(new Date(endTime), 'mm') : '--:-- --'}`
 
-    console.log('startTime: ', startTime)
-    console.log('formatted startTime: ', formattedStartTime)
 
     const getActualTime = (timeState: string) => {
         if (timeState.includes('-')) {

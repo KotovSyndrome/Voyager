@@ -34,7 +34,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
         ) : (
           <>
             <Navbar />
-            <Component {...pageProps} />
+            {/* <div className="mb-auto"> */}
+              <Component {...pageProps} />
+            {/* </div> */}
             <Footer />
           </>
         )}
