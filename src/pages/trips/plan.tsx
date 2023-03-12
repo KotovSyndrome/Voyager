@@ -31,6 +31,12 @@ interface IProfile {
     profile: IProfile
   }
 
+  interface IGuestTripDay {
+    id: number,
+    date: Date,
+    activities: []
+  }
+
 const Plan = () => {
     const [value, onChange] = useState([new Date(), new Date()]);
     const [formValues, setFormValues] = useState({
@@ -53,30 +59,57 @@ const Plan = () => {
         }
     }
 
+    const guestSubmit = () => {
+        const itinerary = {
+            name: formValues.itineraryName,
+            startDate: value[0],
+            endDate: value[1],
+            destinations: formValues.destinations,
+            likes: 0,
+            coverPhoto: '',
+            tripDays: [] as IGuestTripDay[],
+            public: formValues.isPublic,
+          }
+
+          const dateArray = eachDayOfInterval({start: value[0]!, end: value[1]!});
+
+          dateArray.forEach((date, i) => itinerary.tripDays.push({ date: date,  activities: [], id: i + 1 }))
+
+          sessionStorage.setItem("guestItinerary", JSON.stringify(itinerary))
+
+          router.push('/trips/guest')
+    }
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();      
         if (!formValues.itineraryName.length || !formValues.destinations.length) return
         
-        const dateArray = eachDayOfInterval({start: value[0]!, end: value[1]!});
+        if (!session?.user) {
+            guestSubmit()
+        } else {
+            const dateArray = eachDayOfInterval({start: value[0]!, end: value[1]!});
 
-        const call = await axios.post('/api/itinerary', {
-            itineraryName: formValues.itineraryName,
-            startDate: value[0],
-            endDate: value[1],
-            days: dateArray,
-            destinations: formValues.destinations, 
-            isPublic: formValues.isPublic,
-            // @ts-ignore
-            profileId: session.profile.id,
-        })
 
-        router.push({
-            pathname: '/trips/[id]',
-            query: { 
-                id: call.data.id
-            },
-          })
+            const call = await axios.post('/api/itinerary', {
+                itineraryName: formValues.itineraryName,
+                startDate: value[0],
+                endDate: value[1],
+                days: dateArray,
+                destinations: formValues.destinations, 
+                isPublic: formValues.isPublic,
+                // @ts-ignore
+                profileId: session.profile.id,
+            })
+    
+            router.push({
+                pathname: '/trips/[id]',
+                query: { 
+                    id: call.data.id
+                },
+              })
+        }
     }
+
 
 
   return (
