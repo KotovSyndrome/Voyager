@@ -8,6 +8,8 @@ import SailBoat from '../assets/SailBoat.svg'
 import LayoutWrapper from './layoutWrapper'
 import ProfilePlaceholder from '../assets/profile-placeholder.png'
 import { CgMenu, CgClose } from 'react-icons/cg'
+import GuestNavBarButton from './guestNavBarButton'
+import MobileGuestNavBarButton from './mobileGuestNavBarButton'
 
 const Navbar = () => {
   const router = useRouter()
@@ -89,7 +91,7 @@ const Navbar = () => {
                     <button onClick={() => signOut()} className='bg-red-500 rounded-md py-2 px-10 mt-6'>Sign Out</button>
                   </div>
                 ): (
-                  <p onClick={handleMobileSignIn} className='text-3xl'>Sign In</p>
+                  <MobileGuestNavBarButton />
                 )
               }
                 
@@ -110,8 +112,10 @@ const Navbar = () => {
                     </div>
                 </div>
             ) : (
-              <FaUserCircle size={30} color={'black'} onClick={() => signIn()} className='hidden md:block cursor-pointer'/>
-            )}
+              <GuestNavBarButton />
+            )
+          }
+          
       </nav>
     </LayoutWrapper>
   )

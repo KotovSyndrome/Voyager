@@ -47,8 +47,21 @@ const guestTripDay = ({ date, activities, tripDayId, itineraryData, setItinerary
     const [activitiesState, setActivitiesState] = useState(activities) 
 
     const deleteActivity = async (activityId: string) => {
+      setActivitiesState((prev) => prev.filter(act => act.id !== activityId))
+      
+      const updatedItinerary = itineraryData
 
-    setActivitiesState((prev) => prev.filter(act => act.id !== activityId))
+      updatedItinerary.tripDays.forEach(day => {
+        if (day.id === tripDayId) {
+          const filteredActivities = day.activities.filter(act => activityId !== act.id)
+
+          day.activities = filteredActivities
+        }
+      })
+    
+      setItineraryData(prev => updatedItinerary)
+    
+      sessionStorage.setItem("guestItinerary", JSON.stringify(itineraryData))
     }
 
 

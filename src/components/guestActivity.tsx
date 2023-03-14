@@ -69,7 +69,9 @@ const guestActivity = ({
     postalCode,
     startTime,
     street,
-    tripDayId
+    tripDayId,
+    itineraryData,
+    setItineraryData
 }: IActivityProps) => {
     const [activityState, setActivityState] = useState({
         city: city,
@@ -89,15 +91,12 @@ const guestActivity = ({
     const clearedTimeRef = useRef(false)
 
     useEffect(() => {
-        const apiCall = async () => {
-            if (clearedTimeRef.current) {
-                setDisplayStartTime(`${activityState.startTime}`)
-                setDisplayEndTime(`${activityState.endTime}`)
-                await updateStorage()
-                clearedTimeRef.current = false
-            }
+        if (clearedTimeRef.current) {
+            setDisplayStartTime(`${activityState.startTime}`)
+            setDisplayEndTime(`${activityState.endTime}`)
+            updateStorage()
+            clearedTimeRef.current = false
         }
-        apiCall()
     }, [activityState])
 
 
@@ -107,7 +106,7 @@ const guestActivity = ({
     }
 
     const updateStorage = async () => {
-        let tempStartDate
+        let tempStartDate: Date | null
 
         if (activityState.startTime.includes('-')) {
             tempStartDate = null
@@ -117,7 +116,7 @@ const guestActivity = ({
             tempStartDate.setMinutes(Number(activityState.startTime.substring(3,5)))
         }
 
-        let tempEndDate
+        let tempEndDate: Date | null
 
         if (activityState.startTime.includes('-')) {
             tempEndDate = null
@@ -128,7 +127,33 @@ const guestActivity = ({
         }
         
         // update activity in sessionStorage
+        const updatedItinerary = itineraryData
 
+        //Loop over and replace activity with updated one
+        updatedItinerary.tripDays.forEach(day => {
+            if (day.id === tripDayId) {
+                day.activities.forEach(act => {
+                    if (id === act.id) {
+                        act.name = activityState.name,
+                        //@ts-ignore
+                        act.startTime = tempStartDate,
+                        //@ts-ignore
+                        act.endTime = tempEndDate,
+                        act.contactInfo = activityState.contactInfo,
+                        act.note = activityState.note,
+                        act.street = activityState.street,
+                        act.postalCode = activityState.postcalCode,
+                        act.city = activityState.city,
+                        act.country = activityState.country
+                    }
+                })
+            }
+          })
+        
+        
+        setItineraryData(prev => updatedItinerary)
+        
+        sessionStorage.setItem("guestItinerary", JSON.stringify(itineraryData))
     }
 
     const handleBlur = async () => {

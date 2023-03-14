@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction, useState, useId } from 'react'
+import { v4 as uuidv4 } from 'uuid';
 
 interface IActivity {
   city: string
@@ -40,7 +41,6 @@ interface IActivityFormProps {
 
 const guestActivityForm = ({setActivitiesState, tripDayId, itineraryData, setItineraryData}: IActivityFormProps) => {
     const [activityName, setActivityName] = useState('')
-    const newActivityId = useId()
 
     const createAcitivity = () => {
         if (activityName.length === 0) return
@@ -58,7 +58,7 @@ const guestActivityForm = ({setActivitiesState, tripDayId, itineraryData, setIti
           postalCode: '',
           startTime: null,
           street: '',
-          id: newActivityId,
+          id: uuidv4(),
           tripDayId: tripDayId
         }
 
