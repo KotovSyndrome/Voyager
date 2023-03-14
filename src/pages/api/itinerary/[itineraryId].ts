@@ -5,7 +5,7 @@ import { validateRoute } from "../../../lib/auth";
 export default validateRoute(async function (
   req: NextApiRequest,
   res: NextApiResponse,
-  userId: string
+  profileId: number
 ): Promise<void> {
     switch (req.method) {
         case 'GET':

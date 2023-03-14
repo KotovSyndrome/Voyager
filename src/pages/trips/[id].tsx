@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Itinerary from '../../components/myItinerary'
 import Map from '../../components/map'
 import { prisma } from '../../server/db/client'
@@ -7,6 +7,9 @@ import { FaMapMarkedAlt } from 'react-icons/fa'
 import { SlNote } from 'react-icons/sl'
 import { unstable_getServerSession } from 'next-auth'
 import { authOptions } from '../api/auth/[...nextauth]'
+import axios from 'axios'
+import { useRouter } from 'next/router'
+
 interface IActivity {
   city: string
   contactInfo: string
@@ -42,13 +45,29 @@ interface IItineraryData {
 }
 
 
-const TripPage = (itineraryData: IItineraryData) => {
+const TripPage = () => {
   const [viewState, setViewState] = useState(false)
+  const [itineraryData, setItineraryData] = useState<IItineraryData>()
+  const router = useRouter()
+
+
+  useEffect(() => {
+    const getData = async () => {
+      const userItinerary = await axios.get(`/api/itinerary/user/${router.query.id}`)
+
+      setItineraryData(userItinerary.data)
+    }
+    
+    if (router.query.id) {
+      getData()
+    }
+  }, [router.query])
+  
 
   return (
     <div className='grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3'>
       <div className={`${viewState && 'hidden'} lg:block 2xl:col-start-1 2xl:col-end-1 shadow-lg shadow-gray-600 z-[999]`}>
-        <Itinerary itin={itineraryData} />
+        {itineraryData ? <Itinerary itin={itineraryData} /> : <div>Loader goes here</div>}
       </div>
       <div className={`${!viewState && 'hidden'} lg:block 2xl:col-start-2 2xl:col-end-4`}>
         <Map />
@@ -63,69 +82,69 @@ TripPage.tripPage = true
 
 export default TripPage
 
-interface IProfile {
-  id: number
-  bio: string
-  username: string
-  distanceUnits: string
-  dateFormat: string
-  timeFormat: string
-  commentsNotification: boolean
-  remindersNotification: boolean
-  collaboratorJoinedNotification: boolean
-}
-interface IUser {
-  email: string
-  id: string
-  image: string
-  name: string
-}
+// interface IProfile {
+//   id: number
+//   bio: string
+//   username: string
+//   distanceUnits: string
+//   dateFormat: string
+//   timeFormat: string
+//   commentsNotification: boolean
+//   remindersNotification: boolean
+//   collaboratorJoinedNotification: boolean
+// }
+// interface IUser {
+//   email: string
+//   id: string
+//   image: string
+//   name: string
+// }
 
-interface ISession {
-  expires: Date
-  user: IUser
-  profile: IProfile
-}
+// interface ISession {
+//   expires: Date
+//   user: IUser
+//   profile: IProfile
+// }
 
-export const getServerSideProps: GetServerSideProps = async ({query, req, res}) => {
+// export const getServerSideProps: GetServerSideProps = async ({query, req, res}) => {
 
-  // const session: ISession | null = await unstable_getServerSession(req, res, authOptions);
+//   // const session: ISession | null = await unstable_getServerSession(req, res, authOptions);
 
-    // Guest users
-  // if (!session) {
-  //   return {
-  //     props: { guest: true}
-  //   }
-  // }
+//     // Guest users
+//   // if (!session) {
+//   //   return {
+//   //     props: { guest: true}
+//   //   }
+//   // }
 
-  let itineraryData;
+//   let itineraryData;
 
-  try {           
-    const data = await prisma.itinerary.findUnique({
-      where: {
-        id: Number(query.id),
-      },
-      include: {
-        tripDays: {
-          include: {
-            activities: {
-              orderBy: {
-                startTime: 'asc'
-              }
-            }
-          }
-        }
-      }
-    });
-    itineraryData = data;
+//   try {           
+//     const data = await prisma.itinerary.findUnique({
+//       where: {
+//         id: Number(query.id),
+//       },
+//       include: {
+//         tripDays: {
+//           include: {
+//             activities: {
+//               orderBy: {
+//                 startTime: 'asc'
+//               }
+//             }
+//           }
+//         }
+//       }
+//     });
+//     itineraryData = data;
 
 
-  } catch (e) {
-    console.error(e);
-  }
-  return { 
-    props: JSON.parse(JSON.stringify(itineraryData))
-  }
+//   } catch (e) {
+//     console.error(e);
+//   }
+//   return { 
+//     props: JSON.parse(JSON.stringify(itineraryData))
+//   }
   
-  // if no itineraries found, redirect to plan?
-}
+//   // if no itineraries found, redirect to plan?
+// }
