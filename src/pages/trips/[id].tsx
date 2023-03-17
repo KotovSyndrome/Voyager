@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Itinerary from '../../components/myItinerary'
 import Map from '../../components/map'
 import { prisma } from '../../server/db/client'
@@ -7,6 +7,8 @@ import { FaMapMarkedAlt } from 'react-icons/fa'
 import { SlNote } from 'react-icons/sl'
 import { unstable_getServerSession } from 'next-auth'
 import { authOptions } from '../api/auth/[...nextauth]'
+import { useSession } from 'next-auth/react'
+import axios from 'axios'
 interface IActivity {
   city: string
   contactInfo: string
@@ -43,7 +45,23 @@ interface IItineraryData {
 
 
 const TripPage = (itineraryData: IItineraryData) => {
+  const { data: session } = useSession()
+
   const [viewState, setViewState] = useState(false)
+
+  useEffect(() => {
+    const connectItineraryToProfile = async () => {
+      await axios.put('/api/itinerary/connect', {
+        itineraryId: itineraryData.id
+      })
+    }
+
+    if (!itineraryData.profileId && session) {
+      connectItineraryToProfile()
+    }
+
+  }, [session])
+  
 
   return (
     <div className='grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3'>
@@ -90,13 +108,6 @@ interface ISession {
 export const getServerSideProps: GetServerSideProps = async ({query, req, res}) => {
 
   // const session: ISession | null = await unstable_getServerSession(req, res, authOptions);
-
-    // Guest users
-  // if (!session) {
-  //   return {
-  //     props: { guest: true}
-  //   }
-  // }
 
   let itineraryData;
 

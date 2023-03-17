@@ -6,7 +6,8 @@ export const validateRoute = (handler: any) => {
         const session = await getServerAuthSession({ req, res });
         // console.log('session on the backend: ', session);
         if (session) {
-            return handler(req, res, session.user?.id);
+            //@ts-ignore
+            return handler(req, res, session.profile.id);
         }
 
         res.status(401).json({ error: 'NOT AUTHORIZED.'})

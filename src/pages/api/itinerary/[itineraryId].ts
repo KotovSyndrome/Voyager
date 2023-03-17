@@ -8,11 +8,15 @@ export default validateRoute(async function (
   userId: string
 ): Promise<void> {
     switch (req.method) {
-        case 'GET':
+        case 'PUT':
+
           try {           
-            const data = await prisma.itinerary.findUnique({
+            const data = await prisma.itinerary.update({
               where: {
                 id: Number(req.query.itineraryId),
+              }, 
+              data: {
+                // Update itinerary
               }
             })
 
@@ -22,7 +26,7 @@ export default validateRoute(async function (
             res.status(500).json({
               error: {
                 code: 'server_error',
-                message: 'An error occurred while fetching a specific itinerary',
+                message: 'An error occurred while updating the itinerary.',
               },
             });
           }
