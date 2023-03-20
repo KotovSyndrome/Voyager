@@ -94,6 +94,7 @@ model Itinerary {
   public       Boolean
   destinations String
   coverPhoto   String?
+  ipAddress    String?
   comments     Comment[]
   profile      Profile?  @relation(fields: [profileId], references: [id], onDelete: Cascade)
   tripDays     TripDay[]

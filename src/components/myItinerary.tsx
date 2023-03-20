@@ -45,7 +45,7 @@ const itinerary = ({itin}: IItineraryData) => {
     <div className='bg-blue-100 shadow-xl shadow-black min-h-screen'>
         <Image src={itin.coverPhoto!} alt='Itinerary cover' width={300} height={200} priority={true} className='w-full h-80' />
 
-        <div className='absolute top-20 left-4'>
+        <div className='absolute top-20 left-4 bg-black rounded-lg p-2 bg-opacity-30'>
           <p className='text-2xl text-slate-50'>{itin.name}</p>
           <p>{itin.destinations}</p>
           <p>{format(new Date(itin.startDate), 'MMM d, yyyy')} - {format(new Date(itin.endDate), 'MMM d, yyyy')}</p>
