@@ -58,22 +58,36 @@ const Plan = () => {
         if (!formValues.itineraryName.length || !formValues.destinations.length) return
         
         const dateArray = eachDayOfInterval({start: value[0]!, end: value[1]!});
+        
+        let res
 
-        const call = await axios.post('/api/itinerary', {
-            itineraryName: formValues.itineraryName,
-            startDate: value[0],
-            endDate: value[1],
-            days: dateArray,
-            destinations: formValues.destinations, 
-            isPublic: formValues.isPublic,
-            // @ts-ignore
-            profileId: session.profile.id,
-        })
+        if (session) {
+            res = await axios.post('/api/itinerary', {
+                itineraryName: formValues.itineraryName,
+                startDate: value[0],
+                endDate: value[1],
+                days: dateArray,
+                destinations: formValues.destinations, 
+                isPublic: formValues.isPublic,
+                // @ts-ignore
+                profileId: session.profile.id,
+            })
+        } else {
+            res = await axios.post('/api/itinerary', {
+                itineraryName: formValues.itineraryName,
+                startDate: value[0],
+                endDate: value[1],
+                days: dateArray,
+                destinations: formValues.destinations, 
+                isPublic: formValues.isPublic,
+            })
+        }
+
 
         router.push({
             pathname: '/trips/[id]',
             query: { 
-                id: call.data.id
+                id: res.data.id
             },
           })
     }

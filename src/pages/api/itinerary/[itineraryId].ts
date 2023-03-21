@@ -2,17 +2,20 @@ import { prisma } from "../../../server/db/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { validateRoute } from "../../../lib/auth";
 
-export default validateRoute(async function (
+export default async function (
   req: NextApiRequest,
   res: NextApiResponse,
-  userId: string
 ): Promise<void> {
     switch (req.method) {
-        case 'GET':
+        case 'PUT':
+
           try {           
-            const data = await prisma.itinerary.findUnique({
+            const data = await prisma.itinerary.update({
               where: {
                 id: Number(req.query.itineraryId),
+              }, 
+              data: {
+                // Update itinerary
               }
             })
 
@@ -22,7 +25,7 @@ export default validateRoute(async function (
             res.status(500).json({
               error: {
                 code: 'server_error',
-                message: 'An error occurred while fetching a specific itinerary',
+                message: 'An error occurred while updating the itinerary.',
               },
             });
           }
@@ -31,7 +34,8 @@ export default validateRoute(async function (
           const data = await prisma.itinerary.delete({
             where: {
               id: Number(req.query.itineraryId),
-            }
+            },
+            
           })
           res.status(204).json({
             message: "Resource successfully deleted",
@@ -45,4 +49,4 @@ export default validateRoute(async function (
           },
         });
       }
-} )
+}

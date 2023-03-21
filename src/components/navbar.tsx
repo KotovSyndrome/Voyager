@@ -1,19 +1,24 @@
-import React, { useState } from 'react'
-import Link from 'next/link'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { FaUserCircle } from 'react-icons/fa'
 import Image from 'next/image'
 import { useSession, signIn, signOut } from 'next-auth/react'
-import SailBoat from '../assets/SailBoat.svg'
 import LayoutWrapper from './layoutWrapper'
 import ProfilePlaceholder from '../assets/profile-placeholder.png'
 import { CgMenu, CgClose } from 'react-icons/cg'
+import GuestSignInButton from './guestSignInButton'
+import Modal from './modal'
 
 const Navbar = () => {
   const router = useRouter()
   const { data: session } = useSession();
   const [toolTipHideState, setToolTipHideState] = useState(true)
   const [mobileMenuState, setMobileMenuState] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const [path, setPath] = useState('')
+
+  const toggleModal = () => {
+    setIsOpen(!isOpen)
+  }
 
   const handleSignout = () => {
     signOut()
@@ -31,11 +36,24 @@ const Navbar = () => {
     }
   }
 
+  const handleNav = (path: string, isMobile: boolean) => {
+    if (isMobile) {
+      setMobileMenuState(!mobileMenuState)
+    }
+
+    if (router.pathname === '/trips/[id]') {
+      setIsOpen(true)
+      setPath(path)
+    } else {
+      router.push(path)
+    }
+  }
+
 
   return (
     <LayoutWrapper>
         <nav className='flex justify-between py-4'>
-            <Link href={'/'} className='font-bold text-2xl'>Voyager</Link>
+            <button onClick={() => handleNav('/', false)} className='font-bold text-2xl'>Voyager</button>
             {mobileMenuState ? (
                 <div className='md:hidden'>
                   <CgClose onClick={() => setMobileMenuState(!mobileMenuState)} size={30} className='fixed right-10 text-red-500 z-[1002]'/>
@@ -48,13 +66,13 @@ const Navbar = () => {
             {/* Desktop menu */}
             <ul className='hidden md:flex space-x-8 items-center'>
                 <li>
-                  <Link href={'/trips'} className={`${router.pathname === '/trips' && 'underline underline-offset-8 decoration-white'} hover:text-slate-300`}>Trips</Link>
+                  <button onClick={() => handleNav('/trips', false)} className={`${router.pathname === '/trips' && 'underline underline-offset-8 decoration-white'} hover:text-slate-300`}>Trips</button>
                 </li>
                 <li>
-                  <Link href={'/discover'} className={`${router.pathname === '/discover' && 'underline underline-offset-8 decoration-white'} hover:text-slate-300`}>Discover</Link>
+                  <button onClick={() => handleNav('/discover', false)} className={`${router.pathname === '/discover' && 'underline underline-offset-8 decoration-white'} hover:text-slate-300`}>Discover</button>
                 </li>
                 {/* <li>
-                  <Link href={'/travelstats'} className={`${router.pathname === '/travelstats' && 'underline underline-offset-8 decoration-white'} hover:text-slate-300`}>Travel Stats</Link>
+                  <button href={'/travelstats'} className={`${router.pathname === '/travelstats' && 'underline underline-offset-8 decoration-white'} hover:text-slate-300`}>Travel Stats</button>
                 </li> */}
             </ul>
 
@@ -64,16 +82,16 @@ const Navbar = () => {
                 <div className='flex flex-col items-center'>
                     <ul className='space-y-10 text-3xl'>
                       <li>
-                        <Link href={'/'} onClick={() => setMobileMenuState(!mobileMenuState)} className={`${router.pathname === '/' && 'underline underline-offset-8 decoration-white'} hover:text-slate-300`}>Home</Link>
+                        <button onClick={() => handleNav('/', true)} className={`${router.pathname === '/' && 'underline underline-offset-8 decoration-white'} hover:text-slate-300`}>Home</button>
                       </li>
                       <li>
-                        <Link href={'/trips'} onClick={() => setMobileMenuState(!mobileMenuState)} className={`${router.pathname === '/trips' && 'underline underline-offset-8 decoration-white'} hover:text-slate-300`}>Trips</Link>
+                        <button onClick={() => handleNav('/trips', true)}  className={`${router.pathname === '/trips' && 'underline underline-offset-8 decoration-white'} hover:text-slate-300`}>Trips</button>
                       </li>
                       <li>
-                        <Link href={'/discover'} onClick={() => setMobileMenuState(!mobileMenuState)} className={`${router.pathname === '/discover' && 'underline underline-offset-8 decoration-white'} hover:text-slate-300`}>Discover</Link>
+                        <button onClick={() => handleNav('/discover', true)} className={`${router.pathname === '/discover' && 'underline underline-offset-8 decoration-white'} hover:text-slate-300`}>Discover</button>
                       </li>
                       {/* <li>
-                        <Link href={'/travelstats'} onClick={() => setMobileMenuState(!mobileMenuState)} className={`${router.pathname === '/travelstats' && 'underline underline-offset-8 decoration-white'} hover:text-slate-300`}>Travel Stats</Link>
+                        <button onClick={() => handleNav('/travelstats', true)}  className={`${router.pathname === '/travelstats' && 'underline underline-offset-8 decoration-white'} hover:text-slate-300`}>Travel Stats</button>
                       </li> */}
                     </ul>
                 </div>
@@ -89,7 +107,7 @@ const Navbar = () => {
                     <button onClick={() => signOut()} className='bg-red-500 rounded-md py-2 px-10 mt-6'>Sign Out</button>
                   </div>
                 ): (
-                  <p onClick={handleMobileSignIn} className='text-3xl'>Sign In</p>
+                  <GuestSignInButton isHidden={false}/>
                 )
               }
                 
@@ -110,9 +128,11 @@ const Navbar = () => {
                     </div>
                 </div>
             ) : (
-              <FaUserCircle size={30} color={'black'} onClick={() => signIn()} className='hidden md:block cursor-pointer'/>
+              <GuestSignInButton isHidden={true}/>
             )}
       </nav>
+
+      <Modal isOpen={isOpen} toggleModal={toggleModal} path={path}/>
     </LayoutWrapper>
   )
 }
