@@ -59,12 +59,6 @@ const monthContainer = (itineraries: any) => {
     }, [])
 
 
-    // console.log({filteredItineraries})
-    // console.log(itineraries.selectedIndex)
-    // console.log(itineraries.startMonth)
-    // console.log(itineraries.startYear)
-
-
   return (
     <div className='my-12 w-full'>
         {/* @ts-ignore */}
