@@ -40,7 +40,7 @@ export default validateRoute(async function (
             res.status(501).json({
               error: {
                 code: 'method_unknown',
-                message: 'This endpoint only responds to POST',
+                message: 'This endpoint only responds to PUT requests.',
               },
             })
         }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect,} from 'react'
-import Itinerary from '../../components/myItinerary'
+import Itinerary from '../../components/itinerary'
 import Map from '../../components/map'
 import { prisma } from '../../server/db/client'
 import { type GetServerSideProps } from 'next'
@@ -82,29 +82,6 @@ TripPage.tripPage = true
 
 export default TripPage
 
-// interface IProfile {
-//   id: number
-//   bio: string
-//   username: string
-//   distanceUnits: string
-//   dateFormat: string
-//   timeFormat: string
-//   commentsNotification: boolean
-//   remindersNotification: boolean
-//   collaboratorJoinedNotification: boolean
-// }
-// interface IUser {
-//   email: string
-//   id: string
-//   image: string
-//   name: string
-// }
-
-// interface ISession {
-//   expires: Date
-//   user: IUser
-//   profile: IProfile
-// }
 
 export const getServerSideProps: GetServerSideProps = async ({query, req, res}) => {
   const session = await getServerAuthSession({ req, res });
