@@ -28,7 +28,7 @@ const monthContainer = (itineraries: any) => {
 
         let filtered: []
 
-        if (itineraries.tripStatusFilter === 'ACTIVE') {
+        if (itineraries.selectedIndex === 0) {
             filtered = itineraries.itineraries.filter((itin: any) => {
 
                 const startDate = new Date(itin.startDate)
@@ -39,7 +39,7 @@ const monthContainer = (itineraries: any) => {
                 
                 return startDateCompare <= compareDate && compareDate <= endDateCompare
             })
-        } else if (itineraries.tripStatusFilter === 'UPCOMING') {
+        } else if (itineraries.selectedIndex === 1) {
             filtered = itineraries.itineraries.filter((itin: any) => {
                 const startDate = new Date(itin.startDate)
                 const startDateCompare = new Date(`${startDate.getMonth() + 1} ${startDate.getDate()} ${startDate.getFullYear()}`)
@@ -56,7 +56,14 @@ const monthContainer = (itineraries: any) => {
         }
 
         setFilteredItineraries((prev: any) => filtered)
-    }, [itineraries.tripStatusFilter])
+    }, [])
+
+
+    // console.log({filteredItineraries})
+    // console.log(itineraries.selectedIndex)
+    // console.log(itineraries.startMonth)
+    // console.log(itineraries.startYear)
+
 
   return (
     <div className='my-12 w-full'>
@@ -79,11 +86,11 @@ const monthContainer = (itineraries: any) => {
                 })}
         </div>
 
-        {itineraries.tripStatusFilter === 'UPCOMING' && !filteredItineraries.length && (
+        {itineraries.selectedIndex === 1 && !filteredItineraries.length && (
             <p className='text-center text-xl'>You don't have any upcoming trips.</p>
         )}
 
-        {itineraries.tripStatusFilter === 'COMPLETE' && !filteredItineraries.length && (
+        {itineraries.selectedIndex === 2 && !filteredItineraries.length && (
             <p className='text-center text-xl'>You don't have any past trips.</p>
         )}
     </div>
