@@ -29,6 +29,10 @@ interface INoData {
   noItins: boolean
 }
 
+interface IItinerariesMap {
+  [key: string]: IItineraryData[]
+}
+
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
@@ -37,50 +41,35 @@ function classNames(...classes: any) {
 const filters =['CURRENT', 'UPCOMING', 'PAST']
 
 const trips = (serverProps: IServerProps | INoData) => {
-    const [tripStatusFilter, setTripStatusFilter] = useState('ACTIVE')
+    // const [tripStatusFilter, setTripStatusFilter] = useState('ACTIVE')
     const [selectedIndex, setSelectedIndex] = useState(0)
-    const [itineraryMonths, setItineraryMonths] = useState<any>([])
+    const [itinerariesByDate, setItinerariesByDate] = useState<IItinerariesMap>({})
     const router = useRouter()
 
-    // useEffect(() => {
-    //    check if any itineraries are in localStorage (guest user)
-    // }, [])
-
  
-  // This isolates all of the months and thier corresponding years that trips occur in. 
-  // We need this because we need to dynamically render the months and years, and then the respective itineraries to those dates. 
-  // The result in itineraryMonths looks like this: [[month, year], [month, year]].     
-
+  // Filters itineraries by thier dates. Ex. '1-2023' => [itin1, itin2, ...etc]   
   useEffect(() => {
     if ("itineraryData" in serverProps) {
-      const renderMonths = []
+      const itinerariesMap: IItinerariesMap = {}
+
 
       for (const itin of serverProps.itineraryData) {
         const start = new Date(itin.startDate)
   
         const startMonth = start.getMonth()
-        const startYear = start.getFullYear()
-  
-        if (renderMonths.length === 0) {
-          renderMonths.push([startMonth, startYear])
+        const startYear = start.getFullYear()  
+
+        if (itinerariesMap[`${startMonth}-${startYear}`]) {
+          itinerariesMap[`${startMonth}-${startYear}`]!.push(itin)
+        } else {
+          itinerariesMap[`${startMonth}-${startYear}`] = [itin]  
         }
-        
-
-        let flag = false
-
-        for (const [month, year] of renderMonths) {
-          if (startMonth === month && year === startYear) flag = true
-        }
-
-        if (!flag) renderMonths.push([startMonth, startYear])
       }
-      // @ts-ignore
-      setItineraryMonths(renderMonths)
+
+      setItinerariesByDate(itinerariesMap)
     }
 
   }, [])
-
-  
 
 
   return (
@@ -114,9 +103,11 @@ const trips = (serverProps: IServerProps | INoData) => {
               <Tab.Panels className="mt-2">
                 {filters.map(filter => {
                   return (<Tab.Panel key={filter}>
-                  {"itineraryData" in serverProps && itineraryMonths.length ? itineraryMonths.map((mon: any, i: number) => (
-                      <MonthContainer key={i} startMonth={mon[0]} startYear={mon[1]} itineraries={serverProps.itineraryData} profilePic={serverProps.profilePic} selectedIndex={selectedIndex}/>
-                  )) : (
+                  {"itineraryData" in serverProps && Object.keys(itinerariesByDate).length ? (
+                    Object.keys(itinerariesByDate).map(date => {
+                      return <MonthContainer key={date} startMonth={date.length === 6 ? date.substring(0,1) : date.substring(0,2)} startYear={date.substring(2)} itineraries={itinerariesByDate[date]} profilePic={serverProps.profilePic} selectedIndex={selectedIndex}/>
+                    })
+                  ) : (
                       <h2 className='text-center text-xl mt-32 w-full'>You don't have any upcoming trips. Now's the perfect time to plan for a getaway!</h2>
                   )}
                   </Tab.Panel>)
@@ -124,27 +115,6 @@ const trips = (serverProps: IServerProps | INoData) => {
               </Tab.Panels>
             </Tab.Group>
 
-            
-
-
-            {/* <div className='flex flex-col items-center'>
-                <div className='flex space-x-4 text-2xl md:text-3xl mt-8'>
-                  <p onClick={() => setTripStatusFilter(prev => 'ACTIVE')} className={`${tripStatusFilter === 'ACTIVE' && 'underline underline-offset-8 decoration-white'} cursor-pointer`}>Current</p>
-                  <p>|</p>
-                  <p onClick={() => setTripStatusFilter(prev => 'UPCOMING')} className={`${tripStatusFilter === 'UPCOMING' && 'underline underline-offset-8 decoration-white'} cursor-pointer`}>Upcoming</p>
-                  <p>|</p>
-                  <p onClick={() => setTripStatusFilter(prev => 'COMPLETE')} className={`${tripStatusFilter === 'COMPLETE' && 'underline underline-offset-8 decoration-white'} cursor-pointer`}>Past</p>
-                </div>
-
-            </div> */}
-
-            {/* {"itineraryData" in serverProps ? (
-                itineraryMonths.map((mon: any, i: number) => {
-                    return <MonthContainer key={i} startMonth={mon[0]} startYear={mon[1]} itineraries={serverProps.itineraryData} profilePic={serverProps.profilePic} tripStatusFilter={tripStatusFilter}/>
-                })
-            ) : (
-              <h2 className='text-center text-xl mt-32 w-full'>You don't have any upcoming trips. Now's the perfect time to plan for a getaway!</h2>
-            )} */}
       </div>
     </LayoutWrapper>
   )

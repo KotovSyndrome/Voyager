@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import TripCard from './tripCard'
 
+interface IMonths {
+    [key: string]: string
+}
 
-const months = {
+const months: IMonths = {
     '0': 'January',
     '1': 'February',
     '2': 'March',
@@ -61,22 +64,14 @@ const monthContainer = (itineraries: any) => {
 
   return (
     <div className='my-12 w-full'>
-        {/* @ts-ignore */}
         {filteredItineraries.length > 0 && <h3 className='text-2xl mb-4'>{months[itineraries.startMonth]}, {itineraries.startYear}</h3>}
         
         <div className='grid grid-cols-1 md:grid-cols-2 md:gap-4 lg:grid-cols-3 xl:grid-cols-4'>
             {filteredItineraries.map((itin: any) => {
-                    let itinStartDate = new Date(itin.startDate)
-                    let itinEndDate = new Date(itin.endDate)
+                    const itinStartDate = new Date(itin.startDate)
+                    const itinEndDate = new Date(itin.endDate)
 
-
-                    const month = itinStartDate.getMonth()
-                    const year = itinStartDate.getFullYear()
-
-                    // Mapping itineraries to their corresponding month and year
-                    if (month === itineraries.startMonth && year === itineraries.startYear) {
-                        return <TripCard key={itin.id} title={itin.name} startDate={itinStartDate} endDate={itinEndDate} collaborators={['Jason', 'Chris', 'Henry']} id={itin.id} bgImage={''} destinations={itin.destinations} profilePic={itineraries.profilePic}/>
-                    }
+                    return <TripCard key={itin.id} title={itin.name} startDate={itinStartDate} endDate={itinEndDate} collaborators={['Jason', 'Chris', 'Henry']} id={itin.id} bgImage={''} destinations={itin.destinations} profilePic={itineraries.profilePic}/>
                 })}
         </div>
 
