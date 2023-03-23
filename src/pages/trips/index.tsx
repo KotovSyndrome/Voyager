@@ -7,6 +7,8 @@ import { prisma } from '../../server/db/client'
 import { GetServerSideProps } from 'next'
 import LayoutWrapper from '../../components/layoutWrapper'
 import MonthContainer from '../../components/monthContainer'
+import { Tab } from '@headlessui/react'
+import TabPanelContainer from '../../components/tabPanelContainer'
 
 interface IItineraryData {
   coverPhoto: string | null
@@ -28,66 +30,91 @@ interface INoData {
   noItins: boolean
 }
 
+interface IItinerariesMap {
+  [key: string]: IItineraryData[]
+}
+
+  // Don't really know what the filter does in this case, tested with and without and couldn't notice a difference.
+  // The boolean object always evaluates to true when passed in a conditional statement so nothing will get filetered here?
+  // Was in the headless ui demo code
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(' ')
+}
+
+const filters =['CURRENT', 'UPCOMING', 'PAST']
+
 const trips = (serverProps: IServerProps | INoData) => {
-    const [tripStatusFilter, setTripStatusFilter] = useState('ACTIVE')
+    const [selectedIndex, setSelectedIndex] = useState(0)
+    const [itinerariesByDate, setItinerariesByDate] = useState<IItinerariesMap>({})
     const router = useRouter()
 
-    // useEffect(() => {
-    //    check if any itineraries are in localStorage (guest user)
-    // }, [])
-
  
-  // This isolates all of the months and thier corresponding years that trips occur in. 
-  // We need this because we need to dynamically render the months and years, and then the respective itineraries to those dates. 
-  // The result in itineraryMonths looks like this: [[month, year], [month, year]].     
+  // Filters itineraries by thier dates. Ex. '1-2023' => [itin1, itin2, ...etc]   
+  useEffect(() => {
+    if ("itineraryData" in serverProps) {
+      const itinerariesMap: IItinerariesMap = {}
 
-  let itineraryMonths: any = []
+
+      for (const itin of serverProps.itineraryData) {
+        const start = new Date(itin.startDate)
   
-  if ("itineraryData" in serverProps) {
-    for (const itin of serverProps.itineraryData) {
-      let start = new Date(itin.startDate)
+        const startMonth = start.getMonth()
+        const startYear = start.getFullYear()  
 
-      let startMonth = start.getMonth()
-      let startYear = start.getFullYear()
-
-      if (itineraryMonths.length === 0) {
-        itineraryMonths.push([startMonth, startYear])
-      }
-      
-      // Making sure to not pass in duplicates. Either year or month has to be different. I.E. August 2022, August 2023
-      for (let [month, year] of itineraryMonths) {
-        if (month !== startMonth || startYear !== year) {
-          itineraryMonths.push([startMonth, startYear])
+        if (itinerariesMap[`${startMonth}-${startYear}`]) {
+          itinerariesMap[`${startMonth}-${startYear}`]!.push(itin)
+        } else {
+          itinerariesMap[`${startMonth}-${startYear}`] = [itin]  
         }
       }
+
+      setItinerariesByDate(itinerariesMap)
     }
-  }
+
+  }, [])
 
 
   return (
     <LayoutWrapper>
       <div className='relative'>
-            <h2 className='text-center text-4xl mt-16'>Your Trips</h2>
+            <h2 className='text-center text-4xl mt-16 mb-8'>Your Trips</h2>
+            
 
-            <div className='flex flex-col items-center'>
-                <div className='flex space-x-4 text-2xl md:text-3xl mt-8'>
-                  <p onClick={() => setTripStatusFilter(prev => 'ACTIVE')} className={`${tripStatusFilter === 'ACTIVE' && 'underline underline-offset-8 decoration-white'} cursor-pointer`}>Current</p>
-                  <p>|</p>
-                  <p onClick={() => setTripStatusFilter(prev => 'UPCOMING')} className={`${tripStatusFilter === 'UPCOMING' && 'underline underline-offset-8 decoration-white'} cursor-pointer`}>Upcoming</p>
-                  <p>|</p>
-                  <p onClick={() => setTripStatusFilter(prev => 'COMPLETE')} className={`${tripStatusFilter === 'COMPLETE' && 'underline underline-offset-8 decoration-white'} cursor-pointer`}>Past</p>
-                </div>
+            <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
+              <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1 w-full xl:w-1/2 mx-auto">
+                {filters.map((category) => (
+                  <Tab
+                    key={category}
+                    className={({ selected }) =>
+                      classNames(
+                        'w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700',
+                        'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
+                        selected
+                          ? 'bg-white shadow'
+                          : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
+                      )
+                    }
+                  >
+                    {category}
+                  </Tab>
+                ))}
+              </Tab.List>
+              <div className='flex justify-center'>
+                <button onClick={() => router.push('/trips/plan')} className=' bg-indigo-300 text-slate-50 px-10 py-2 rounded-md mt-8 hover:bg-indigo-500'>Plan trip <span className='inline-block text-md'><FaPlane/></span></button>
+              </div>
+              <Tab.Panels className="mt-2">
+                {filters.map(filter => {
+                  return (<Tab.Panel key={filter}>
+                  {"itineraryData" in serverProps && Object.keys(itinerariesByDate).length ? (
+                    <TabPanelContainer itinerariesByDate={itinerariesByDate} selectedFilter={filters[selectedIndex]!} profilePic={serverProps.profilePic} selectedIndex={selectedIndex}/>
+                  ) : (
+                      <h2 className='text-center text-xl mt-32 w-full'>{`You don't have any ${filters[selectedIndex]?.toLocaleLowerCase()} trips. Now's the perfect time to plan for a getaway!`}</h2>
+                  )}
+                  </Tab.Panel>)
+                })}
+              </Tab.Panels>
+            </Tab.Group>
 
-                <button onClick={() => router.push('/trips/plan')} className='bg-indigo-300 text-slate-50 px-8 py-2 rounded-md mt-7 hover:bg-indigo-500'>Plan trip <span className='inline-block text-md'><FaPlane/></span></button>
-            </div>
-
-            {"itineraryData" in serverProps ? (
-                itineraryMonths.map((mon: any, i: number) => {
-                    return <MonthContainer key={i} startMonth={mon[0]} startYear={mon[1]} itineraries={serverProps.itineraryData} profilePic={serverProps.profilePic} tripStatusFilter={tripStatusFilter}/>
-                })
-            ) : (
-              <h2 className='text-center text-xl mt-32 w-full'>You don't have any upcoming trips. Now's the perfect time to plan for a getaway!</h2>
-            )}
       </div>
     </LayoutWrapper>
   )

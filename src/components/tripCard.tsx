@@ -19,30 +19,29 @@ interface ITripCard {
 const tripCard = ({ title, startDate, endDate, collaborators, id, destinations, profilePic}: ITripCard) => {
 
   return (
-    <div>
-        <div  className='bg-white bg-opacity-80 text-black mt-2 p-3 rounded-lg drop-shadow-lg cursor-pointer max-w-m md:max-w-sm'>
-            <Link href={{pathname:'/trips/[id]', query: { id: id.toString() }}}>
-                <div className='flex justify-between'>
-                    <p className='text-xl'>{title} </p>
-                    {/* <div>
-                        <BsThreeDotsVertical size={20} className='mt-1 cursor-pointer'/>
-                    </div> */}
-                </div>
-                
-                <p className='italic text-slate-500'>{destinations}</p>
-                <p className='text-sm'>{startDate.toLocaleDateString()} - {endDate.toLocaleDateString()}</p>
-                
-                {/* Profile images of collaborators */}
-                <div className='flex mt-8'>
-                    <Image src={profilePic || ProfilePlaceholder} alt='collaborator' height={30} width={30} className='rounded-full'/>
-                    {/* <FaUserCircle size={30}/>
-                    <FaUserCircle size={30}/>
-                    <FaUserCircle size={30}/>
-                    <FaUserCircle size={30}/>
-                    <FaUserCircle size={30}/> */}
-                </div>
-            </Link>
-        </div>
+
+    <div  className='bg-white bg-opacity-80 text-black mt-2 p-3 rounded-lg drop-shadow-lg cursor-pointer max-w-m md:max-w-sm trip-card'>
+        <Link href={{pathname:'/trips/[id]', query: { id: id.toString() }}}>
+            <div className='flex justify-between'>
+                <p className='text-xl'>{title} </p>
+                {/* <div>
+                    <BsThreeDotsVertical size={20} className='mt-1 cursor-pointer'/>
+                </div> */}
+            </div>
+            
+            <p className='italic text-slate-500'>{destinations}</p>
+            <p className='text-sm'>{startDate.toLocaleDateString()} - {endDate.toLocaleDateString()}</p>
+            
+            {/* Profile images of collaborators */}
+            <div className='flex mt-8'>
+                <Image src={profilePic || ProfilePlaceholder} alt='collaborator' height={30} width={30} className='rounded-full'/>
+                {/* <FaUserCircle size={30}/>
+                <FaUserCircle size={30}/>
+                <FaUserCircle size={30}/>
+                <FaUserCircle size={30}/>
+                <FaUserCircle size={30}/> */}
+            </div>
+        </Link>
     </div>
   )
 }
