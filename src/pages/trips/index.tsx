@@ -8,6 +8,7 @@ import { GetServerSideProps } from 'next'
 import LayoutWrapper from '../../components/layoutWrapper'
 import MonthContainer from '../../components/monthContainer'
 import { Tab } from '@headlessui/react'
+import TabPanelContainer from '../../components/tabPanelContainer'
 
 interface IItineraryData {
   coverPhoto: string | null
@@ -33,15 +34,16 @@ interface IItinerariesMap {
   [key: string]: IItineraryData[]
 }
 
-
-function classNames(...classes: any) {
+  // Don't really know what the filter does in this case, tested with and without and couldn't notice a difference.
+  // The boolean object always evaluates to true when passed in a conditional statement so nothing will get filetered here?
+  // Was in the headless ui demo code
+function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
 const filters =['CURRENT', 'UPCOMING', 'PAST']
 
 const trips = (serverProps: IServerProps | INoData) => {
-    // const [tripStatusFilter, setTripStatusFilter] = useState('ACTIVE')
     const [selectedIndex, setSelectedIndex] = useState(0)
     const [itinerariesByDate, setItinerariesByDate] = useState<IItinerariesMap>({})
     const router = useRouter()
@@ -79,7 +81,7 @@ const trips = (serverProps: IServerProps | INoData) => {
             
 
             <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
-              <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1 w-1/2 mx-auto">
+              <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1 w-full xl:w-1/2 mx-auto">
                 {filters.map((category) => (
                   <Tab
                     key={category}
@@ -104,11 +106,9 @@ const trips = (serverProps: IServerProps | INoData) => {
                 {filters.map(filter => {
                   return (<Tab.Panel key={filter}>
                   {"itineraryData" in serverProps && Object.keys(itinerariesByDate).length ? (
-                    Object.keys(itinerariesByDate).map(date => {
-                      return <MonthContainer key={date} startMonth={date.length === 6 ? date.substring(0,1) : date.substring(0,2)} startYear={date.substring(2)} itineraries={itinerariesByDate[date]} profilePic={serverProps.profilePic} selectedIndex={selectedIndex}/>
-                    })
+                    <TabPanelContainer itinerariesByDate={itinerariesByDate} selectedFilter={filters[selectedIndex]!} profilePic={serverProps.profilePic} selectedIndex={selectedIndex}/>
                   ) : (
-                      <h2 className='text-center text-xl mt-32 w-full'>You don't have any upcoming trips. Now's the perfect time to plan for a getaway!</h2>
+                      <h2 className='text-center text-xl mt-32 w-full'>{`You don't have any ${filters[selectedIndex]?.toLocaleLowerCase()} trips. Now's the perfect time to plan for a getaway!`}</h2>
                   )}
                   </Tab.Panel>)
                 })}
