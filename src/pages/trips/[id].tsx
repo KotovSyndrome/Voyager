@@ -9,6 +9,10 @@ import { getServerAuthSession } from "../../server/common/get-server-auth-sessio
 import { useSession } from 'next-auth/react'
 import axios from 'axios'
 import requestIp from 'request-ip'
+import useDebounce from '../../hooks/useDebounce'
+import type { SearchResult } from 'leaflet-geosearch/dist/providers/provider';
+import type {RawResult} from 'leaflet-geosearch/dist/providers/openStreetMapProvider'
+
 interface IActivity {
   city: string
   contactInfo: string
@@ -47,6 +51,19 @@ const TripPage = (itineraryData: IItineraryData) => {
   const { data: session } = useSession()
   const [viewState, setViewState] = useState(false)
 
+  // state lifted from activityForm
+  // const [mapQuery, setMapQuery] = useState('')
+  const [mapResults, setMapResults] = useState({
+    x: 0,
+    y: 0,
+    label: '',
+    bounds: null,
+    raw: {}
+  })
+  // const debouncedMapQuery = useDebounce(mapQuery, 500)
+
+  console.log(mapResults)
+
   useEffect(() => {
     const connectItineraryToProfile = async () => {
       await axios.put('/api/itinerary/connect', {
@@ -65,8 +82,8 @@ const TripPage = (itineraryData: IItineraryData) => {
   return (
     <>
     <div className='grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3'>
-      <div className={`${viewState && 'hidden'} lg:block 2xl:col-start-1 2xl:col-end-1 shadow-lg shadow-gray-600 z-[998]`}>
-        <Itinerary itin={itineraryData} />
+      <div className={`${viewState && 'hidden'} lg:block 2xl:col-start-1 2xl:col-end-1 shadow-lg shadow-gray-600 z-[999]`}>
+        <Itinerary itin={itineraryData} mapResults={mapResults} setMapResults={setMapResults} />
       </div>
       <div className={`${!viewState && 'hidden'} lg:block 2xl:col-start-2 2xl:col-end-4`}>
         <Map />

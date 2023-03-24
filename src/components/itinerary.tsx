@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, Dispatch, SetStateAction } from 'react'
 import TripDay from './tripDay'
 import format from 'date-fns/format';
 import Image from 'next/image'
+import type { SearchResult } from 'leaflet-geosearch/dist/providers/provider';
+import type {RawResult} from 'leaflet-geosearch/dist/providers/openStreetMapProvider'
 
 interface IActivity {
   city: string
@@ -25,7 +27,7 @@ interface ITripDay {
 }
 
 interface IItineraryData {
-  itin: {
+  // itin: {
     coverPhoto?: string
     destinations: string
     endDate: Date
@@ -36,10 +38,16 @@ interface IItineraryData {
     profileId: number
     startDate: Date
     tripDays: ITripDay[]
-  }
+  // }
 }
 
-const itinerary = ({itin}: IItineraryData) => {
+interface IItineraryProps {
+  itin: IItineraryData, 
+  mapResults: SearchResult<RawResult>[],
+  setMapResults: Dispatch<SetStateAction<SearchResult<RawResult>[]>>
+}
+
+const itinerary = ({itin, mapResults, setMapResults}: IItineraryProps) => {
 
   return (
     <div className='bg-blue-100 shadow-xl shadow-black min-h-screen'>
@@ -51,12 +59,12 @@ const itinerary = ({itin}: IItineraryData) => {
           <p>{format(new Date(itin.startDate), 'MMM d, yyyy')} - {format(new Date(itin.endDate), 'MMM d, yyyy')}</p>
           {/* <p className='text-right mt-7'>Username & Collaborators</p> */}
         </div>
-
+        
         <div className='w-11/12 md:w-10/12 lg:w-11/2 mx-auto'>
             <div className='bg-inherit w-full mt-5 flex'>
                 <div className='grid grid-cols-1 divide-y divide-white text-black w-full'>
                   {itin.tripDays.map((day) => {
-                    return <TripDay key={day.id} date={new Date(day.date)} activities={day.activities} tripDayId={day.id}/>
+                    return <TripDay key={day.id} date={new Date(day.date)} activities={day.activities} tripDayId={day.id} mapResults={mapResults} setMapResults={setMapResults}/>
                   })}
                 </div>
             </div>

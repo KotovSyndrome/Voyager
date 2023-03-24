@@ -1,9 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, Dispatch, SetStateAction } from 'react'
 import { useSession } from 'next-auth/react'
+import dynamic from 'next/dynamic';
 import axios from 'axios';
-import ActivityForm from './activityForm';
+// import ActivityForm from './activityForm';
 import format from 'date-fns/format';
 import Activity from './activity'
+import type { SearchResult } from 'leaflet-geosearch/dist/providers/provider';
+import type {RawResult} from 'leaflet-geosearch/dist/providers/openStreetMapProvider'
+const ActivityForm = dynamic(() => import('../components/activityForm'), {ssr: false})
 
 interface IActivity {
     city: string
@@ -22,10 +26,12 @@ interface IActivity {
 interface ITripDayProps {
     date: Date
     activities: IActivity[] | [],
-    tripDayId: number
+    tripDayId: number,
+    mapResults: SearchResult<RawResult>[],
+    setMapResults: Dispatch<SetStateAction<SearchResult<RawResult>[]>>
 }
 
-const tripDay = ({date, activities, tripDayId}: ITripDayProps) => {
+const tripDay = ({date, activities, tripDayId, mapResults, setMapResults}: ITripDayProps) => {
     const [ readOnly, setReadOnly ] = useState(true);
     const [activitiesState, setActivitiesState] = useState(activities) 
 
@@ -69,7 +75,7 @@ const tripDay = ({date, activities, tripDayId}: ITripDayProps) => {
         )}
         </div>
     
-        <ActivityForm  setActivitiesState={setActivitiesState} tripDayId={tripDayId}/>
+        <ActivityForm  setActivitiesState={setActivitiesState} tripDayId={tripDayId} mapResults={mapResults} setMapResults={setMapResults}/>
     </div>
   )
 }

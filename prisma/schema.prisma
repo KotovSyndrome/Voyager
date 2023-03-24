@@ -47,30 +47,14 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  profileId     Int?      @unique
   accounts      Account[]
   sessions      Session[]
   profile       Profile?  @relation(fields: [profileId], references: [id], onDelete: Cascade)
-  profileId     Int?      @unique
-}
-
-enum DistanceUnits {
-  MILES
-  KILOMETERS
-  BANANAS
-}
-
-enum DateFormat {
-  DAY
-  MONTH
-}
-
-enum TimeFormat {
-  TWELVE
-  TWENTYFOUR
 }
 
 model Profile {
-  id                             Int         @id @default(autoincrement())
+  id                             Int           @id @default(autoincrement())
   bio                            String
   username                       String
   distanceUnits                  DistanceUnits
@@ -79,8 +63,8 @@ model Profile {
   commentsNotification           Boolean
   remindersNotification          Boolean
   collaboratorJoinedNotification Boolean
-  itineraries                    Itinerary[]
   comments                       Comment[]
+  itineraries                    Itinerary[]
   user                           User?
 }
 
@@ -131,4 +115,20 @@ model Activity {
   tripDayId   Int?
   photo       String?
   tripDay     TripDay?  @relation(fields: [tripDayId], references: [id], onDelete: Cascade)
+}
+
+enum DistanceUnits {
+  MILES
+  KILOMETERS
+  BANANAS
+}
+
+enum DateFormat {
+  DAY
+  MONTH
+}
+
+enum TimeFormat {
+  TWELVE
+  TWENTYFOUR
 }
