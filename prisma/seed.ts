@@ -38,6 +38,7 @@ async function main() {
                 likes: itin.likes,
                 public: itin.public,
                 destinations: itin.destinations,
+                coverPhoto: 'https://upload.wikimedia.org/wikipedia/commons/4/4d/BlankMap-World.svg',
                 profile: {
                     connect: { id: i + 1}
                 },
