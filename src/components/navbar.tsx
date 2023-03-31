@@ -41,7 +41,7 @@ const Navbar = () => {
       setMobileMenuState(!mobileMenuState)
     }
 
-    if (router.pathname === '/trips/[id]') {
+    if (router.pathname === '/trips/[id]' && !session) {
       setIsOpen(true)
       setPath(path)
     } else {

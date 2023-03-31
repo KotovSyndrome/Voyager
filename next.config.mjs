@@ -32,6 +32,10 @@ const config = {
       {
         protocol: 'https',
         hostname:'m.media-amazon.com'
+      },
+      {
+        protocol: 'https',
+        hostname:'upload.wikimedia.org'
       }
     ],
   },
