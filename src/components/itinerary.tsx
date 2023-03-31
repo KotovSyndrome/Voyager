@@ -51,7 +51,7 @@ const itinerary = ({itin, mapResults, setMapResults}: IItineraryProps) => {
 
   return (
     <div className='bg-blue-100 shadow-xl shadow-black min-h-screen'>
-        <Image src={itin.coverPhoto} alt='Itinerary cover' width={300} height={200} priority={true} className='w-full h-80' />
+        <Image src={itin.coverPhoto || 'https://commons.wikimedia.org/wiki/File:BlankMap-World.svg'} alt='Itinerary cover' width={300} height={200} priority={true} className='w-full h-80' />
 
         <div className='absolute top-20 left-4 bg-black rounded-lg p-2 bg-opacity-30'>
           <p className='text-2xl text-slate-50'>{itin.name}</p>
