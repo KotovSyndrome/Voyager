@@ -25,7 +25,7 @@ interface ITripDayProps {
     tripDayId: number
 }
 
-const tripDay = ({date, activities, tripDayId}: ITripDayProps) => {
+const TripDay = ({date, activities, tripDayId}: ITripDayProps) => {
     const [ readOnly, setReadOnly ] = useState(true);
     const [activitiesState, setActivitiesState] = useState(activities) 
 
@@ -74,4 +74,4 @@ const tripDay = ({date, activities, tripDayId}: ITripDayProps) => {
   )
 }
 
-export default tripDay
+export default TripDay

@@ -24,7 +24,7 @@ interface ITabPanel {
   selectedIndex: number
 }
 
-const tabPanelContainer = ({itinerariesByDate, selectedFilter, profilePic, selectedIndex}: ITabPanel) => {
+const TabPanelContainer = ({itinerariesByDate, selectedFilter, profilePic, selectedIndex}: ITabPanel) => {
     const [monthContainersAreEmpty, setMonthContainersAreEmpty] = useState(false)
 
     const monthContainersCheck = () => {
@@ -58,4 +58,4 @@ const tabPanelContainer = ({itinerariesByDate, selectedFilter, profilePic, selec
   )
 }
 
-export default tabPanelContainer
+export default TabPanelContainer

@@ -41,7 +41,7 @@ interface IMonthContainer {
     monthContainersCheck: () => void
 }
 
-const monthContainer = ({startMonth, startYear, itineraries, profilePic, selectedIndex, monthContainersCheck}: IMonthContainer) => {
+const MonthContainer = ({startMonth, startYear, itineraries, profilePic, selectedIndex, monthContainersCheck}: IMonthContainer) => {
     const [filteredItineraries, setFilteredItineraries] = useState(itineraries)
 
     useEffect(() => {
@@ -101,4 +101,4 @@ const monthContainer = ({startMonth, startYear, itineraries, profilePic, selecte
   )
 }
 
-export default monthContainer
+export default MonthContainer

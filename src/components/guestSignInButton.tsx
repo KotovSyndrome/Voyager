@@ -8,7 +8,7 @@ interface IProps {
     isHidden: boolean
 }
 
-const guestSignInButton = ({isHidden}: IProps) => {
+const GuestSignInButton = ({isHidden}: IProps) => {
   const router = useRouter()
 
   return (
@@ -21,4 +21,4 @@ const guestSignInButton = ({isHidden}: IProps) => {
   )
 }
 
-export default guestSignInButton
+export default GuestSignInButton

@@ -10,7 +10,7 @@ interface IModal {
     path: string
 }
 
-const modal = ({isOpen, toggleModal, path}: IModal) => {
+const Modal = ({isOpen, toggleModal, path}: IModal) => {
     const router = useRouter()
 
     const routeAndDeleteItinerary = () => {
@@ -85,5 +85,5 @@ const modal = ({isOpen, toggleModal, path}: IModal) => {
   )
 }
 
-export default modal
+export default Modal
 

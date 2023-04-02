@@ -22,7 +22,7 @@ interface ITripDayProps {
     tripDayId: number
 }
 
-const viewTripDay = ({date, activities, tripDayId}: ITripDayProps) => {
+const ViewTripDay = ({date, activities, tripDayId}: ITripDayProps) => {
 
   return (
     <div className='w-full p-3 text-black'>
@@ -54,4 +54,4 @@ const viewTripDay = ({date, activities, tripDayId}: ITripDayProps) => {
   )
 }
 
-export default viewTripDay
+export default ViewTripDay

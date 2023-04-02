@@ -16,7 +16,7 @@ interface ITripCard {
     profilePic: string
 }
 
-const tripCard = ({ title, startDate, endDate, collaborators, id, destinations, profilePic}: ITripCard) => {
+const TripCard = ({ title, startDate, endDate, collaborators, id, destinations, profilePic}: ITripCard) => {
 
   return (
 
@@ -46,4 +46,4 @@ const tripCard = ({ title, startDate, endDate, collaborators, id, destinations, 
   )
 }
 
-export default tripCard
+export default TripCard

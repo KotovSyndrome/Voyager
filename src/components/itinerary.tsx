@@ -39,7 +39,7 @@ interface IItineraryData {
   }
 }
 
-const itinerary = ({itin}: IItineraryData) => {
+const Itinerary = ({itin}: IItineraryData) => {
 
   return (
     <div className='bg-blue-100 shadow-xl shadow-black min-h-screen'>
@@ -65,4 +65,4 @@ const itinerary = ({itin}: IItineraryData) => {
   )
 }
 
-export default itinerary
+export default Itinerary

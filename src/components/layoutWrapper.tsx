@@ -1,6 +1,6 @@
 import React from 'react'
 
-const layoutWrapper = ({children}: any) => {
+const LayoutWrapper = ({children}: any) => {
   return (
     <div className='flex justify-center w-full'>
             <div className='w-10/12 lg:w-8/12'>
@@ -10,4 +10,4 @@ const layoutWrapper = ({children}: any) => {
   )
 }
 
-export default layoutWrapper
+export default LayoutWrapper

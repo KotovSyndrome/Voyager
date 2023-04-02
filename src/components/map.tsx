@@ -8,7 +8,7 @@ const LMap = dynamic(() => import('../components/LeafletMap'), {ssr: false})
 
 const center: [number, number] = [48.2082, 16.3738]
 
-const map = () => {
+const Map = () => {
   return (
     <LMap center={center} zoom={13}>
       <></>
@@ -16,4 +16,4 @@ const map = () => {
   )
 }
 
-export default map
+export default Map
