@@ -5,20 +5,20 @@ import { unstable_getServerSession } from 'next-auth'
 import { authOptions } from '../api/auth/[...nextauth]'
 import { prisma } from '../../server/db/client'
 import { GetServerSideProps } from 'next'
-import LayoutWrapper from '../../components/layoutWrapper'
-import MonthContainer from '../../components/monthContainer'
+import LayoutWrapper from '../../components/LayoutWrapper'
+import MonthContainer from '../../components/MonthContainer'
 import { Tab } from '@headlessui/react'
-import TabPanelContainer from '../../components/tabPanelContainer'
+import TabPanelContainer from '../../components/TabPanelContainer'
 
 interface IItineraryData {
   coverPhoto: string | null
-  destinations: string[]
-  endDate: Date
+  destinations: string
+  endDate: string
   id: number
   likes: number
   profileId: number
   public: boolean
-  startDate: Date
+  startDate: string
   name: string
 }
 interface IServerProps {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import TripDay from './tripDay'
+import TripDay from './TripDay'
 import format from 'date-fns/format';
 import Image from 'next/image'
 

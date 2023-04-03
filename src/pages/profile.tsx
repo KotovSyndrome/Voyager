@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { getServerAuthSession } from '../server/common/get-server-auth-session'
 import axios from 'axios'
 import { GetServerSideProps } from 'next'
-import LayoutWrapper from '../components/layoutWrapper'
+import LayoutWrapper from '../components/LayoutWrapper'
 interface IProfile {
   id: number
   bio: string

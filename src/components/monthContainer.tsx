@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import TripCard from './tripCard'
+import TripCard from './TripCard'
 
 interface IMonths {
     [key: string]: string
@@ -22,7 +22,7 @@ const months: IMonths = {
 
 interface IItineraryData {
     coverPhoto: string | null
-    destinations: string[]
+    destinations: string
     endDate: Date
     id: number
     likes: number

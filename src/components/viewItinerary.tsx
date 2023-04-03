@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import format from 'date-fns/format';
-import ViewTripDay from './viewTripDay';
+import ViewTripDay from './ViewTripDay';
 
 interface IActivity {
     city: string

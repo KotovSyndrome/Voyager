@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import MonthContainer from './monthContainer'
+import MonthContainer from './MonthContainer'
 
 interface IItineraryData {
   coverPhoto: string | null
-  destinations: string[]
+  destinations: string
   endDate: Date
   id: number
   likes: number

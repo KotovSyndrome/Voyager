@@ -21,16 +21,16 @@ const TripCard = ({ title, startDate, endDate, collaborators, id, destinations, 
   return (
 
     <div  className='bg-white bg-opacity-80 text-black mt-2 p-3 rounded-lg drop-shadow-lg cursor-pointer max-w-m md:max-w-sm trip-card'>
-        <Link href={{pathname:'/trips/[id]', query: { id: id.toString() }}}>
+        <Link href={{pathname:'/trips/[id]', query: { id: id.toString() }}} as={`/trips/${id.toString()}`}>
             <div className='flex justify-between'>
-                <p className='text-xl'>{title} </p>
+                <h3 className='text-xl'>{title} </h3>
                 {/* <div>
                     <BsThreeDotsVertical size={20} className='mt-1 cursor-pointer'/>
                 </div> */}
             </div>
             
             <p className='italic text-slate-500'>{destinations}</p>
-            <p className='text-sm'>{startDate.toLocaleDateString()} - {endDate.toLocaleDateString()}</p>
+            <p className='text-sm' title='itinerary-date'>{startDate.toLocaleDateString()} - {endDate.toLocaleDateString()}</p>
             
             {/* Profile images of collaborators */}
             <div className='flex mt-8'>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import ViewItinerary from '../../components/viewItinerary'
-import Map from '../../components/map'
+import ViewItinerary from '../../components/ViewItinerary'
+import Map from '../../components/Map'
 import { prisma } from '../../server/db/client'
 import { type GetServerSideProps } from 'next'
 import { FaMapMarkedAlt } from 'react-icons/fa'

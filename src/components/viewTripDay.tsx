@@ -1,6 +1,6 @@
 import React from 'react'
 import format from 'date-fns/format';
-import ViewActivity from './viewActivity';
+import ViewActivity from './ViewActivity';
 
 interface IActivity {
     city: string

@@ -1,6 +1,5 @@
 import React from 'react'
 import { format, parse } from 'date-fns'
-import activity from './myActivity'
 
 interface IActivityProps {
     city: string

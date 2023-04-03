@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { useSession, signIn, signOut } from 'next-auth/react'
-import LayoutWrapper from './layoutWrapper'
+import LayoutWrapper from './LayoutWrapper'
 import ProfilePlaceholder from '../assets/profile-placeholder.png'
 import { CgMenu, CgClose } from 'react-icons/cg'
-import GuestSignInButton from './guestSignInButton'
-import Modal from './modal'
+import GuestSignInButton from './GuestSignInButton'
+import Modal from './Modal'
 
 const Navbar = () => {
   const router = useRouter()

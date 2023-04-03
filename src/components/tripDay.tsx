@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useSession } from 'next-auth/react'
 import axios from 'axios';
-import ActivityForm from './activityForm';
+import ActivityForm from './ActivityForm';
 import format from 'date-fns/format';
-import Activity from './activity'
+import Activity from './Activity'
 
 interface IActivity {
     city: string
