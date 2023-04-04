@@ -1,7 +1,6 @@
 import TabPanelContainer from '../components/TabPanelContainer'
 import {render, screen} from '@testing-library/react'
-import { useRouter } from 'next/router'
-import userEvent from '@testing-library/user-event'
+
 
 const itinerariesByDate = {
     "11-1969": [
@@ -99,7 +98,7 @@ const getDates = (text: string) => {
 }
 
 describe("Filter tabs", () => {
-    it("Should only show current trips", () => {
+    test("Should only show current trips", () => {
         render(<TabPanelContainer itinerariesByDate={itinerariesByDate} selectedFilter='CURRENT' profilePic='' selectedIndex={0}/>)
 
         const dateTextElements = screen.getAllByTitle('itinerary-date')
@@ -124,7 +123,7 @@ describe("Filter tabs", () => {
     })  
 
 
-    it("Should only show upcoming trips", () => {
+    test("Should only show upcoming trips", () => {
         render(<TabPanelContainer itinerariesByDate={itinerariesByDate} selectedFilter='UPCOMING' profilePic='' selectedIndex={1}/>)
 
         const dateTextElements = screen.getAllByTitle('itinerary-date')
@@ -147,7 +146,7 @@ describe("Filter tabs", () => {
 
     })
 
-    it("Should only show past trips", () => {
+    test("Should only show past trips", () => {
         render(<TabPanelContainer itinerariesByDate={itinerariesByDate} selectedFilter='PAST' profilePic='' selectedIndex={2}/>)
 
         const dateTextElements = screen.getAllByTitle('itinerary-date')
