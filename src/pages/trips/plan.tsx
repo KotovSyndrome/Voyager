@@ -6,7 +6,7 @@ import 'react-calendar/dist/Calendar.css';
 import { eachDayOfInterval } from 'date-fns'
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
-import LayoutWrapper from '../../components/layoutWrapper';
+import LayoutWrapper from '../../components/LayoutWrapper';
 interface IProfile {
     id: number
     bio: string

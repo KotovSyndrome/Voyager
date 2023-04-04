@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import MonthContainer from './monthContainer'
+import MonthContainer from './MonthContainer'
 
 interface IItineraryData {
   coverPhoto: string | null
-  destinations: string[]
-  endDate: Date
+  destinations: string
+  endDate: string
   id: number
   likes: number
   profileId: number
   public: boolean
-  startDate: Date
+  startDate: string
   name: string
 }
 
@@ -24,7 +24,7 @@ interface ITabPanel {
   selectedIndex: number
 }
 
-const tabPanelContainer = ({itinerariesByDate, selectedFilter, profilePic, selectedIndex}: ITabPanel) => {
+const TabPanelContainer = ({itinerariesByDate, selectedFilter, profilePic, selectedIndex}: ITabPanel) => {
     const [monthContainersAreEmpty, setMonthContainersAreEmpty] = useState(false)
 
     const monthContainersCheck = () => {
@@ -58,4 +58,4 @@ const tabPanelContainer = ({itinerariesByDate, selectedFilter, profilePic, selec
   )
 }
 
-export default tabPanelContainer
+export default TabPanelContainer

@@ -21,7 +21,7 @@ interface IActivity {
     tripDayId: number
   }
 
-const activityForm = ({setActivitiesState, tripDayId}: IActivityFormProps) => {
+const ActivityForm = ({setActivitiesState, tripDayId}: IActivityFormProps) => {
     const [activityName, setActivityName] = useState('')
 
     const createAcitivity = async () => {
@@ -61,4 +61,4 @@ const activityForm = ({setActivitiesState, tripDayId}: IActivityFormProps) => {
   )
 }
 
-export default activityForm
+export default ActivityForm

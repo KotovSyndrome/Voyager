@@ -4,7 +4,7 @@ interface IGraphCard {
     title: string
 }
 
-const graphCard = ({ title }: IGraphCard) => {
+const GraphCard = ({ title }: IGraphCard) => {
   return (
     <div>
         <p className='text-center font-semibold text-xl'>{title}</p>
@@ -16,4 +16,4 @@ const graphCard = ({ title }: IGraphCard) => {
   )
 }
 
-export default graphCard
+export default GraphCard

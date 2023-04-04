@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import TripCard from './tripCard'
+import TripCard from './TripCard'
 
 interface IMonths {
     [key: string]: string
@@ -22,13 +22,13 @@ const months: IMonths = {
 
 interface IItineraryData {
     coverPhoto: string | null
-    destinations: string[]
-    endDate: Date
+    destinations: string
+    endDate: string
     id: number
     likes: number
     profileId: number
     public: boolean
-    startDate: Date
+    startDate: string
     name: string
   }
 
@@ -41,7 +41,7 @@ interface IMonthContainer {
     monthContainersCheck: () => void
 }
 
-const monthContainer = ({startMonth, startYear, itineraries, profilePic, selectedIndex, monthContainersCheck}: IMonthContainer) => {
+const MonthContainer = ({startMonth, startYear, itineraries, profilePic, selectedIndex, monthContainersCheck}: IMonthContainer) => {
     const [filteredItineraries, setFilteredItineraries] = useState(itineraries)
 
     useEffect(() => {
@@ -101,4 +101,4 @@ const monthContainer = ({startMonth, startYear, itineraries, profilePic, selecte
   )
 }
 
-export default monthContainer
+export default MonthContainer

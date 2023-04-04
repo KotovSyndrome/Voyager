@@ -22,7 +22,7 @@ interface IItineraryCardProps {
   startDate: string
 }
 
-const itineraryCard = ({coverPhoto, destinations, endDate, id, likes, name, profileName, startDate}: IItineraryCardProps ) => {
+const ItineraryCard = ({coverPhoto, destinations, endDate, id, likes, name, profileName, startDate}: IItineraryCardProps ) => {
 
 
   return (
@@ -43,4 +43,4 @@ const itineraryCard = ({coverPhoto, destinations, endDate, id, likes, name, prof
   )
 }
 
-export default itineraryCard
+export default ItineraryCard
