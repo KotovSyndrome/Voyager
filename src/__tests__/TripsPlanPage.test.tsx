@@ -16,9 +16,9 @@ describe('Itinerary creation', () => {
         
         // fire userEvent on submit button
         userEvent.click(submitButton)
-        // Check if routed
-        const destinationsInputElement = await screen.findByRole('input', { name: 'destinations' })
-        expect(destinationsInputElement).toBe(HTMLInputElement)
+        
+        // Check if submit button is disabled
+        expect(submitButton).toBeDisabled()
     })
 
     test('Can create itinerary as guest', () => {

@@ -38,8 +38,10 @@ const Plan = () => {
         destinations: '',
         isPublic: true
     })
+    const [submitIsDisabled, setSubmitIsDisabled] = useState(false)
     const router = useRouter();
     const { data: session } = useSession()
+
 
     const handleInput = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
         if (event.target.name === 'isPublic') {
@@ -56,6 +58,8 @@ const Plan = () => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();      
         if (!formValues.itineraryName.length || !formValues.destinations.length) return
+
+        setSubmitIsDisabled(true)
         
         const dateArray = eachDayOfInterval({start: value[0]!, end: value[1]!});
         
@@ -147,7 +151,7 @@ const Plan = () => {
             </form>
             
             <div className='flex justify-center mt-5'>
-                <button type="submit" form="tripPlanningForm" className='bg-cyan-400 py-2 px-8 rounded-lg text-slate-50 hover:bg-cyan-500'>Create trip</button>
+                <button type="submit" form="tripPlanningForm" disabled={submitIsDisabled} className='bg-cyan-400 py-2 px-8 rounded-lg text-slate-50 hover:bg-cyan-500'>Create trip</button>
             </div>
         </div> 
     </LayoutWrapper>
