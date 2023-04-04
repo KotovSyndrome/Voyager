@@ -6,7 +6,6 @@ import { authOptions } from '../api/auth/[...nextauth]'
 import { prisma } from '../../server/db/client'
 import { GetServerSideProps } from 'next'
 import LayoutWrapper from '../../components/LayoutWrapper'
-import MonthContainer from '../../components/MonthContainer'
 import { Tab } from '@headlessui/react'
 import TabPanelContainer from '../../components/TabPanelContainer'
 
