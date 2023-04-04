@@ -4,12 +4,12 @@ import MonthContainer from './MonthContainer'
 interface IItineraryData {
   coverPhoto: string | null
   destinations: string
-  endDate: Date
+  endDate: string
   id: number
   likes: number
   profileId: number
   public: boolean
-  startDate: Date
+  startDate: string
   name: string
 }
 
