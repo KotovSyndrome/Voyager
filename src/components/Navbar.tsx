@@ -1,47 +1,47 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
-import { useSession, signIn, signOut } from 'next-auth/react'
+// import { useSession, signIn, signOut } from 'next-auth/react'
 import LayoutWrapper from './LayoutWrapper'
 import ProfilePlaceholder from '../assets/profile-placeholder.png'
 import { CgMenu, CgClose } from 'react-icons/cg'
 import GuestSignInButton from './GuestSignInButton'
 import Modal from './Modal'
+import { useAuth, useUser, SignOutButton } from "@clerk/nextjs";
 
 const Navbar = () => {
   const router = useRouter()
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
   const [toolTipHideState, setToolTipHideState] = useState(true)
   const [mobileMenuState, setMobileMenuState] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [path, setPath] = useState('')
 
+  const { user, isSignedIn } = useUser()
+  const { signOut } = useAuth()
+
+  console.log({isSignedIn})
+  console.log({user})
+
   const toggleModal = () => {
     setIsOpen(!isOpen)
   }
 
-  const handleSignout = () => {
-    signOut()
-    console.log('pathname: ', router.pathname)
-    if (router.pathname !== '/') {
-      router.push('/')
-    }
-  }
+  // const handleSignout = () => {
+  //   signOut()
+  //   console.log('pathname: ', router.pathname)
+  //   if (router.pathname !== '/') {
+  //     router.push('/')
+  //   }
+  // }
 
-  const handleMobileSignIn = () => {
-    if (session?.user) {
-      router.push('/profile')
-    } else {
-      signIn()
-    }
-  }
 
   const handleNav = (path: string, isMobile: boolean) => {
     if (isMobile) {
       setMobileMenuState(!mobileMenuState)
     }
 
-    if (router.pathname === '/trips/[id]' && !session) {
+    if (router.pathname === '/trips/[id]' && !isSignedIn) {
       setIsOpen(true)
       setPath(path)
     } else {
@@ -95,14 +95,14 @@ const Navbar = () => {
                       </li> */}
                     </ul>
                 </div>
-                {session ? (
+                {isSignedIn ? (
                   <div>
                     <div onClick={() => {
                       setMobileMenuState(!mobileMenuState)
                       router.push('/profile')
                     }} className='flex space-x-2'>
                       <p className={`text-3xl ${router.pathname === '/profile' && 'underline underline-offset-8 decoration-white'}`}>Profile</p>
-                      <Image src={session?.user?.image || ProfilePlaceholder} alt='profile avatar' width={40} height={40} className='inline-block rounded-full cursor-pointer'/>
+                      <Image src={ProfilePlaceholder} alt='profile avatar' width={40} height={40} className='inline-block rounded-full cursor-pointer'/>
                     </div>
                     <button onClick={() => signOut()} className='bg-red-500 rounded-md py-2 px-10 mt-6'>Sign Out</button>
                   </div>
@@ -114,15 +114,15 @@ const Navbar = () => {
               </div>
             </div>
 
-            {session ? (
+            {isSignedIn ? (
                 <div className='relative w-1.5/12 hidden md:flex justify-end' onMouseEnter={() => setToolTipHideState(!toolTipHideState)} onMouseLeave={() => setToolTipHideState(!toolTipHideState)}>
-                    <Image  src={session.user?.image || ProfilePlaceholder} alt='profile avatar' width={32} height={32} className=' rounded-full cursor-pointer'/>
+                    <Image  src={ProfilePlaceholder} alt='profile avatar' width={32} height={32} className=' rounded-full cursor-pointer'/>
 
                     <div className='absolute z-10 right-0 top-8 w-[7rem]'>
                       <div className={`bg-neutral-100 text-black rounded-md p-3 ${toolTipHideState && 'hidden'}`}>
                           <div className='flex flex-col'>
-                            <div onClick={() => router.push('/profile')} className='cursor-pointer hover:bg-slate-800 hover:bg-opacity-10'>Profile</div>
-                            <div onClick={handleSignout} className='cursor-pointer hover:bg-slate-800 hover:bg-opacity-10'>Sign Out</div>
+                            <div onClick={() => router.push('/profile')} className='cursor-pointer hover:bg-slate-800 hover:bg-opacity-10 text-center'>Profile</div>
+                            <SignOutButton><button className='cursor-pointer hover:bg-slate-800 hover:bg-opacity-10'>Sign Out</button></SignOutButton>
                           </div>
                       </div>
                     </div>
