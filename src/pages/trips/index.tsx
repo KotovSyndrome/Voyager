@@ -8,6 +8,7 @@ import { GetServerSideProps } from 'next'
 import LayoutWrapper from '../../components/LayoutWrapper'
 import { Tab } from '@headlessui/react'
 import TabPanelContainer from '../../components/TabPanelContainer'
+import { clerkClient, getAuth, buildClerkProps } from "@clerk/nextjs/server";
 
 interface IItineraryData {
   coverPhoto: string | null
@@ -22,7 +23,6 @@ interface IItineraryData {
 }
 interface IServerProps {
   itineraryData: IItineraryData[]
-  profilePic: string
 }
 
 interface INoData {
@@ -105,7 +105,7 @@ const trips = (serverProps: IServerProps | INoData) => {
                 {filters.map(filter => {
                   return (<Tab.Panel key={filter}>
                   {"itineraryData" in serverProps && Object.keys(itinerariesByDate).length ? (
-                    <TabPanelContainer itinerariesByDate={itinerariesByDate} selectedFilter={filters[selectedIndex]!} profilePic={serverProps.profilePic} selectedIndex={selectedIndex}/>
+                    <TabPanelContainer itinerariesByDate={itinerariesByDate} selectedFilter={filters[selectedIndex]!} selectedIndex={selectedIndex}/>
                   ) : (
                       <h2 className='text-center text-xl mt-32 w-full'>{`You don't have any ${filters[selectedIndex]?.toLocaleLowerCase()} trips. Now's the perfect time to plan for a getaway!`}</h2>
                   )}
@@ -121,46 +121,48 @@ const trips = (serverProps: IServerProps | INoData) => {
 
 export default trips
 
-interface IProfile {
-  id: number
-  bio: string
-  username: string
-  distanceUnits: string
-  dateFormat: string
-  timeFormat: string
-  commentsNotification: boolean
-  remindersNotification: boolean
-  collaboratorJoinedNotification: boolean
-}
-interface IUser {
-  email: string
-  id: string
-  image: string
-  name: string
-}
+// interface IProfile {
+//   id: number
+//   bio: string
+//   username: string
+//   distanceUnits: string
+//   dateFormat: string
+//   timeFormat: string
+//   commentsNotification: boolean
+//   remindersNotification: boolean
+//   collaboratorJoinedNotification: boolean
+// }
+// interface IUser {
+//   email: string
+//   id: string
+//   image: string
+//   name: string
+// }
 
-interface ISession {
-  expires: Date
-  user: IUser
-  profile: IProfile
-}
+// interface ISession {
+//   expires: Date
+//   user: IUser
+//   profile: IProfile
+// }
 
-export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
   
-  const session: ISession | null = await unstable_getServerSession(req, res, authOptions);
+  const { userId } = getAuth(ctx.req);
 
-  if (!session) {
+  if (!userId) {
     return {
-      props: { noItins: true }
+      props: { ...buildClerkProps(ctx.req), noItins: true }
     }
   }
+
+  const profile = await prisma.profile.findUnique({ where: { clerkId: userId }})
 
   let data;
 
   try {
     const dbResponse = await prisma.itinerary.findMany({
       where: {
-        profileId: session.profile.id,
+        profileId: profile!.id,
       },
       orderBy:{
         startDate: 'asc'
@@ -169,13 +171,13 @@ export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
     data = dbResponse;
 
     if (data.length) {
-      return { props: { itineraryData: JSON.parse(JSON.stringify(data)), profilePic: session.user.image } }
+      return { props: { ...buildClerkProps(ctx.req), itineraryData: JSON.parse(JSON.stringify(data)) } }
     }
   } catch (e) {
     console.error(e);
   }
 
   // signed in but have no itineraries
-  return { props: { noItins: true } }
+  return { props: { ...buildClerkProps(ctx.req), noItins: true } }
   
 }

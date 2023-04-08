@@ -36,12 +36,11 @@ interface IMonthContainer {
     startMonth: string
     startYear: string
     itineraries: IItineraryData[]
-    profilePic: string
     selectedIndex: number
     monthContainersCheck: () => void
 }
 
-const MonthContainer = ({startMonth, startYear, itineraries, profilePic, selectedIndex, monthContainersCheck}: IMonthContainer) => {
+const MonthContainer = ({startMonth, startYear, itineraries, selectedIndex, monthContainersCheck}: IMonthContainer) => {
     const [filteredItineraries, setFilteredItineraries] = useState(itineraries)
 
     useEffect(() => {
@@ -94,7 +93,15 @@ const MonthContainer = ({startMonth, startYear, itineraries, profilePic, selecte
                     const itinStartDate = new Date(itin.startDate)
                     const itinEndDate = new Date(itin.endDate)
 
-                    return <TripCard key={itin.id} title={itin.name} startDate={itinStartDate} endDate={itinEndDate} collaborators={['Jason', 'Chris', 'Henry']} id={itin.id} bgImage={''} destinations={itin.destinations} profilePic={profilePic}/>
+                    return <TripCard 
+                                key={itin.id} 
+                                title={itin.name} 
+                                startDate={itinStartDate} 
+                                endDate={itinEndDate} 
+                                collaborators={['Jason', 'Chris', 'Henry']} 
+                                id={itin.id} bgImage={''} 
+                                destinations={itin.destinations} 
+                            />
                 })}
         </div>
     </div>
