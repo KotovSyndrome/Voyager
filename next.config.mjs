@@ -48,7 +48,11 @@ const config = {
       {
         protocol: 'https',
         hostname:'upload.wikimedia.org'
-      }
+      },
+      {
+        protocol: 'https',
+        hostname:'images.clerk.dev'
+      },
     ],
   },
 };

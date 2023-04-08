@@ -5,26 +5,15 @@ import { users, itineraries, tripDays,} from './seedData'
 
 async function main() {
     await Promise.all(users.map( async (user) => {
-        return prisma.user.upsert({
-            where: { email: user.email },
-            update: {},
-            create: {
-                name: user.name,
-                email: user.email,
-                emailVerified: user.emailVerified,
-                image: user.image,
-                profile: {
-                    create: {
-                        bio: 'I love to travel to far away places. Check out my itineraries to learn about awesome places you can visit for cheap!',
-                        username: 'TravelLover423',
-                        distanceUnits: 'MILES',
-                        dateFormat: 'MONTH',
-                        timeFormat: 'TWELVE',
-                        commentsNotification: true,
-                        remindersNotification: true,
-                        collaboratorJoinedNotification: true,
-                    },
-                }
+        return prisma.profile.create({
+            data: {
+                bio: 'I love to travel to far away places. Check out my itineraries to learn about awesome places you can visit for cheap!',
+                distanceUnits: 'MILES',
+                dateFormat: 'MONTH',
+                timeFormat: 'TWELVE',
+                commentsNotification: true,
+                remindersNotification: true,
+                collaboratorJoinedNotification: true,
             }
         })
     })) 

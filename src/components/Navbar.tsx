@@ -102,9 +102,11 @@ const Navbar = () => {
                       router.push('/profile')
                     }} className='flex space-x-2'>
                       <p className={`text-3xl ${router.pathname === '/profile' && 'underline underline-offset-8 decoration-white'}`}>Profile</p>
-                      <Image src={ProfilePlaceholder} alt='profile avatar' width={40} height={40} className='inline-block rounded-full cursor-pointer'/>
+                      <Image src={user.profileImageUrl || ProfilePlaceholder} alt='profile avatar' width={40} height={40} className='inline-block rounded-full cursor-pointer'/>
                     </div>
-                    <button onClick={() => signOut()} className='bg-red-500 rounded-md py-2 px-10 mt-6'>Sign Out</button>
+                    <SignOutButton>
+                      <button className='bg-red-500 rounded-md py-2 px-10 mt-6'>Sign Out</button>
+                    </SignOutButton>
                   </div>
                 ): (
                   <GuestSignInButton isHidden={false}/>
@@ -116,13 +118,15 @@ const Navbar = () => {
 
             {isSignedIn ? (
                 <div className='relative w-1.5/12 hidden md:flex justify-end' onMouseEnter={() => setToolTipHideState(!toolTipHideState)} onMouseLeave={() => setToolTipHideState(!toolTipHideState)}>
-                    <Image  src={ProfilePlaceholder} alt='profile avatar' width={32} height={32} className=' rounded-full cursor-pointer'/>
+                    <Image  src={user.profileImageUrl || ProfilePlaceholder} alt='profile avatar' width={32} height={32} className=' rounded-full cursor-pointer'/>
 
                     <div className='absolute z-10 right-0 top-8 w-[7rem]'>
                       <div className={`bg-neutral-100 text-black rounded-md p-3 ${toolTipHideState && 'hidden'}`}>
                           <div className='flex flex-col'>
                             <div onClick={() => router.push('/profile')} className='cursor-pointer hover:bg-slate-800 hover:bg-opacity-10 text-center'>Profile</div>
-                            <SignOutButton><button className='cursor-pointer hover:bg-slate-800 hover:bg-opacity-10'>Sign Out</button></SignOutButton>
+                            <SignOutButton>
+                              <button className='cursor-pointer hover:bg-slate-800 hover:bg-opacity-10'>Sign Out</button>
+                            </SignOutButton>
                           </div>
                       </div>
                     </div>

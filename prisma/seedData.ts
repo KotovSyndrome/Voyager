@@ -1,17 +1,4 @@
-export const users = [
-    {
-        name: 'John Doe',
-        email: 'dosentmatter@test.com',
-        emailVerified: new Date(),
-        image: 'https://cdn.vox-cdn.com/thumbor/RTCv7ojF2A79yQDDnjymrm0tO0I=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/24110663/chainsawman_crunchyroll.jpg',
-    },
-    {
-        name: 'John Cena',
-        email: 'youcantseeme@test.com',
-        emailVerified: new Date(),
-        image: 'https://static.wikia.nocookie.net/chainsaw-man/images/5/54/Pochita_anime_design.png/revision/latest?cb=20220919121110',
-    }
-]
+export const users = [1,2,3,4,5,6,7,8]
 
 
 export const itineraries = [
@@ -21,7 +8,7 @@ export const itineraries = [
         endDate: new Date('January 10, 2023 03:24:00'),
         likes: 234,
         destinations: "Madrid, Barcelona, Sevilla",
-        public: false
+        public: true
     },
     {
         name: 'Boys trip',
@@ -31,6 +18,55 @@ export const itineraries = [
         destinations: "Barbados, Las Vegas, Berlin",
         public: true
     },
+    {
+        name: 'Yayaya I am Lorde',
+        startDate: new Date(),
+        endDate: new Date('January 10, 2023 03:24:00'),
+        likes: 10,
+        destinations: "South Park, Colorado",
+        public: true
+    },
+    {
+        name: 'Chinese Government sucks',
+        startDate: new Date(),
+        endDate: new Date('January 10, 2023 03:24:00'),
+        likes: 10,
+        destinations: "Beijing, China",
+        public: true
+    },
+    {
+        name: 'Um whatever',
+        startDate: new Date(),
+        endDate: new Date('January 10, 2023 03:24:00'),
+        likes: 10,
+        destinations: "Mexico",
+        public: true
+    },
+    {
+        name: 'Islands',
+        startDate: new Date(),
+        endDate: new Date('January 10, 2023 03:24:00'),
+        likes: 10,
+        destinations: "St Martin, St Lucia",
+        public: true
+    },
+    {
+        name: 'For the night is dark and full of terrors',
+        startDate: new Date(),
+        endDate: new Date('January 10, 2023 03:24:00'),
+        likes: 10,
+        destinations: "Westoros, Assai, Winterfell",
+        public: true
+    },
+    {
+        name: 'Tech corp land',
+        startDate: new Date(),
+        endDate: new Date('January 10, 2023 03:24:00'),
+        likes: 10,
+        destinations: "Moutain View, Cupertino, Palo Alto",
+        public: true
+    },
+
 ]
 
 export const tripDays = [
