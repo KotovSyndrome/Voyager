@@ -29,7 +29,7 @@ type NextApiRequestWithSvixRequiredHeaders = NextApiRequest & {
 };
   
 type Event = {
-    data: { id: string; attributes: UserInterface };
+    data: User;
     object: "event";
     type: EventType;
 };
@@ -60,15 +60,15 @@ export default async function handler(
   console.log('evt.data :', evt.data)
 
   if (eventType === "user.created") {
-    const { id, attributes }: { id: string; attributes: UserInterface } = evt.data;
+    // const { id, attributes }: { id: string; attributes: UserInterface } = evt.data;
 
-    console.log('Attributes: ', attributes)
+    // console.log('Attributes: ', attributes)
 
-    if (attributes) {
+    if (evt.data) {
         console.log('Hit attributes block')
 
-      const emailObject = attributes?.email_addresses?.find((email) => {
-        return email.id === attributes.primary_email_address_id;
+      const emailObject = evt.data?.emailAddresses?.find((email) => {
+        return email.id === evt?.data.primaryEmailAddressId;
       });
 
       if (!emailObject) {
@@ -77,7 +77,7 @@ export default async function handler(
 
       await prisma.profile.create({
         data: {
-            clerkId: id,
+            clerkId: evt.data.id,
             bio: '',
             distanceUnits: 'MILES',
             dateFormat: 'MONTH',
@@ -89,7 +89,7 @@ export default async function handler(
       });
     }
 
-    console.log(`User ${id} was ${eventType}`);
+    console.log(`User ${evt.data.id} was ${eventType}`);
     res.status(201).json({ message: 'Successfully created profile'});
   }
 }
