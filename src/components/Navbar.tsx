@@ -17,8 +17,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [path, setPath] = useState('')
 
-  const { user, isSignedIn } = useUser()
-  const { signOut } = useAuth()
+  const { user, isSignedIn, isLoaded } = useUser()
 
   console.log({isSignedIn})
   console.log({user})
@@ -26,14 +25,6 @@ const Navbar = () => {
   const toggleModal = () => {
     setIsOpen(!isOpen)
   }
-
-  // const handleSignout = () => {
-  //   signOut()
-  //   console.log('pathname: ', router.pathname)
-  //   if (router.pathname !== '/') {
-  //     router.push('/')
-  //   }
-  // }
 
 
   const handleNav = (path: string, isMobile: boolean) => {

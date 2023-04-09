@@ -24,8 +24,7 @@ enum TimeFormat {
 }
 
 model Profile {
-  id                             Int         @id @default(autoincrement())
-  clerkId                        String?     @unique
+  clerkId                        String     @id @unique
   bio                            String
   distanceUnits                  DistanceUnits
   dateFormat                     DateFormat
@@ -43,14 +42,14 @@ model Itinerary {
   name         String
   startDate    DateTime
   endDate      DateTime
-  profileId    Int?
+  profileId    String?
   likes        Int
   public       Boolean
   destinations String
   coverPhoto   String?
   ipAddress    String?
   comments     Comment[]
-  profile      Profile?  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profile      Profile?  @relation(fields: [profileId], references: [clerkId], onDelete: Cascade)
   tripDays     TripDay[]
 }
 
@@ -66,9 +65,9 @@ model Comment {
   id          Int        @id @default(autoincrement())
   text        String
   itineraryId Int?
-  profileId   Int
+  profileId   String
   itinerary   Itinerary? @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
-  profile     Profile    @relation(fields: [profileId], references: [id])
+  profile     Profile    @relation(fields: [profileId], references: [clerkId])
 }
 
 model Activity {

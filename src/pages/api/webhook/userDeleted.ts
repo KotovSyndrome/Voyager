@@ -1,7 +1,6 @@
 import type { IncomingHttpHeaders } from "http";
 import type { NextApiRequest, NextApiResponse } from "next";
 import type { WebhookRequiredHeaders } from "svix";
-import type { User } from "@clerk/nextjs/dist/api";
 import { Webhook } from "svix";
 import { buffer } from "micro";
 import { prisma } from "../../../server/db/client";
@@ -22,9 +21,9 @@ type Event = {
     type: EventType;
 };
 
-type EventType = "user.created";
+type EventType = "user.deleted";
 
-const webhookSecret: string = process.env.WEBHOOK_SECRET || "";
+const webhookSecret: string = process.env.WEBHOOK_SECRET_USER_DELETED || "";
 
 export default async function handler(
   req: NextApiRequestWithSvixRequiredHeaders,
@@ -45,7 +44,7 @@ export default async function handler(
   // Handle the webhook
   const eventType: EventType = evt.type;
 
-  if (eventType === "user.created") {
+  if (eventType === "user.deleted") {
     if (evt.data) {
       const emailObject = evt.data?.email_addresses?.find((email) => {
         return email.id === evt?.data.primary_email_address_id;
@@ -55,21 +54,14 @@ export default async function handler(
         return res.status(400).json({});
       }
 
-      await prisma.profile.create({
-        data: {
+      await prisma.profile.delete({
+        where: {
             clerkId: evt.data.id,
-            bio: '',
-            distanceUnits: 'MILES',
-            dateFormat: 'MONTH',
-            timeFormat: 'TWELVE',
-            commentsNotification: true,
-            remindersNotification: true,
-            collaboratorJoinedNotification: true,
         },
       });
     }
 
-    res.status(201).json({ message: 'Successfully created profile'});
+    res.status(201).json({ message: 'Successfully deleted profile'});
   }
 }
 

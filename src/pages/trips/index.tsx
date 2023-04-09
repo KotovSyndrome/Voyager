@@ -121,30 +121,6 @@ const trips = (serverProps: IServerProps | INoData) => {
 
 export default trips
 
-// interface IProfile {
-//   id: number
-//   bio: string
-//   username: string
-//   distanceUnits: string
-//   dateFormat: string
-//   timeFormat: string
-//   commentsNotification: boolean
-//   remindersNotification: boolean
-//   collaboratorJoinedNotification: boolean
-// }
-// interface IUser {
-//   email: string
-//   id: string
-//   image: string
-//   name: string
-// }
-
-// interface ISession {
-//   expires: Date
-//   user: IUser
-//   profile: IProfile
-// }
-
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   
   const { userId } = getAuth(ctx.req);
@@ -155,14 +131,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
   }
 
-  const profile = await prisma.profile.findUnique({ where: { clerkId: userId }})
+  // const profile = await prisma.profile.findUnique({ where: { clerkId: userId }})
 
   let data;
 
   try {
     const dbResponse = await prisma.itinerary.findMany({
       where: {
-        profileId: profile!.id,
+        profileId: userId,
       },
       orderBy:{
         startDate: 'asc'
