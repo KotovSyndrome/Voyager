@@ -39,6 +39,7 @@ model Profile {
 
 model Itinerary {
   id           Int       @id @default(autoincrement())
+  creator      String?
   name         String
   startDate    DateTime
   endDate      DateTime

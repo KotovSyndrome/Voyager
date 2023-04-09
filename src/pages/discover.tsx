@@ -158,13 +158,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
       }
     },
     take: 20,
-    include: {
-      profile: {
-        select: {
-          username: true,
-        }
-      }
-    }
   })
 
   return { 

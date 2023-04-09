@@ -3,9 +3,10 @@ import axios from 'axios';
 import 'react-calendar/dist/Calendar.css';
 import { eachDayOfInterval } from 'date-fns'
 import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
+// import { useSession } from 'next-auth/react';
 import LayoutWrapper from '../../components/LayoutWrapper';
 import TripPlanForm from '../../components/TripPlanForm';
+import { useAuth } from '@clerk/nextjs';
 interface IProfile {
     id: number
     bio: string
@@ -39,7 +40,8 @@ const Plan = () => {
     })
     const [submitIsDisabled, setSubmitIsDisabled] = useState(false)
     const router = useRouter();
-    const { data: session } = useSession()
+    const { isSignedIn } = useAuth()
+    // const { data: session } = useSession()
 
     const handleInput = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
         if (event.target.name === 'isPublic') {
@@ -63,7 +65,7 @@ const Plan = () => {
         
         let res
 
-        if (session) {
+        if (isSignedIn) {
             res = await axios.post('/api/itinerary', {
                 itineraryName: formValues.itineraryName,
                 startDate: calendarDates[0],
