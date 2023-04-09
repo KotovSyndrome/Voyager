@@ -28,6 +28,7 @@
     "axios": "^1.2.2",
     "date-fns": "^2.29.3",
     "leaflet": "^1.9.3",
+    "micro": "^10.0.1",
     "next": "13.1.1",
     "next-auth": "^4.18.3",
     "react": "18.2.0",
@@ -37,6 +38,7 @@
     "react-leaflet": "^4.2.0",
     "request-ip": "^3.3.0",
     "superjson": "1.9.1",
+    "svix": "^0.83.1",
     "zod": "^3.18.0"
   },
   "devDependencies": {
