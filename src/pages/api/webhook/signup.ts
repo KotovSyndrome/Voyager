@@ -62,6 +62,8 @@ export default async function handler(
   if (eventType === "user.created") {
     const { id, attributes }: { id: string; attributes: UserInterface } = evt.data;
 
+    console.log('Attributes: ', attributes)
+
     if (attributes) {
         console.log('Hit attributes block')
 
