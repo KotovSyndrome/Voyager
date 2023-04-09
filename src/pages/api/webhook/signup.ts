@@ -12,18 +12,6 @@ export const config = {
   },
 };
 
-interface UserInterface {
-    email_addresses: {
-        email_address: string;
-        id: string;
-    }[];
-    primary_email_address_id: string;
-    first_name: string;
-    last_name: string;
-    id: string;
-    attributes: User;
-}
-
 type NextApiRequestWithSvixRequiredHeaders = NextApiRequest & {
     headers: IncomingHttpHeaders & WebhookRequiredHeaders;
 };
@@ -57,22 +45,13 @@ export default async function handler(
   // Handle the webhook
   const eventType: EventType = evt.type;
 
-  console.log('evt.data :', evt.data)
-
   if (eventType === "user.created") {
-    // const { id, attributes }: { id: string; attributes: UserInterface } = evt.data;
-
-    // console.log('Attributes: ', attributes)
-
     if (evt.data) {
-        console.log('Hit attributes block')
-
       const emailObject = evt.data?.email_addresses?.find((email) => {
         return email.id === evt?.data.primary_email_address_id;
       });
 
       if (!emailObject) {
-        console.log('no email obj')
         return res.status(400).json({});
       }
 
@@ -90,7 +69,6 @@ export default async function handler(
       });
     }
 
-    console.log(`User ${evt.data.id} was ${eventType}`);
     res.status(201).json({ message: 'Successfully created profile'});
   }
 }
