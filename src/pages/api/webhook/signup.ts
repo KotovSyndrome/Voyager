@@ -57,10 +57,14 @@ export default async function handler(
   // Handle the webhook
   const eventType: EventType = evt.type;
 
+  console.log('evt.data :', evt.data)
+
   if (eventType === "user.created") {
     const { id, attributes }: { id: string; attributes: UserInterface } = evt.data;
 
     if (attributes) {
+        console.log('Hit attributes block')
+
       const emailObject = attributes?.email_addresses?.find((email) => {
         return email.id === attributes.primary_email_address_id;
       });
