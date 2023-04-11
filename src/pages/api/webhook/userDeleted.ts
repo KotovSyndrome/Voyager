@@ -38,7 +38,6 @@ export default async function handler(
   try {
     evt = wh.verify(payload, headers) as Event;
   } catch (e: any) {
-    console.log('Not verified')
     return res.status(400).json({ message: e.message });
   }
 
@@ -47,6 +46,7 @@ export default async function handler(
 
   if (eventType === "user.deleted") {
     if (evt.data) {
+      console.log('evt.data: ', evt.data)
 
       const emailObject = evt.data?.email_addresses?.find((email) => {
         return email.id === evt?.data.primary_email_address_id;
