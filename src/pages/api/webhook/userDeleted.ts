@@ -46,7 +46,6 @@ export default async function handler(
 
   if (eventType === "user.deleted") {
     if (evt.data) {
-      console.log('Id: ', evt.data.id)
 
       await prisma.profile.delete({
         where: {
