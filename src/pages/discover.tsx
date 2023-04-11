@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import ItineraryCard from '../components/ItineraryCard'
+import SearchCard from '../components/SearchCard'
 import { BiSearch } from 'react-icons/bi'
 import axios from 'axios'
 import LayoutWrapper from '../components/LayoutWrapper'
@@ -33,7 +33,7 @@ interface IItinerary {
   id: number
   likes: number
   name: string
-  profile: { username: string }
+  creator: string
   profileId: number
   public: boolean
   startDate: string
@@ -104,11 +104,11 @@ const discover = ({ initialItineraries }: IServerData) => {
 
             {searchResults.length && !loading ? (
               searchResults.map(s => {
-                return <ItineraryCard 
+                return <SearchCard 
                           key={s.id}
                           name={s.name}
                           destinations={s.destinations}
-                          profileName={s.profile.username}
+                          creator={s.creator}
                           likes={s.likes}
                           startDate={s.startDate}
                           endDate={s.endDate}
@@ -119,11 +119,11 @@ const discover = ({ initialItineraries }: IServerData) => {
 
             {!loading && !debouncedSearchQuery.length ? (
               initialItineraries.map(itin  => {
-                return <ItineraryCard 
+                return <SearchCard 
                           key={itin.id} 
                           name={itin.name} 
                           destinations={itin.destinations} 
-                          profileName={itin.profile.username} 
+                          creator={itin.creator} 
                           likes={itin.likes} 
                           startDate={itin.startDate}
                           endDate={itin.endDate}

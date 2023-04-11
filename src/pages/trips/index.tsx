@@ -8,7 +8,7 @@ import { GetServerSideProps } from 'next'
 import LayoutWrapper from '../../components/LayoutWrapper'
 import { Tab } from '@headlessui/react'
 import TabPanelContainer from '../../components/TabPanelContainer'
-import { clerkClient, getAuth, buildClerkProps } from "@clerk/nextjs/server";
+import { getAuth, buildClerkProps } from "@clerk/nextjs/server";
 
 interface IItineraryData {
   coverPhoto: string | null

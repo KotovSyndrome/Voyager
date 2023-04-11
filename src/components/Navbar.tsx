@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
-// import { useSession, signIn, signOut } from 'next-auth/react'
 import LayoutWrapper from './LayoutWrapper'
 import ProfilePlaceholder from '../assets/profile-placeholder.png'
 import { CgMenu, CgClose } from 'react-icons/cg'
 import GuestSignInButton from './GuestSignInButton'
 import Modal from './Modal'
-import { useAuth, useUser, SignOutButton } from "@clerk/nextjs";
+import { useUser, SignOutButton } from "@clerk/nextjs";
 
 const Navbar = () => {
   const router = useRouter()
-  // const { data: session } = useSession();
   const [toolTipHideState, setToolTipHideState] = useState(true)
   const [mobileMenuState, setMobileMenuState] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
@@ -108,13 +106,13 @@ const Navbar = () => {
             </div>
 
             {isSignedIn ? (
-                <div className='relative w-1.5/12 hidden md:flex justify-end' onMouseEnter={() => setToolTipHideState(!toolTipHideState)} onMouseLeave={() => setToolTipHideState(!toolTipHideState)}>
+                <div className='relative w-1.5/12 hidden md:flex justify-end' onMouseEnter={() => setToolTipHideState(!toolTipHideState)} onMouseLeave={() => setToolTipHideState(!toolTipHideState)} >
                     <Image  src={user.profileImageUrl || ProfilePlaceholder} alt='profile avatar' width={32} height={32} className=' rounded-full cursor-pointer'/>
 
                     <div className='absolute z-10 right-0 top-8 w-[7rem]'>
                       <div className={`bg-neutral-100 text-black rounded-md p-3 ${toolTipHideState && 'hidden'}`}>
                           <div className='flex flex-col'>
-                            <div onClick={() => router.push('/profile')} className='cursor-pointer hover:bg-slate-800 hover:bg-opacity-10 text-center'>Profile</div>
+                            <button onClick={() => router.push('/profile')} className='cursor-pointer hover:bg-slate-800 hover:bg-opacity-10 text-center'>Profile</button>
                             <SignOutButton>
                               <button className='cursor-pointer hover:bg-slate-800 hover:bg-opacity-10'>Sign Out</button>
                             </SignOutButton>

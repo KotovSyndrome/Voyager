@@ -14,7 +14,6 @@ export default validateRoute(async function (
                 where: { id: req.body.profileId},
                 data: {
                     bio: req.body.bio,
-                    username: req.body.username,
                     distanceUnits: req.body.distanceUnits,
                     dateFormat: req.body.dateFormat,
                     timeFormat: req.body.timeFormat,

@@ -18,7 +18,7 @@ const GuestSignInButton = ({isHidden}: IProps) => {
             </SignUpButton>)
             : 
             (<SignUpButton>
-                <button className={`${isHidden && 'hidden md:block'} text-xl`}>Sign in <FaUserCircle size={30} color={'black'} className={`inline-block ml-2 cursor-pointer`}/></button>
+                <button className={`${isHidden && 'hidden md:block'} text-xl`}><FaUserCircle size={30} color={'black'} className={`inline-block ml-2 cursor-pointer`}/></button>
               </SignUpButton>)
         }
     </>
