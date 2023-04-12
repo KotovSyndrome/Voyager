@@ -53,13 +53,7 @@ const TripPage = (itineraryData: IItineraryData) => {
 
   // state lifted from activityForm
   // const [mapQuery, setMapQuery] = useState('')
-  const [mapResults, setMapResults] = useState({
-    x: 0,
-    y: 0,
-    label: '',
-    bounds: null,
-    raw: {}
-  })
+  const [mapResults, setMapResults] = useState<SearchResult<RawResult>[]>([])
   // const debouncedMapQuery = useDebounce(mapQuery, 500)
 
   console.log(mapResults)

@@ -45,27 +45,14 @@ const activityForm = ({setActivitiesState, tripDayId, mapResults, setMapResults}
     })
     const [mapQuery, setMapQuery] = useState('')
     const debouncedMapQuery = useDebounce(mapQuery, 150)
-    const [selectedResult, setSelectedResult] = useState({
-      x: 0,
-      y: 0,
-      label: '',
-      bounds: null,
-      raw: {}
-    });
-    const [localResults, setLocalResults] = useState<SearchResult<RawResult>[]>([])
-    // const [localResults, setLocalResults] = useState({
-    //   x: 0,
-    //   y: 0,
-    //   label: '',
-    //   bounds: null,
-    //   raw: {}
-    // });
+    const [selectedResult, setSelectedResult] = useState<SearchResult<RawResult>[]>([]);
+    const [allSearchResults, setAllSearchResults] = useState<SearchResult<RawResult>[]>([])
     
     useEffect(() => {
 
       const getSearchData = async () => {        
         const results: SearchResult<RawResult>[] = await provider.search({ query: debouncedMapQuery });
-        setLocalResults(results)
+        setAllSearchResults(results)
       }
       
       if (debouncedMapQuery) { 
@@ -107,7 +94,7 @@ const activityForm = ({setActivitiesState, tripDayId, mapResults, setMapResults}
                 <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
                   <Combobox.Input
                     className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-                    displayValue={(location) => location.label}
+                    displayValue={(location: SearchResult<RawResult>) => location.label}
                     onChange={(event) => setMapQuery(event.target.value)}
                   />
                   <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
@@ -125,14 +112,14 @@ const activityForm = ({setActivitiesState, tripDayId, mapResults, setMapResults}
                   afterLeave={() => setMapQuery('')}
                 >
                   <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                    {!localResults.length && mapQuery !== '' ? 
+                    {!allSearchResults.length && mapQuery !== '' ? 
                       (
                         <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
                           Nothing found.
                         </div>
                       ) : 
                       (
-                        localResults.map((location, index) => (
+                        allSearchResults.map((location, index) => (
                           <Combobox.Option
                             key={index}
                             className={({ active }) =>
@@ -172,11 +159,7 @@ const activityForm = ({setActivitiesState, tripDayId, mapResults, setMapResults}
               </div> 
             </Combobox>
             <button onClick={createAcitivity} className='bg-teal-300 py-1 px-2 rounded-lg text-black hover:bg-teal-500'>Add activity</button>
-            {/* TODO: Display search results */}
         </div>
-
-        {/* <p className='mt-2'>Notes:</p>
-        <textarea className='text-black outline-none rounded-md w-1/2'/> */}
     </div>
   )
 }

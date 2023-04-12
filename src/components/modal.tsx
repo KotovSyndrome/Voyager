@@ -72,7 +72,7 @@ const modal = ({isOpen, toggleModal, path}: IModal) => {
                       className="inline-flex justify-center rounded-md border border-transparent bg-rose-100 px-4 py-2 text-sm font-medium text-rose-900 hover:bg-rose-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500 focus-visible:ring-offset-2"
                       onClick={routeAndDeleteItinerary}
                     >
-                      Conitnue without saving
+                      Continue without saving
                     </button>
                   </div>
                   <p className="text-center text-gray-500 mt-4 text-sm">Already have an account? <span onClick={() => signIn()} className='text-gray-600 font-bold cursor-pointer'>Sign in</span></p>
