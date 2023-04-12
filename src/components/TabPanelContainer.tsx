@@ -20,11 +20,10 @@ interface IItinerariesMap {
 interface ITabPanel {
   itinerariesByDate: IItinerariesMap
   selectedFilter: string
-  profilePic: string
   selectedIndex: number
 }
 
-const TabPanelContainer = ({itinerariesByDate, selectedFilter, profilePic, selectedIndex}: ITabPanel) => {
+const TabPanelContainer = ({itinerariesByDate, selectedFilter, selectedIndex}: ITabPanel) => {
     const [monthContainersAreEmpty, setMonthContainersAreEmpty] = useState(false)
 
     const monthContainersCheck = () => {
@@ -45,7 +44,6 @@ const TabPanelContainer = ({itinerariesByDate, selectedFilter, profilePic, selec
                                   startMonth={date.length === 6 ? date.substring(0,1) : date.substring(0,2)} 
                                   startYear={date.substring(2)} 
                                   itineraries={itinerariesByDate[date]!} 
-                                  profilePic={profilePic} 
                                   selectedIndex={selectedIndex} 
                                   monthContainersCheck={monthContainersCheck}
                       />

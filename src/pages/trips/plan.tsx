@@ -3,32 +3,9 @@ import axios from 'axios';
 import 'react-calendar/dist/Calendar.css';
 import { eachDayOfInterval } from 'date-fns'
 import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
 import LayoutWrapper from '../../components/LayoutWrapper';
 import TripPlanForm from '../../components/TripPlanForm';
-interface IProfile {
-    id: number
-    bio: string
-    username: string
-    distanceUnits: string
-    dateFormat: string
-    timeFormat: string
-    commentsNotification: boolean
-    remindersNotification: boolean
-    collaboratorJoinedNotification: boolean
-  }
-  interface IUser {
-    email: string
-    id: string
-    image: string
-    name: string
-  }
-  
-  interface ISession {
-    expires: Date
-    user: IUser
-    profile: IProfile
-  }
+
 
 const Plan = () => {
     const [calendarDates, setCalendarDates] = useState([new Date(), new Date()]);
@@ -39,7 +16,6 @@ const Plan = () => {
     })
     const [submitIsDisabled, setSubmitIsDisabled] = useState(false)
     const router = useRouter();
-    const { data: session } = useSession()
 
     const handleInput = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
         if (event.target.name === 'isPublic') {
@@ -61,30 +37,16 @@ const Plan = () => {
         
         const dateArray = eachDayOfInterval({start: calendarDates[0]!, end: calendarDates[1]!});
         
-        let res
+        const res = await axios.post('/api/itinerary', {
+            itineraryName: formValues.itineraryName,
+            startDate: calendarDates[0],
+            endDate: calendarDates[1],
+            days: dateArray,
+            destinations: formValues.destinations, 
+            isPublic: formValues.isPublic,
+        })
 
-        if (session) {
-            res = await axios.post('/api/itinerary', {
-                itineraryName: formValues.itineraryName,
-                startDate: calendarDates[0],
-                endDate: calendarDates[1],
-                days: dateArray,
-                destinations: formValues.destinations, 
-                isPublic: formValues.isPublic,
-                // @ts-ignore
-                profileId: session.profile.id,
-            })
-        } else {
-            res = await axios.post('/api/itinerary', {
-                itineraryName: formValues.itineraryName,
-                startDate: calendarDates[0],
-                endDate: calendarDates[1],
-                days: dateArray,
-                destinations: formValues.destinations, 
-                isPublic: formValues.isPublic,
-            })
-        }
-
+        console.log({res})
 
         router.push({
             pathname: '/trips/[id]',

@@ -1,13 +1,13 @@
-import { NextApiHandler, NextApiRequest, NextApiResponse } from "next"
+import { NextApiRequest, NextApiResponse, NextApiHandler } from "next"
 import { getServerAuthSession } from "../server/common/get-server-auth-session"
+import { getAuth } from "@clerk/nextjs/server"
 
 export const validateRoute = (handler: any) => {
     return async (req: NextApiRequest, res: NextApiResponse) => {
-        const session = await getServerAuthSession({ req, res });
+    const { userId } = getAuth(req);
 
-        if (session) {
-            //@ts-ignore
-            return handler(req, res, session.profile.id);
+        if (userId) {
+            return handler(req, res, userId);
         }
 
         res.status(401).json({ error: 'NOT AUTHORIZED.'})

@@ -4,6 +4,7 @@ import { FaUserCircle } from 'react-icons/fa'
 import Link from 'next/link'
 import Image from 'next/image'
 import ProfilePlaceholder from '../assets/profile-placeholder.png'
+import { useUser } from "@clerk/nextjs";
 
 interface ITripCard {
     title: String,
@@ -13,10 +14,10 @@ interface ITripCard {
     collaborators: String[] | [],
     id: Number
     bgImage: string
-    profilePic: string
 }
 
-const TripCard = ({ title, startDate, endDate, collaborators, id, destinations, profilePic}: ITripCard) => {
+const TripCard = ({ title, startDate, endDate, collaborators, id, destinations}: ITripCard) => {
+    const { user } = useUser();
 
   return (
 
@@ -34,7 +35,7 @@ const TripCard = ({ title, startDate, endDate, collaborators, id, destinations, 
             
             {/* Profile images of collaborators */}
             <div className='flex mt-8'>
-                <Image src={profilePic || ProfilePlaceholder} alt='collaborator' height={30} width={30} className='rounded-full'/>
+                <Image src={user?.profileImageUrl || ProfilePlaceholder} alt='collaborator' height={30} width={30} className='rounded-full'/>
                 {/* <FaUserCircle size={30}/>
                 <FaUserCircle size={30}/>
                 <FaUserCircle size={30}/>

@@ -17,10 +17,10 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = user.id;
 
-        const userWithProfile = await prisma.user.findUnique({
-          where: { id: session.user.id},
-          include: { profile: true }
-        })
+        // const userWithProfile = await prisma.user.findUnique({
+        //   where: { id: session.user.id},
+        //   include: { profile: true }
+        // })
 
         //@ts-ignore
         session.profile = userWithProfile?.profile
@@ -28,27 +28,27 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  events: {
-    async createUser(message) {
-      const { id, name }  = message.user
+  // events: {
+  //   async createUser(message) {
+  //     const { id, name }  = message.user
 
-      await prisma.profile.create({
-        data: {
-          bio: '',
-          username: name || `user${id}`,
-          distanceUnits: 'MILES',
-          dateFormat: 'MONTH',
-          timeFormat: 'TWELVE',
-          commentsNotification: true,
-          remindersNotification: true,
-          collaboratorJoinedNotification: true,
-          user: {
-            connect: { id: id },
-          },
-        }
-      })
-    }
-  },
+  //     await prisma.profile.create({
+  //       data: {
+  //         bio: '',
+  //         username: name || `user${id}`,
+  //         distanceUnits: 'MILES',
+  //         dateFormat: 'MONTH',
+  //         timeFormat: 'TWELVE',
+  //         commentsNotification: true,
+  //         remindersNotification: true,
+  //         collaboratorJoinedNotification: true,
+  //         user: {
+  //           connect: { id: id },
+  //         },
+  //       }
+  //     })
+  //   }
+  // },
   // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
   providers: [
