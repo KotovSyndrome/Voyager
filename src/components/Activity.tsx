@@ -24,7 +24,7 @@ interface IActivityProps {
 }
 
 
-const activity = ({readOnly, setReadOnly, deleteActivity, city, contactInfo, country, endTime, id, name, note, photo, postalCode, startTime, street, tripDayId}: IActivityProps) => {
+const Activity = ({readOnly, setReadOnly, deleteActivity, city, contactInfo, country, endTime, id, name, note, photo, postalCode, startTime, street, tripDayId}: IActivityProps) => {
     const [activityState, setActivityState] = useState({
         city: city,
         contactInfo: contactInfo,
@@ -193,4 +193,4 @@ const activity = ({readOnly, setReadOnly, deleteActivity, city, contactInfo, cou
   )
 }
 
-export default activity
+export default Activity

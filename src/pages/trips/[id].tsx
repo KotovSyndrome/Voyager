@@ -1,14 +1,13 @@
 import React, { useState, useEffect,} from 'react'
-import Itinerary from '../../components/itinerary'
-import Map from '../../components/map'
+import Itinerary from '../../components/Itinerary'
+import Map from '../../components/Map'
 import { prisma } from '../../server/db/client'
 import { type GetServerSideProps } from 'next'
 import { FaMapMarkedAlt } from 'react-icons/fa'
 import { SlNote } from 'react-icons/sl'
-import { getServerAuthSession } from "../../server/common/get-server-auth-session";
-import { useSession } from 'next-auth/react'
 import axios from 'axios'
-import requestIp from 'request-ip'
+import { useAuth } from '@clerk/nextjs'
+import { getAuth, buildClerkProps } from "@clerk/nextjs/server";
 interface IActivity {
   city: string
   contactInfo: string
@@ -31,21 +30,23 @@ interface ITripDay {
 }
 
 interface IItineraryData {
-  coverPhoto?: string
-  destinations: string
-  endDate: Date
-  id: number
-  likes: number
-  name: string
-  public: boolean
-  profileId: number
-  startDate: Date
-  tripDays: ITripDay[]
+  itineraryData: {
+    coverPhoto?: string
+    destinations: string
+    endDate: Date
+    id: number
+    likes: number
+    name: string
+    public: boolean
+    profileId: string
+    startDate: Date
+    tripDays: ITripDay[]
+  }
 }
 
-const TripPage = (itineraryData: IItineraryData) => {
-  const { data: session } = useSession()
+const TripPage = ({ itineraryData} : IItineraryData) => {
   const [viewState, setViewState] = useState(false)
+  const { isSignedIn } = useAuth()
 
   useEffect(() => {
     const connectItineraryToProfile = async () => {
@@ -54,11 +55,11 @@ const TripPage = (itineraryData: IItineraryData) => {
       })
     }
 
-    if (!itineraryData.profileId && session) {
+    if (!itineraryData.profileId && isSignedIn) {
       connectItineraryToProfile()
     }
 
-  }, [session])
+  }, [isSignedIn])
 
   
 
@@ -83,19 +84,18 @@ TripPage.tripPage = true
 export default TripPage
 
 
-export const getServerSideProps: GetServerSideProps = async ({query, req, res}) => {
-  const session = await getServerAuthSession({ req, res });
-  // @ts-ignore
-  let profileId = session?.profile.id || null
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { userId } = getAuth(ctx.req);
 
-  const ipAddress = requestIp.getClientIp(req);
-
+  // Check that itinerary profileId matches the user id
+  // OR that ip address matches
+ 
   let itineraryData;
 
   try {           
     const data = await prisma.itinerary.findUnique({
       where: {
-        id: Number(query.id),
+        id: Number(ctx.query.id),
       },
       include: {
         tripDays: {
@@ -116,7 +116,6 @@ export const getServerSideProps: GetServerSideProps = async ({query, req, res}) 
     console.error(e);
   }
 
-    //@ts-ignore
     if (!itineraryData) {
       return {
         redirect: {
@@ -128,7 +127,7 @@ export const getServerSideProps: GetServerSideProps = async ({query, req, res}) 
 
 
   return { 
-    props: JSON.parse(JSON.stringify(itineraryData))
+    props: { ...buildClerkProps(ctx.req), itineraryData: JSON.parse(JSON.stringify(itineraryData)) }
   }
   
 }

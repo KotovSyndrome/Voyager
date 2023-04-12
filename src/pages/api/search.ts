@@ -17,13 +17,6 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
                     lt: new Date(`${compareTodayDate.getMonth() + 1} ${compareTodayDate.getDate()} ${compareTodayDate.getFullYear()}`)
                   }
             },
-            include: {
-                profile: {
-                    select: {
-                        username: true
-                    }
-                }
-            },
         })
 
         res.status(200).json(data)

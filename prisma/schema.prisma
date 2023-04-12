@@ -7,52 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-}
-
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
-}
-
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  profile       Profile?  @relation(fields: [profileId], references: [id], onDelete: Cascade)
-  profileId     Int?      @unique
-}
-
 enum DistanceUnits {
   MILES
   KILOMETERS
@@ -70,9 +24,8 @@ enum TimeFormat {
 }
 
 model Profile {
-  id                             Int         @id @default(autoincrement())
+  clerkId                        String     @id @unique
   bio                            String
-  username                       String
   distanceUnits                  DistanceUnits
   dateFormat                     DateFormat
   timeFormat                     TimeFormat
@@ -81,22 +34,22 @@ model Profile {
   collaboratorJoinedNotification Boolean
   itineraries                    Itinerary[]
   comments                       Comment[]
-  user                           User?
 }
 
 model Itinerary {
   id           Int       @id @default(autoincrement())
+  creator      String?
   name         String
   startDate    DateTime
   endDate      DateTime
-  profileId    Int?
+  profileId    String?
   likes        Int
   public       Boolean
   destinations String
   coverPhoto   String?
   ipAddress    String?
   comments     Comment[]
-  profile      Profile?  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profile      Profile?  @relation(fields: [profileId], references: [clerkId], onDelete: Cascade)
   tripDays     TripDay[]
 }
 
@@ -112,9 +65,9 @@ model Comment {
   id          Int        @id @default(autoincrement())
   text        String
   itineraryId Int?
-  profileId   Int
+  profileId   String
   itinerary   Itinerary? @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
-  profile     Profile    @relation(fields: [profileId], references: [id])
+  profile     Profile    @relation(fields: [profileId], references: [clerkId])
 }
 
 model Activity {

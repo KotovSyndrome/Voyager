@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import ViewItinerary from '../../components/viewItinerary'
-import Map from '../../components/map'
+import ViewItinerary from '../../components/ViewItinerary'
+import Map from '../../components/Map'
 import { prisma } from '../../server/db/client'
 import { type GetServerSideProps } from 'next'
 import { FaMapMarkedAlt } from 'react-icons/fa'
@@ -27,11 +27,6 @@ interface IActivity {
     id: number
     itineraryId: number
   }
-
-  interface IProfile {
-    username: string
-    id: number
-  }
   
   interface IItineraryData {
     coverPhoto?: string
@@ -44,7 +39,7 @@ interface IActivity {
     profileId: number
     startDate: Date
     tripDays: ITripDay[]
-    profile: IProfile
+    creator: string
   }
 
 const ItineraryPage = (itineraryData: IItineraryData) => {
@@ -82,12 +77,6 @@ export const getServerSideProps: GetServerSideProps = async ({req, res, query}) 
                   startTime: 'asc'
                 }
               }
-            }
-          },
-          profile: {
-            select: {
-              username: true,
-              id: true
             }
           }
         }

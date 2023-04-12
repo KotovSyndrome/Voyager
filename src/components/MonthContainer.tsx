@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import TripCard from './tripCard'
+import TripCard from './TripCard'
 
 interface IMonths {
     [key: string]: string
@@ -22,13 +22,13 @@ const months: IMonths = {
 
 interface IItineraryData {
     coverPhoto: string | null
-    destinations: string[]
-    endDate: Date
+    destinations: string
+    endDate: string
     id: number
     likes: number
     profileId: number
     public: boolean
-    startDate: Date
+    startDate: string
     name: string
   }
 
@@ -36,12 +36,11 @@ interface IMonthContainer {
     startMonth: string
     startYear: string
     itineraries: IItineraryData[]
-    profilePic: string
     selectedIndex: number
     monthContainersCheck: () => void
 }
 
-const monthContainer = ({startMonth, startYear, itineraries, profilePic, selectedIndex, monthContainersCheck}: IMonthContainer) => {
+const MonthContainer = ({startMonth, startYear, itineraries, selectedIndex, monthContainersCheck}: IMonthContainer) => {
     const [filteredItineraries, setFilteredItineraries] = useState(itineraries)
 
     useEffect(() => {
@@ -94,11 +93,19 @@ const monthContainer = ({startMonth, startYear, itineraries, profilePic, selecte
                     const itinStartDate = new Date(itin.startDate)
                     const itinEndDate = new Date(itin.endDate)
 
-                    return <TripCard key={itin.id} title={itin.name} startDate={itinStartDate} endDate={itinEndDate} collaborators={['Jason', 'Chris', 'Henry']} id={itin.id} bgImage={''} destinations={itin.destinations} profilePic={profilePic}/>
+                    return <TripCard 
+                                key={itin.id} 
+                                title={itin.name} 
+                                startDate={itinStartDate} 
+                                endDate={itinEndDate} 
+                                collaborators={['Jason', 'Chris', 'Henry']} 
+                                id={itin.id} bgImage={''} 
+                                destinations={itin.destinations} 
+                            />
                 })}
         </div>
     </div>
   )
 }
 
-export default monthContainer
+export default MonthContainer

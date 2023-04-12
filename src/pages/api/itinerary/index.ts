@@ -1,9 +1,8 @@
 import { prisma } from "../../../server/db/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { validateRoute } from "../../../lib/auth";
 import axios from 'axios'
-import { getServerAuthSession } from "../../../server/common/get-server-auth-session"
 import requestIp from 'request-ip'
+import { getAuth } from "@clerk/nextjs/server";
 
 export default async function (
   req: NextApiRequest,
@@ -13,7 +12,9 @@ export default async function (
     switch (req.method) {
         case 'POST':
           // Note: Use Zod or similar library to validate req body
-          const session = await getServerAuthSession({ req, res });
+          console.log('Route hit')
+
+          const { userId } = getAuth(req)
       
           let query
 
@@ -41,7 +42,7 @@ export default async function (
           try {
             let data
 
-            if (session) {
+            if (userId) {
               data = await prisma.itinerary.create({
                 data: {
                   name: req.body.itineraryName,
@@ -57,7 +58,7 @@ export default async function (
                   },
                   public: req.body.isPublic,
                   profile: {
-                    connect: { id: req.body.profileId },
+                    connect: { clerkId: userId },
                   }
                 }
               })

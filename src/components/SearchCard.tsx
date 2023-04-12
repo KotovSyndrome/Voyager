@@ -18,11 +18,11 @@ interface IItineraryCardProps {
   id: number
   likes: number
   name: string
-  profileName: string
+  creator: string
   startDate: string
 }
 
-const itineraryCard = ({coverPhoto, destinations, endDate, id, likes, name, profileName, startDate}: IItineraryCardProps ) => {
+const SearchCard = ({coverPhoto, destinations, endDate, id, likes, name, creator, startDate}: IItineraryCardProps ) => {
 
 
   return (
@@ -38,9 +38,9 @@ const itineraryCard = ({coverPhoto, destinations, endDate, id, likes, name, prof
         <p className='text-slate-500'>{destinations}</p>
 
 
-        <p className='mt-5'>By: {profileName}</p>
+        <p className='mt-5'>By: {creator}</p>
     </Link>
   )
 }
 
-export default itineraryCard
+export default SearchCard

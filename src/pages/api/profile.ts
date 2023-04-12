@@ -1,20 +1,21 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { validateRoute } from "../../lib/auth";
 import { prisma } from '../../server/db/client'
+import { getAuth } from "@clerk/nextjs/server";
 
 export default validateRoute(async function (
     req: NextApiRequest,
     res: NextApiResponse,
+    userId: string
   ): Promise<void> {
   
     switch (req.method) {
       case 'PUT':
         try {
             const data = await prisma.profile.update({
-                where: { id: req.body.profileId},
+                where: { clerkId: userId},
                 data: {
                     bio: req.body.bio,
-                    username: req.body.username,
                     distanceUnits: req.body.distanceUnits,
                     dateFormat: req.body.dateFormat,
                     timeFormat: req.body.timeFormat,
@@ -33,7 +34,7 @@ export default validateRoute(async function (
         try {
             // delete's user, accounts, sessions, itineraries, tripdays, and activities due to onDelete: Cascade referential action in schema
             await prisma.profile.delete({
-                where: { id: Number(req.query.profileId) }
+                where: { clerkId: userId }
             })
 
             res.status(204).json({ message: "Resource successfully deleted" })

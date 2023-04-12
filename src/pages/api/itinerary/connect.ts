@@ -1,17 +1,18 @@
 import { prisma } from "../../../server/db/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { validateRoute } from "../../../lib/auth";
+import { clerkClient } from "@clerk/nextjs/server";
 
 
 export default validateRoute(async function (
     req: NextApiRequest,
     res: NextApiResponse,
-    profileId: number
+    userId: string
   ): Promise<void> {
       if (req.method === 'PUT') {
-            try {
-                console.log('profileID in connect route: ', profileId)
+        const user = userId ? await clerkClient.users.getUser(userId) : null;
 
+            try {
               await prisma.itinerary.update({
                 where: {
                     id: req.body.itineraryId
@@ -19,9 +20,10 @@ export default validateRoute(async function (
                 data: {
                     profile: {
                         connect: {
-                            id: profileId
+                            clerkId: userId
                         }
-                    }
+                    },
+                    creator: user?.username || user?.firstName
                 }
               })
         
