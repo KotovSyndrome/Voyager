@@ -9,6 +9,7 @@ import LayoutWrapper from '../components/LayoutWrapper'
 import { getAuth, buildClerkProps, } from "@clerk/nextjs/server";
 import { useUser } from "@clerk/nextjs";
 import Loader from '../components/Loader'
+import { prisma } from '../server/db/client'
 interface IProfileData {
   profileData: {
     clerkId: number
@@ -35,7 +36,7 @@ const profile = ({ profileData } : IProfileData) => {
     remindersNotification: profileData.remindersNotification,
     collaboratorNotification: profileData.collaboratorJoinedNotification
   })
-  // const { data: session } = useSession()
+
 
   useEffect(() => {
     if (user?.fullName) {
@@ -73,7 +74,6 @@ const profile = ({ profileData } : IProfileData) => {
     e.preventDefault()
 
     const call = await axios.put('/api/profile', {
-      profileId: profileData.clerkId,
       bio: formValues.bio,
       distanceUnits: formValues.distanceUnits,
       dateFormat: formValues.dateFormat,
@@ -214,12 +214,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   let profileData
 
   try {
-    profileData = await prisma?.profile.findUnique({
+    profileData = await prisma.profile.findUnique({
       where: { clerkId: userId }
     })
   } catch (error) {
     console.error(error)
   }
+
 
   return {
     props: { ...buildClerkProps(ctx.req), profileData: profileData}

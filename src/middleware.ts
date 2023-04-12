@@ -1,9 +1,28 @@
-import { withClerkMiddleware } from "@clerk/nextjs/server";
+import { withClerkMiddleware, getAuth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+
+const publicPaths = ["/", "/trips*", "/itinerary*", "/discover", "/api*"];
+
+const isPublic = (path: string) => {
+  return publicPaths.find((x) =>
+    path.match(new RegExp(`^${x}$`.replace("*$", "($|/)")))
+  );
+};
  
 export default withClerkMiddleware((req: NextRequest) => {
-    console.log('middleware hit')
+  if (isPublic(req.nextUrl.pathname)) {
+    return NextResponse.next();
+  }
+
+  // if the user is not signed in redirect them to the sign in page.
+  const { userId } = getAuth(req);
+
+  if (!userId) {
+    const homeUrl = new URL("/", req.url);
+    return NextResponse.redirect(homeUrl);
+  }
+
   return NextResponse.next();
 });
  
@@ -17,6 +36,6 @@ export const config = {
      * - public folder
      */
     "/((?!static|.*\\..*|_next|favicon.ico).*)",
-    // "/",
+    "/",
   ],
 }

@@ -17,8 +17,6 @@ const Navbar = () => {
 
   const { user, isSignedIn, isLoaded } = useUser()
 
-  console.log({isSignedIn})
-  console.log({user})
 
   const toggleModal = () => {
     setIsOpen(!isOpen)

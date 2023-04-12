@@ -131,8 +131,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
   }
 
-  // const profile = await prisma.profile.findUnique({ where: { clerkId: userId }})
-
   let data;
 
   try {
